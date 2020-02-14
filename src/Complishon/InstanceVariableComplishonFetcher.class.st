@@ -1,7 +1,7 @@
 Class {
 	#name : #InstanceVariableComplishonFetcher,
 	#superclass : #ClassBasedComplishonFetcher,
-	#category : #Complishon
+	#category : #'Complishon-Fetchers'
 }
 
 { #category : #entries }

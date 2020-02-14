@@ -1,7 +1,7 @@
 Class {
 	#name : #ComplishonTest,
 	#superclass : #BasicComplishonTest,
-	#category : #Complishon
+	#category : #'Complishon-Tests'
 }
 
 { #category : #tests }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'globals'
 	],
-	#category : #Complishon
+	#category : #'Complishon-Tests'
 }
 
 { #category : #accessing }

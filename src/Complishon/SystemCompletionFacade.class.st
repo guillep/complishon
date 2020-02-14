@@ -8,7 +8,7 @@ Class {
 		'context',
 		'completionDelay'
 	],
-	#category : #Complishon
+	#category : #'Complishon-SystemIntegration'
 }
 
 { #category : #menu }

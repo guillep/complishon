@@ -9,7 +9,7 @@ Class {
 		'completionToken',
 		'complishon'
 	],
-	#category : #Complishon
+	#category : #'Complishon-SystemIntegration'
 }
 
 { #category : #'initialize-release' }

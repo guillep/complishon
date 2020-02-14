@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'completionClass'
 	],
-	#category : #Complishon
+	#category : #'Complishon-Fetchers'
 }
 
 { #category : #testing }

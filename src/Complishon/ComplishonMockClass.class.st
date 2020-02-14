@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'instanceVariables'
 	],
-	#category : #Complishon
+	#category : #'Complishon-Tests'
 }
 
 { #category : #configuration }

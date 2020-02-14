@@ -1,7 +1,7 @@
 Class {
 	#name : #ComplishonSystemEnvironment,
 	#superclass : #Object,
-	#category : #Complishon
+	#category : #'Complishon-SystemIntegration'
 }
 
 { #category : #accessing }

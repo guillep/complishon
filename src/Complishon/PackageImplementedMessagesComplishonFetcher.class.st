@@ -1,7 +1,7 @@
 Class {
 	#name : #PackageImplementedMessagesComplishonFetcher,
 	#superclass : #ComplishonFetcher,
-	#category : #Complishon
+	#category : #'Complishon-Fetchers'
 }
 
 { #category : #accessing }
