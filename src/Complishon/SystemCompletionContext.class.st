@@ -26,6 +26,16 @@ SystemCompletionContext class >> engine: aCompletionEngine class: aClass source:
 ]
 
 { #category : #accessing }
+SystemCompletionContext >> completionAt: aNumber [
+	| entry |
+	
+	entry := (self entries at: aNumber) contents asSymbol separateKeywords.
+	^ NECPreferences spaceAfterCompletion 
+		ifTrue: [ entry, ' ' ]
+		ifFalse: [ entry ]
+]
+
+{ #category : #accessing }
 SystemCompletionContext >> completionToken [
 	^ completionToken ifNil: [ ^ ''  ]
 ]
@@ -37,7 +47,8 @@ SystemCompletionContext >> complishon [
 	complishon ifNotNil: [ ^ complishon ].
 
 	node := (RBParser parseFaultyMethod: source) nodeForOffset: position.
-	fetcher := InstanceVariableComplishonFetcher new.
+	fetcher := node acceptVisitor: self.
+	complishonContext astNode: node.
 	complishon := Complishon onContext: complishonContext fetcher: fetcher.
 	self narrowWith: (node isVariable ifTrue: [ node name ] ifFalse: [ '' ]).
 	^ complishon
@@ -65,9 +76,8 @@ SystemCompletionContext >> engine: anObject [
 
 { #category : #accessing }
 SystemCompletionContext >> entries [
-	
-	^ (complishon first: 20)
-		collect: [ :e | NECInstVarEntry contents: e node: nil ]
+
+	^ (complishon first: 20) collect: [ :e | NECInstVarEntry contents: e node: nil ]
 ]
 
 { #category : #accessing }
@@ -119,4 +129,50 @@ SystemCompletionContext >> source: anObject [
 SystemCompletionContext >> title [
 
 	^ ''
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> visitLiteralValueNode: aRBLiteralValueNode [ 
+	
+	^ EmptyComplishonFetcher new
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> visitMessageNode: aRBMessageNode [ 
+	
+	aRBMessageNode receiver isSelf ifTrue: [ 
+		^ ClassImplementedMessagesComplishonFetcher new
+			completionClass: complishonContext complishonClass;
+			forHierarchy ].
+	
+	aRBMessageNode receiver isVariable ifTrue: [ 
+		Smalltalk globals at: aRBMessageNode receiver name ifPresent: [ :class |
+			^ ClassImplementedMessagesComplishonFetcher new
+				completionClass: class classSide;
+				forHierarchy ] ].
+
+	^ PackageImplementedMessagesComplishonFetcher new
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> visitMethodNode: aRBMethodNode [ 
+
+	"We are maybe trying to redefine an existing method in the package?"
+	^ PackageImplementedMessagesComplishonFetcher new
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> visitVariableNode: aRBVariableNode [ 
+	
+	| instanceAccessible globallyAccessible |
+	instanceAccessible := MethodVariableComplishonFetcher new,
+		(InstanceVariableComplishonFetcher new
+			completionClass: complishonContext complishonClass)
+				forHierarchy.
+	
+	globallyAccessible := GlobalVariableComplishonFetcher new.
+	
+	^ aRBVariableNode name first isUppercase
+		ifFalse: [ instanceAccessible , globallyAccessible ]
+		ifTrue: [ globallyAccessible, instanceAccessible ]
 ]

@@ -28,6 +28,12 @@ FilterComplishonFetcher >> filterBlock: aBlockClosure [
 	filterBlock := aBlockClosure
 ]
 
+{ #category : #filtering }
+FilterComplishonFetcher >> narrowFilterBlock: aBlock [
+
+	self filterBlock: aBlock
+]
+
 { #category : #resetting }
 FilterComplishonFetcher >> reset [
 	

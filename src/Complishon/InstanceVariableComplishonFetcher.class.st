@@ -1,10 +1,11 @@
 Class {
 	#name : #InstanceVariableComplishonFetcher,
-	#superclass : #ComplishonFetcher,
+	#superclass : #ClassBasedComplishonFetcher,
 	#category : #Complishon
 }
 
 { #category : #entries }
 InstanceVariableComplishonFetcher >> entriesInContext: aContext do: aBlock [
-	aContext complishonClass instVarNames do: aBlock
+	
+	self completionClass instVarNames do: aBlock
 ]

@@ -9,6 +9,15 @@ Class {
 }
 
 { #category : #composing }
+ComplishonFetcher >> , anotherFetcher [ 
+
+	^ ComposedComplishonFetcher new
+		add: self;
+		add: anotherFetcher;
+		yourself
+]
+
+{ #category : #composing }
 ComplishonFetcher >> andThen: aBlockClosure [ 
 	
 	^ ComposedComplishonFetcher new
@@ -39,12 +48,32 @@ ComplishonFetcher >> entriesInContext: aContext do: aBlock [
 	^ self subclassResponsibility
 ]
 
+{ #category : #composing }
+ComplishonFetcher >> forHierarchy [
+	
+	^ HierarchyComplishonFetcher new
+		complishonFetcher: self;
+		yourself
+]
+
 { #category : #accessing }
 ComplishonFetcher >> generator [
 	
 	^ generator ifNil: [
 		generator := Generator on: [ :g | 
 			self entriesInContext: context do: [ :entry | g yield: entry ] ] ]
+]
+
+{ #category : #testing }
+ComplishonFetcher >> isEmptyComplishonFetcher [
+	
+	^ false
+]
+
+{ #category : #filtering }
+ComplishonFetcher >> narrowFilterBlock: aBlockClosure [ 
+	
+	^ self select: aBlockClosure
 ]
 
 { #category : #accessing }

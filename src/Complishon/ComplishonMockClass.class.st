@@ -14,6 +14,12 @@ ComplishonMockClass >> addInstanceVariable: aString [
 ]
 
 { #category : #accessing }
+ComplishonMockClass >> instVarNames [
+	
+	^ self instanceVariables
+]
+
+{ #category : #accessing }
 ComplishonMockClass >> instanceVariables [
 	^ instanceVariables
 ]

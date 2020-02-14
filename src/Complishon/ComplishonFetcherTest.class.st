@@ -1,11 +1,11 @@
 Class {
-	#name : #BasicComplishonFetcherTest,
-	#superclass : #ComplishonTest,
+	#name : #ComplishonFetcherTest,
+	#superclass : #BasicComplishonTest,
 	#category : #Complishon
 }
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testComplishonCompositionAtEndShouldBeAtEnd [
+ComplishonFetcherTest >> testComplishonCompositionAtEndShouldBeAtEnd [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new
@@ -24,7 +24,7 @@ BasicComplishonFetcherTest >> testComplishonCompositionAtEndShouldBeAtEnd [
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testComplishonCompositionNextManyShouldReturnCollection [
+ComplishonFetcherTest >> testComplishonCompositionNextManyShouldReturnCollection [
 	| c |
 	c := InstanceVariableComplishonFetcher new
 		andThen: [ GlobalVariableComplishonFetcher new ].
@@ -33,7 +33,7 @@ BasicComplishonFetcherTest >> testComplishonCompositionNextManyShouldReturnColle
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testComplishonCompositionNextManyShouldStopAfterEndOfElements [
+ComplishonFetcherTest >> testComplishonCompositionNextManyShouldStopAfterEndOfElements [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new
@@ -51,7 +51,7 @@ BasicComplishonFetcherTest >> testComplishonCompositionNextManyShouldStopAfterEn
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testComplishonCompositionNextShouldReturnFirstValueFirst [
+ComplishonFetcherTest >> testComplishonCompositionNextShouldReturnFirstValueFirst [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new
@@ -69,7 +69,7 @@ BasicComplishonFetcherTest >> testComplishonCompositionNextShouldReturnFirstValu
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testComplishonCompositionNextShouldReturnNilAfterEnd [
+ComplishonFetcherTest >> testComplishonCompositionNextShouldReturnNilAfterEnd [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new
@@ -88,7 +88,7 @@ BasicComplishonFetcherTest >> testComplishonCompositionNextShouldReturnNilAfterE
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testComplishonCompositionNextShouldReturnValuesOfSecondComplishonAfterFirst [
+ComplishonFetcherTest >> testComplishonCompositionNextShouldReturnValuesOfSecondComplishonAfterFirst [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new
@@ -108,7 +108,7 @@ BasicComplishonFetcherTest >> testComplishonCompositionNextShouldReturnValuesOfS
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testComplishonCompositionWithElementsShouldNotBeAtEnd [
+ComplishonFetcherTest >> testComplishonCompositionWithElementsShouldNotBeAtEnd [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new
@@ -126,7 +126,7 @@ BasicComplishonFetcherTest >> testComplishonCompositionWithElementsShouldNotBeAt
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testComplishonWithNoResultsShouldBeAtEnd [
+ComplishonFetcherTest >> testComplishonWithNoResultsShouldBeAtEnd [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new.
@@ -138,7 +138,7 @@ BasicComplishonFetcherTest >> testComplishonWithNoResultsShouldBeAtEnd [
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testFilterComplishonBeforeFetchingShouldNarrowResults [
+ComplishonFetcherTest >> testFilterComplishonBeforeFetchingShouldNarrowResults [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new.
@@ -150,7 +150,7 @@ BasicComplishonFetcherTest >> testFilterComplishonBeforeFetchingShouldNarrowResu
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testGlobalVariableComplishonAtEndShouldBeAtEnd [
+ComplishonFetcherTest >> testGlobalVariableComplishonAtEndShouldBeAtEnd [
 
 	| c |
 	c := GlobalVariableComplishonFetcher new.
@@ -168,7 +168,7 @@ BasicComplishonFetcherTest >> testGlobalVariableComplishonAtEndShouldBeAtEnd [
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testGlobalVariableComplishonNextManyShouldReturnCollection [
+ComplishonFetcherTest >> testGlobalVariableComplishonNextManyShouldReturnCollection [
 
 	| c |
 	c := GlobalVariableComplishonFetcher new.
@@ -185,7 +185,7 @@ BasicComplishonFetcherTest >> testGlobalVariableComplishonNextManyShouldReturnCo
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testGlobalVariableComplishonNextManyShouldStopAfterEndOfElements [
+ComplishonFetcherTest >> testGlobalVariableComplishonNextManyShouldStopAfterEndOfElements [
 
 	| c |
 	c := GlobalVariableComplishonFetcher new.
@@ -202,7 +202,7 @@ BasicComplishonFetcherTest >> testGlobalVariableComplishonNextManyShouldStopAfte
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testGlobalVariableComplishonNextShouldReturnAfterSecondGlobalVariable [
+ComplishonFetcherTest >> testGlobalVariableComplishonNextShouldReturnAfterSecondGlobalVariable [
 
 	| c |
 	c := GlobalVariableComplishonFetcher new.
@@ -220,7 +220,7 @@ BasicComplishonFetcherTest >> testGlobalVariableComplishonNextShouldReturnAfterS
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testGlobalVariableComplishonNextShouldReturnFirstGlobalVariable [
+ComplishonFetcherTest >> testGlobalVariableComplishonNextShouldReturnFirstGlobalVariable [
 
 	| c |
 	c := GlobalVariableComplishonFetcher new.
@@ -237,7 +237,7 @@ BasicComplishonFetcherTest >> testGlobalVariableComplishonNextShouldReturnFirstG
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testGlobalVariableComplishonNextShouldReturnNilAfterEnd [
+ComplishonFetcherTest >> testGlobalVariableComplishonNextShouldReturnNilAfterEnd [
 
 	| c |
 	c := GlobalVariableComplishonFetcher new.
@@ -255,7 +255,7 @@ BasicComplishonFetcherTest >> testGlobalVariableComplishonNextShouldReturnNilAft
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testGlobalVariableComplishonWithElementsShouldNotBeAtEnd [
+ComplishonFetcherTest >> testGlobalVariableComplishonWithElementsShouldNotBeAtEnd [
 
 	| c |
 	c := GlobalVariableComplishonFetcher new.
@@ -272,7 +272,7 @@ BasicComplishonFetcherTest >> testGlobalVariableComplishonWithElementsShouldNotB
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testInstanceVariableComplishonAtEndShouldBeAtEnd [
+ComplishonFetcherTest >> testInstanceVariableComplishonAtEndShouldBeAtEnd [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new.
@@ -290,7 +290,7 @@ BasicComplishonFetcherTest >> testInstanceVariableComplishonAtEndShouldBeAtEnd [
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testInstanceVariableComplishonNextManyShouldReturnCollection [
+ComplishonFetcherTest >> testInstanceVariableComplishonNextManyShouldReturnCollection [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new.
@@ -307,7 +307,7 @@ BasicComplishonFetcherTest >> testInstanceVariableComplishonNextManyShouldReturn
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testInstanceVariableComplishonNextManyShouldStopAfterEndOfElements [
+ComplishonFetcherTest >> testInstanceVariableComplishonNextManyShouldStopAfterEndOfElements [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new.
@@ -324,7 +324,7 @@ BasicComplishonFetcherTest >> testInstanceVariableComplishonNextManyShouldStopAf
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testInstanceVariableComplishonNextShouldReturnAfterSecondInstanceVariable [
+ComplishonFetcherTest >> testInstanceVariableComplishonNextShouldReturnAfterSecondInstanceVariable [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new.
@@ -342,7 +342,7 @@ BasicComplishonFetcherTest >> testInstanceVariableComplishonNextShouldReturnAfte
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testInstanceVariableComplishonNextShouldReturnFirstInstanceVariable [
+ComplishonFetcherTest >> testInstanceVariableComplishonNextShouldReturnFirstInstanceVariable [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new.
@@ -359,7 +359,7 @@ BasicComplishonFetcherTest >> testInstanceVariableComplishonNextShouldReturnFirs
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testInstanceVariableComplishonNextShouldReturnNilAfterEnd [
+ComplishonFetcherTest >> testInstanceVariableComplishonNextShouldReturnNilAfterEnd [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new.
@@ -377,7 +377,7 @@ BasicComplishonFetcherTest >> testInstanceVariableComplishonNextShouldReturnNilA
 ]
 
 { #category : #tests }
-BasicComplishonFetcherTest >> testInstanceVariableComplishonWithElementsShouldNotBeAtEnd [
+ComplishonFetcherTest >> testInstanceVariableComplishonWithElementsShouldNotBeAtEnd [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new.

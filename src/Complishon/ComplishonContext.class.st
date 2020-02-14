@@ -3,10 +3,22 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'complishonClass',
-		'complishonEnvironment'
+		'complishonEnvironment',
+		'astNode'
 	],
 	#category : #Complishon
 }
+
+{ #category : #accessing }
+ComplishonContext >> astNode: aNode [ 
+	astNode := aNode
+]
+
+{ #category : #accessing }
+ComplishonContext >> complishonASTNode [
+	
+	^ astNode
+]
 
 { #category : #accessing }
 ComplishonContext >> complishonClass [
@@ -26,4 +38,18 @@ ComplishonContext >> complishonEnvironment [
 { #category : #accessing }
 ComplishonContext >> complishonEnvironment: anObject [
 	complishonEnvironment := anObject
+]
+
+{ #category : #accessing }
+ComplishonContext >> complishonPackage [
+	
+	^ self complishonClass package
+]
+
+{ #category : #accessing }
+ComplishonContext >> copyWithClass: aClass [
+
+	^ self copy
+		complishonClass: aClass;
+		yourself
 ]

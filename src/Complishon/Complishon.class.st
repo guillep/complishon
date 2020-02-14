@@ -39,7 +39,9 @@ Complishon >> ensureResults: aSize [
 { #category : #fetching }
 Complishon >> fetch: anInteger [ 
 	
-	results addAll: (fetcher next: anInteger)
+	| newResults |
+	newResults := fetcher next: anInteger.
+	results addAll: newResults
 ]
 
 { #category : #fetching }
@@ -62,17 +64,17 @@ Complishon >> fetcher: anObject [
 { #category : #'api-filtering' }
 Complishon >> filterWithString: aString [ 
 	
-	completionString size > aString size
-		ifTrue: [
-			"Reset results"
-			results := OrderedCollection new.
-			fetcher reset.
-		] ifFalse: [ 
+	"Narrow results"
+	aString size > completionString size
+		ifTrue: [ 
 			"Filter existing results".
-			results := results select: [ :e | aString isEmpty or: [ e beginsWith: aString ] ] ].
-	
-	"Finally, configure fetcher with new filter, and store new completion string"
-	fetcher := fetcher select: [ :e | aString isEmpty or: [ e beginsWith: aString ] ].
+			fetcher := fetcher narrowFilterBlock: [ :e | aString isEmpty or: [ e beginsWith: aString ] ].
+			results := results select: [ :e | aString isEmpty or: [ e beginsWith: aString ] ] ]
+		ifFalse: [
+			"Smaller filter, reset results and filter"
+			results := OrderedCollection new.
+			fetcher := fetcher select: [ :e | aString isEmpty or: [ e beginsWith: aString ] ].
+		].
 	completionString := aString
 ]
 

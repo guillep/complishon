@@ -13,6 +13,7 @@ Class {
 
 { #category : #menu }
 SystemCompletionFacade >> closeMenu [
+
 	self stopCompletionDelay.
 	menuMorph
 		ifNotNil: [ menuMorph delete ].
@@ -138,6 +139,11 @@ SystemCompletionFacade >> handleKeystrokeWithoutMenu: aKeyboardEvent [
 	^ false
 ]
 
+{ #category : #smarties }
+SystemCompletionFacade >> invalidateEditorMorph [
+	editor morph invalidRect: editor morph bounds.
+]
+
 { #category : #menu }
 SystemCompletionFacade >> isMenuOpen [
 	^menuMorph notNil
@@ -152,6 +158,21 @@ SystemCompletionFacade >> menuClosed [
 { #category : #menu }
 SystemCompletionFacade >> menuMorphClass [
 	^ NECMenuMorph
+]
+
+{ #category : #smarties }
+SystemCompletionFacade >> newSmartCharacterInsertionStringForLeft: left right: right [
+	((NECPreferences smartCharactersWithDoubleSpace includes: left) or: [
+	(NECPreferences smartCharactersWithDoubleSpace includes: right)])
+	ifTrue: [ 
+		^ String with: left with: Character space with: Character space  with: right ].
+	
+	((NECPreferences smartCharactersWithSingleSpace includes: left) or: [
+	(NECPreferences smartCharactersWithSingleSpace includes: right)])
+	ifTrue: [ 
+		^ String with: left with: Character space  with: right ].
+	
+	^ String with: left with: right
 ]
 
 { #category : #menu }
@@ -240,6 +261,18 @@ SystemCompletionFacade >> smartBackspace [
 { #category : #smartis }
 SystemCompletionFacade >> smartCharacterOppositeOf: char ifAbsent: aBlock [
 	^(self smartCharactersMapping at: char ifAbsent: [ ^aBlock value ]) key
+]
+
+{ #category : #smartis }
+SystemCompletionFacade >> smartCharacterPairFor: char ifAbsent: aBlock [
+	| left right |
+	
+	left := self smartCharactersMapping at: char ifPresent: [ char ] ifAbsent: [ 
+		self smartInverseMapping at: char ifPresent: [:key | key ] ifAbsent: [ ^aBlock value ]].
+	
+	right := self smartCharacterOppositeOf: left ifAbsent: [ ^aBlock value ].
+	
+ 	^ left -> right
 ]
 
 { #category : #smartis }
