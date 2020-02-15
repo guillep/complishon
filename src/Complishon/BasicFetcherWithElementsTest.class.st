@@ -55,3 +55,10 @@ BasicFetcherWithElementsTest >> testNextShouldReturnFirstElement [
 
 	self assert: self fetcher next equals: self firstExpectedElement
 ]
+
+{ #category : #tests }
+BasicFetcherWithElementsTest >> testResetShouldRestartGenerator [
+
+	self fetcher upToEnd; reset.
+	self assert: (self fetcher next: expectedElements size + 1) equals: expectedElements
+]

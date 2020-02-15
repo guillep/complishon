@@ -65,7 +65,7 @@ Complishon >> fetcher: anObject [
 Complishon >> filterWithString: aString [ 
 	
 	"Narrow results"
-	aString size > completionString size
+	aString size >= completionString size
 		ifTrue: [ 
 			"Filter existing results".
 			fetcher := fetcher narrowFilterBlock: [ :e | aString isEmpty or: [ e beginsWith: aString ] ].

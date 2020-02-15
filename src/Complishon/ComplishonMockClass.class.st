@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'instanceVariables',
 		'selectors',
-		'classVariables'
+		'classVariables',
+		'superclass'
 	],
 	#category : #'Complishon-Tests'
 }
@@ -70,4 +71,16 @@ ComplishonMockClass >> selectors: aCollection [
 ComplishonMockClass >> selectorsDo: aBlockClosure [ 
 	
 	selectors do: aBlockClosure
+]
+
+{ #category : #accessing }
+ComplishonMockClass >> superclass [
+	
+	^ superclass
+]
+
+{ #category : #accessing }
+ComplishonMockClass >> superclass: aComplishonMockClass [ 
+	
+	superclass := aComplishonMockClass
 ]

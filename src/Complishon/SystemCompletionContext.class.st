@@ -26,6 +26,22 @@ SystemCompletionContext class >> engine: aCompletionEngine class: aClass source:
 		yourself
 ]
 
+{ #category : #smartis }
+SystemCompletionContext >> commonPrefix [
+	"Longest match among the typed text and all menu entries"
+
+ 	| seed matchLengths prefixLength entries |
+	entries := self entries.
+	seed := entries first contents asString.
+	matchLengths := entries allButFirst
+		collect: [ :entry | seed charactersExactlyMatching: entry contents asString ]
+		thenSelect: [ :e | e >= completionToken size ].
+	prefixLength := matchLengths isEmpty
+		ifTrue: [ 0 ]
+		ifFalse: [ matchLengths min ].
+	^ seed first: prefixLength.
+]
+
 { #category : #accessing }
 SystemCompletionContext >> completionAt: aNumber [
 	| entry |
@@ -124,7 +140,7 @@ SystemCompletionContext >> fetcherForMessageNode: aRBMessageNode [
 		Smalltalk globals at: aRBMessageNode receiver name ifPresent: [ :class |
 			^ ClassImplementedMessagesComplishonFetcher new
 				completionClass: class classSide;
-				forHierarchy ] ].
+				forHierarchy  ] ].
 
 	^ PackageImplementedMessagesComplishonFetcher new
 ]
@@ -219,7 +235,7 @@ SystemCompletionContext >> visitMessageNode: aRBMessageNode [
 	
 	^ self
 		configureFetcherForNode: aRBMessageNode
-		using: [ self fetcherForMessageNode: aRBMessageNode ]
+		using: [ (self fetcherForMessageNode: aRBMessageNode) withoutRepetition ]
 		narrowingWith: aRBMessageNode selector
 ]
 

@@ -112,3 +112,11 @@ ComplishonFetcher >> withoutFilter [
 	
 	^ self
 ]
+
+{ #category : #composing }
+ComplishonFetcher >> withoutRepetition [
+
+	^ AvoidRepeatedComplishonFetcher new
+		complishonFetcher: self;
+		yourself
+]

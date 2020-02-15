@@ -1,12 +1,18 @@
 Class {
 	#name : #BasicComplishonTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'context'
+	],
 	#category : #'Complishon-Tests'
 }
 
 { #category : #tests }
 BasicComplishonTest >> context [
 	| innerNode |
+	
+	context ifNotNil: [ ^ context ].
+	
 	RBMethodNode
 		selector: #foo
 		arguments: (#( methodArgument ) collect: [ :e | RBVariableNode named: e ])
@@ -17,12 +23,17 @@ BasicComplishonTest >> context [
 				body: (RBSequenceNode
 					temporaries: (#(blockTemporary) collect: [ :e | RBVariableNode named: e ])
 					statements: { innerNode := RBVariableNode named: '' })}).
-	^ ComplishonContext new
+	^ context := ComplishonContext new
 		complishonClass:
 			(ComplishonMockClass new
-				instanceVariables: {'a' . 'b' . 'c'};
+				instanceVariables: #(a b c);
 				selectors: #(ma mb mc);
 				classVariables: #(Ca Cb Cc);
+				superclass: (ComplishonMockClass new
+					instanceVariables: #( supera superb superc );
+					selectors: #(superma supermb supermc);
+					classVariables: #(SuperCa SuperCb SuperCc);
+					yourself)
 				yourself);
 		complishonEnvironment:
 			(ComplishonMockEnvironment new
