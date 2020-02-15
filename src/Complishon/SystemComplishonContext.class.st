@@ -132,8 +132,8 @@ SystemComplishonContext >> fetcherForMessageNode: aRBMessageNode [
 	aRBMessageNode receiver isSuper ifTrue: [ 
 		^ self newSuperMessageInHierarchyFetcher ].
 	
-	aRBMessageNode receiver isVariable ifTrue: [ 
-		Smalltalk globals at: aRBMessageNode receiver name ifPresent: [ :class |
+	aRBMessageNode receiver isVariable ifTrue: [
+		complishonContext environmentAt: aRBMessageNode receiver name ifPresent: [ :class |
 			^ ClassImplementedMessagesComplishonFetcher new
 				completionClass: class classSide;
 				forHierarchy  ].
@@ -142,11 +142,11 @@ SystemComplishonContext >> fetcherForMessageNode: aRBMessageNode [
 		This is maybe an instance of this class, autocomplete for that class first, then continue with normal completion.
 		E.g., aCollection => use completion for Collection class first, then normal collection.
 		There are two cases: aPoint and anASTCache"
-		Smalltalk globals at: aRBMessageNode receiver name allButFirst asSymbol ifPresent: [ :class |
+		complishonContext environmentAt: aRBMessageNode receiver name allButFirst asSymbol ifPresent: [ :class |
 			^ (ClassImplementedMessagesComplishonFetcher new
 				completionClass: class;
 				forHierarchy), PackageImplementedMessagesComplishonFetcher new  ].
-		Smalltalk globals at: (aRBMessageNode receiver name allButFirst: 2) asSymbol ifPresent: [ :class |
+		complishonContext environmentAt: (aRBMessageNode receiver name allButFirst: 2) asSymbol ifPresent: [ :class |
 			^ (ClassImplementedMessagesComplishonFetcher new
 				completionClass: class;
 				forHierarchy), PackageImplementedMessagesComplishonFetcher new  ]

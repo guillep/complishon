@@ -53,3 +53,9 @@ ComplishonContext >> copyWithClass: aClass [
 		complishonClass: aClass;
 		yourself
 ]
+
+{ #category : #accessing }
+ComplishonContext >> environmentAt: aKey ifPresent: aBlock [
+
+	self complishonEnvironment at: aKey ifPresent: aBlock
+]
