@@ -5,7 +5,7 @@ Class {
 		'complishon',
 		'filterBlock'
 	],
-	#category : #Complishon
+	#category : #'Complishon-Core'
 }
 
 { #category : #accessing }
@@ -17,6 +17,7 @@ FilterComplishonFetcher >> complishon: aComplishonToFilter [
 { #category : #accessing }
 FilterComplishonFetcher >> entriesInContext: aContext do: aBlockClosure [
 	
+	complishon context: aContext.
 	complishon entriesInContext: aContext do: [ :each |
 		(filterBlock value: each)
 			ifTrue: [ aBlockClosure value: each ] ]

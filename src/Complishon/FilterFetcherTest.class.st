@@ -1,17 +1,17 @@
 Class {
-	#name : #ComplishonFetcherTest,
+	#name : #FilterFetcherTest,
 	#superclass : #BasicComplishonTest,
 	#category : #'Complishon-Tests'
 }
 
 { #category : #tests }
-ComplishonFetcherTest >> testComplishonWithNoResultsShouldBeAtEnd [
+FilterFetcherTest >> testFilterComplishonBeforeFetchingShouldNarrowResults [
 
 	| c |
 	c := InstanceVariableComplishonFetcher new.
 	c context: self context.
 	
-	c := c select: [ :e | false ].
+	c := c select: [ :e | (e beginsWith: 'a') not ].
 	
-	self assert: c atEnd
+	self assert: c next equals: 'b'
 ]

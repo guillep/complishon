@@ -6,7 +6,7 @@ Class {
 		'complishonEnvironment',
 		'astNode'
 	],
-	#category : #Complishon
+	#category : #'Complishon-Core'
 }
 
 { #category : #accessing }

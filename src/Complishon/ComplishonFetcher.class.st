@@ -5,7 +5,7 @@ Class {
 		'context',
 		'generator'
 	],
-	#category : #Complishon
+	#category : #'Complishon-Core'
 }
 
 { #category : #composing }

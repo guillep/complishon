@@ -18,6 +18,13 @@ HierarchyComplishonFetcher >> complishonFetcher: anObject [
 ]
 
 { #category : #accessing }
+HierarchyComplishonFetcher >> context: aContext [
+
+	super context: aContext.
+	complishonFetcher context: aContext.
+]
+
+{ #category : #accessing }
 HierarchyComplishonFetcher >> entriesInContext: aContext do: aBlock [
 
 	| currentComplishonFetcher |

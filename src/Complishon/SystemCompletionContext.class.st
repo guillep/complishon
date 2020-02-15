@@ -44,16 +44,15 @@ SystemCompletionContext >> completionToken [
 { #category : #testing }
 SystemCompletionContext >> complishon [
 
-	| node fetcher |
+	| node |
 	complishon ifNotNil: [ ^ complishon ].
 
 	node := (self isWorkspace
 		ifTrue: [ RBParser parseFaultyExpression: source ]
 		ifFalse: [ RBParser parseFaultyMethod: source ]) nodeForOffset: position.
-	fetcher := node acceptVisitor: self.
-	complishonContext astNode: node.
-	complishon := Complishon onContext: complishonContext fetcher: fetcher.
-	self narrowWith: (node isVariable ifTrue: [ node name ] ifFalse: [ '' ]).
+	
+	"Visiting the node configures the completion for that node"
+	node acceptVisitor: self.
 	^ complishon
 ]
 
@@ -65,6 +64,26 @@ SystemCompletionContext >> complishonContext [
 { #category : #accessing }
 SystemCompletionContext >> complishonContext: anObject [
 	complishonContext := anObject
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> configureEmptyFetcherForNode: aNode [
+	
+	^ self
+		configureFetcherForNode: aNode
+		using: EmptyComplishonFetcher new
+		narrowingWith: ''
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> configureFetcherForNode: aNode using: aBlock narrowingWith: aString [
+	
+	| fetcher |
+	fetcher := aBlock value.
+	complishonContext astNode: aNode.
+	complishon := Complishon onContext: complishonContext fetcher: fetcher.
+	self narrowWith: aString.
+	^ fetcher
 ]
 
 { #category : #accessing }
@@ -86,6 +105,48 @@ SystemCompletionContext >> entries [
 { #category : #accessing }
 SystemCompletionContext >> entryCount [
 	^ self entries size
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> fetcherForMessageNode: aRBMessageNode [ 
+	
+	aRBMessageNode receiver isSelf ifTrue: [ 
+		^ ClassImplementedMessagesComplishonFetcher new
+			completionClass: complishonContext complishonClass;
+			forHierarchy ].
+
+	aRBMessageNode receiver isSuper ifTrue: [ 
+		^ ClassImplementedMessagesComplishonFetcher new
+			completionClass: complishonContext complishonClass superclass;
+			forHierarchy ].
+	
+	aRBMessageNode receiver isVariable ifTrue: [ 
+		Smalltalk globals at: aRBMessageNode receiver name ifPresent: [ :class |
+			^ ClassImplementedMessagesComplishonFetcher new
+				completionClass: class classSide;
+				forHierarchy ] ].
+
+	^ PackageImplementedMessagesComplishonFetcher new
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> fetcherForVariableNode: aRBVariableNode [ 
+	
+	| instanceAccessible globallyAccessible |
+	
+	instanceAccessible :=  self isWorkspace
+		ifTrue: [ EmptyComplishonFetcher new ]
+		ifFalse: [ MethodVariableComplishonFetcher new,
+			(InstanceVariableComplishonFetcher new
+				completionClass: complishonContext complishonClass)
+					forHierarchy ].
+
+	
+	globallyAccessible := GlobalVariableComplishonFetcher new.
+	
+	^ aRBVariableNode name first isUppercase
+		ifFalse: [ instanceAccessible , globallyAccessible ]
+		ifTrue: [ globallyAccessible, instanceAccessible ]
 ]
 
 { #category : #testing }
@@ -143,24 +204,16 @@ SystemCompletionContext >> title [
 { #category : #visiting }
 SystemCompletionContext >> visitLiteralValueNode: aRBLiteralValueNode [ 
 	
-	^ EmptyComplishonFetcher new
+	^ self configureEmptyFetcherForNode: aRBLiteralValueNode
 ]
 
 { #category : #visiting }
 SystemCompletionContext >> visitMessageNode: aRBMessageNode [ 
 	
-	aRBMessageNode receiver isSelf ifTrue: [ 
-		^ ClassImplementedMessagesComplishonFetcher new
-			completionClass: complishonContext complishonClass;
-			forHierarchy ].
-	
-	aRBMessageNode receiver isVariable ifTrue: [ 
-		Smalltalk globals at: aRBMessageNode receiver name ifPresent: [ :class |
-			^ ClassImplementedMessagesComplishonFetcher new
-				completionClass: class classSide;
-				forHierarchy ] ].
-
-	^ PackageImplementedMessagesComplishonFetcher new
+	^ self
+		configureFetcherForNode: aRBMessageNode
+		using: [ self fetcherForMessageNode: aRBMessageNode ]
+		narrowingWith: aRBMessageNode selector
 ]
 
 { #category : #visiting }
@@ -173,27 +226,32 @@ SystemCompletionContext >> visitMethodNode: aRBMethodNode [
 { #category : #visiting }
 SystemCompletionContext >> visitParseErrorNode: aRBParseErrorNode [ 
 	
-	^ EmptyComplishonFetcher new
+	^ self configureEmptyFetcherForNode: aRBParseErrorNode
 ]
 
 { #category : #visiting }
 SystemCompletionContext >> visitSelfNode: aRBSelfNode [ 
 	
-	^ EmptyComplishonFetcher new
+	^ self configureEmptyFetcherForNode: aRBSelfNode
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> visitSequenceNode: aRBSequenceNode [ 
+	
+	self configureEmptyFetcherForNode: aRBSequenceNode
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> visitSuperNode: aRBSuperNode [ 
+	
+	^ self visitSelfNode: aRBSuperNode
 ]
 
 { #category : #visiting }
 SystemCompletionContext >> visitVariableNode: aRBVariableNode [ 
 	
-	| instanceAccessible globallyAccessible |
-	instanceAccessible := MethodVariableComplishonFetcher new,
-		(InstanceVariableComplishonFetcher new
-			completionClass: complishonContext complishonClass)
-				forHierarchy.
-	
-	globallyAccessible := GlobalVariableComplishonFetcher new.
-	
-	^ aRBVariableNode name first isUppercase
-		ifFalse: [ instanceAccessible , globallyAccessible ]
-		ifTrue: [ globallyAccessible, instanceAccessible ]
+	^ self
+		configureFetcherForNode: aRBVariableNode
+		using: [ self fetcherForVariableNode: aRBVariableNode ]
+		narrowingWith: aRBVariableNode name
 ]

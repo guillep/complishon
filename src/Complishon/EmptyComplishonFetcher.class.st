@@ -1,7 +1,7 @@
 Class {
 	#name : #EmptyComplishonFetcher,
 	#superclass : #ComplishonFetcher,
-	#category : #Complishon
+	#category : #'Complishon-Core'
 }
 
 { #category : #accessing }

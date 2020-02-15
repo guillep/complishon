@@ -7,7 +7,7 @@ Class {
 		'context',
 		'completionString'
 	],
-	#category : #Complishon
+	#category : #'Complishon-Core'
 }
 
 { #category : #'instance creation' }

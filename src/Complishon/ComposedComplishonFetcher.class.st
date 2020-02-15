@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'subcomplishons'
 	],
-	#category : #Complishon
+	#category : #'Complishon-Core'
 }
 
 { #category : #adding }
