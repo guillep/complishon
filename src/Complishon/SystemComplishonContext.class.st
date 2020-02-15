@@ -167,8 +167,11 @@ SystemComplishonContext >> fetcherForVariableNode: aRBVariableNode [
 				completionClass: complishonContext complishonClass)
 					forHierarchy ].
 
-	
-	globallyAccessible := GlobalVariableComplishonFetcher new.
+	globallyAccessible := self isWorkspace
+		ifTrue: [ GlobalVariableComplishonFetcher new ]
+		ifFalse: [ (ClassVariableComplishonFetcher new
+			completionClass: complishonContext complishonClass) forHierarchy,
+				GlobalVariableComplishonFetcher new ].
 	
 	^ aRBVariableNode name first isUppercase
 		ifFalse: [ instanceAccessible , globallyAccessible ]
