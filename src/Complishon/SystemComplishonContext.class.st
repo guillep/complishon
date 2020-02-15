@@ -1,5 +1,5 @@
 Class {
-	#name : #SystemCompletionContext,
+	#name : #SystemComplishonContext,
 	#superclass : #Object,
 	#instVars : [
 		'engine',
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : #'initialize-release' }
-SystemCompletionContext class >> engine: aCompletionEngine class: aClass source: aString position: anInteger [
+SystemComplishonContext class >> engine: aCompletionEngine class: aClass source: aString position: anInteger [
 
 	^ self new
 		complishonContext: (ComplishonContext new
@@ -27,7 +27,7 @@ SystemCompletionContext class >> engine: aCompletionEngine class: aClass source:
 ]
 
 { #category : #smartis }
-SystemCompletionContext >> commonPrefix [
+SystemComplishonContext >> commonPrefix [
 	"Longest match among the typed text and all menu entries"
 
  	| seed matchLengths prefixLength entries |
@@ -43,7 +43,7 @@ SystemCompletionContext >> commonPrefix [
 ]
 
 { #category : #accessing }
-SystemCompletionContext >> completionAt: aNumber [
+SystemComplishonContext >> completionAt: aNumber [
 	| entry |
 	
 	entry := (self entries at: aNumber) contents asSymbol separateKeywords.
@@ -53,12 +53,12 @@ SystemCompletionContext >> completionAt: aNumber [
 ]
 
 { #category : #accessing }
-SystemCompletionContext >> completionToken [
+SystemComplishonContext >> completionToken [
 	^ completionToken ifNil: [ ^ ''  ]
 ]
 
 { #category : #testing }
-SystemCompletionContext >> complishon [
+SystemComplishonContext >> complishon [
 
 	| node |
 	complishon ifNotNil: [ ^ complishon ].
@@ -73,17 +73,17 @@ SystemCompletionContext >> complishon [
 ]
 
 { #category : #accessing }
-SystemCompletionContext >> complishonContext [
+SystemComplishonContext >> complishonContext [
 	^ complishonContext
 ]
 
 { #category : #accessing }
-SystemCompletionContext >> complishonContext: anObject [
+SystemComplishonContext >> complishonContext: anObject [
 	complishonContext := anObject
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> configureEmptyFetcherForNode: aNode [
+SystemComplishonContext >> configureEmptyFetcherForNode: aNode [
 	
 	^ self
 		configureFetcherForNode: aNode
@@ -92,7 +92,7 @@ SystemCompletionContext >> configureEmptyFetcherForNode: aNode [
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> configureFetcherForNode: aNode using: aBlock narrowingWith: aString [
+SystemComplishonContext >> configureFetcherForNode: aNode using: aBlock narrowingWith: aString [
 	
 	| fetcher |
 	fetcher := aBlock value.
@@ -103,28 +103,28 @@ SystemCompletionContext >> configureFetcherForNode: aNode using: aBlock narrowin
 ]
 
 { #category : #accessing }
-SystemCompletionContext >> engine [
+SystemComplishonContext >> engine [
 	^ engine
 ]
 
 { #category : #accessing }
-SystemCompletionContext >> engine: anObject [
+SystemComplishonContext >> engine: anObject [
 	engine := anObject
 ]
 
 { #category : #accessing }
-SystemCompletionContext >> entries [
+SystemComplishonContext >> entries [
 
 	^ (complishon first: 20) collect: [ :e | NECInstVarEntry contents: e node: nil ]
 ]
 
 { #category : #accessing }
-SystemCompletionContext >> entryCount [
+SystemComplishonContext >> entryCount [
 	^ self entries size
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> fetcherForMessageNode: aRBMessageNode [ 
+SystemComplishonContext >> fetcherForMessageNode: aRBMessageNode [ 
 	
 	aRBMessageNode receiver isSelf ifTrue: [ 
 		^ self newSelfMessageInHierarchyFetcher ].
@@ -142,7 +142,7 @@ SystemCompletionContext >> fetcherForMessageNode: aRBMessageNode [
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> fetcherForVariableNode: aRBVariableNode [ 
+SystemComplishonContext >> fetcherForVariableNode: aRBVariableNode [ 
 	
 	| instanceAccessible globallyAccessible |
 	
@@ -162,25 +162,25 @@ SystemCompletionContext >> fetcherForVariableNode: aRBVariableNode [
 ]
 
 { #category : #testing }
-SystemCompletionContext >> hasEntries [
+SystemComplishonContext >> hasEntries [
 
 	^ self complishon notEmpty
 ]
 
 { #category : #menu }
-SystemCompletionContext >> hasMessage [
+SystemComplishonContext >> hasMessage [
 	
 	^ false
 ]
 
 { #category : #testing }
-SystemCompletionContext >> isWorkspace [
+SystemComplishonContext >> isWorkspace [
 	
 	^ engine notNil and: [ engine isScripting ]
 ]
 
 { #category : #narrowing }
-SystemCompletionContext >> narrowWith: aString [ 
+SystemComplishonContext >> narrowWith: aString [ 
 	
 	complishon filterWithString: aString.
 	"and update the completionToken"
@@ -188,7 +188,7 @@ SystemCompletionContext >> narrowWith: aString [
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> newSelfMessageInHierarchyFetcher [
+SystemComplishonContext >> newSelfMessageInHierarchyFetcher [
 	
 	^ ClassImplementedMessagesComplishonFetcher new
 		completionClass: complishonContext complishonClass;
@@ -196,7 +196,7 @@ SystemCompletionContext >> newSelfMessageInHierarchyFetcher [
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> newSuperMessageInHierarchyFetcher [
+SystemComplishonContext >> newSuperMessageInHierarchyFetcher [
 	
 	^ ClassImplementedMessagesComplishonFetcher new
 		completionClass: complishonContext complishonClass superclass;
@@ -204,46 +204,46 @@ SystemCompletionContext >> newSuperMessageInHierarchyFetcher [
 ]
 
 { #category : #accessing }
-SystemCompletionContext >> position [
+SystemComplishonContext >> position [
 	^ position
 ]
 
 { #category : #accessing }
-SystemCompletionContext >> position: anObject [
+SystemComplishonContext >> position: anObject [
 	position := anObject
 ]
 
 { #category : #accessing }
-SystemCompletionContext >> source [
+SystemComplishonContext >> source [
 	^ source
 ]
 
 { #category : #accessing }
-SystemCompletionContext >> source: anObject [
+SystemComplishonContext >> source: anObject [
 	source := anObject
 ]
 
 { #category : #accessing }
-SystemCompletionContext >> title [
+SystemComplishonContext >> title [
 
 	^ ''
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> visitBlockNode: aRBBlockNode [ 
+SystemComplishonContext >> visitBlockNode: aRBBlockNode [ 
 
 	"I'm probably in a comment..."
 	^ self configureEmptyFetcherForNode: aRBBlockNode
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> visitLiteralValueNode: aRBLiteralValueNode [ 
+SystemComplishonContext >> visitLiteralValueNode: aRBLiteralValueNode [ 
 	
 	^ self configureEmptyFetcherForNode: aRBLiteralValueNode
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> visitMessageNode: aRBMessageNode [ 
+SystemComplishonContext >> visitMessageNode: aRBMessageNode [ 
 	
 	^ self
 		configureFetcherForNode: aRBMessageNode
@@ -252,7 +252,7 @@ SystemCompletionContext >> visitMessageNode: aRBMessageNode [
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> visitMethodNode: aRBMethodNode [ 
+SystemComplishonContext >> visitMethodNode: aRBMethodNode [ 
 
 	"We are maybe trying to redefine an existing method in the package?"
 	^ self
@@ -264,31 +264,31 @@ SystemCompletionContext >> visitMethodNode: aRBMethodNode [
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> visitParseErrorNode: aRBParseErrorNode [ 
+SystemComplishonContext >> visitParseErrorNode: aRBParseErrorNode [ 
 	
 	^ self configureEmptyFetcherForNode: aRBParseErrorNode
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> visitSelfNode: aRBSelfNode [ 
+SystemComplishonContext >> visitSelfNode: aRBSelfNode [ 
 	
 	^ self configureEmptyFetcherForNode: aRBSelfNode
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> visitSequenceNode: aRBSequenceNode [ 
+SystemComplishonContext >> visitSequenceNode: aRBSequenceNode [ 
 	
 	self configureEmptyFetcherForNode: aRBSequenceNode
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> visitSuperNode: aRBSuperNode [ 
+SystemComplishonContext >> visitSuperNode: aRBSuperNode [ 
 	
 	^ self visitSelfNode: aRBSuperNode
 ]
 
 { #category : #visiting }
-SystemCompletionContext >> visitVariableNode: aRBVariableNode [ 
+SystemComplishonContext >> visitVariableNode: aRBVariableNode [ 
 	
 	^ self
 		configureFetcherForNode: aRBVariableNode

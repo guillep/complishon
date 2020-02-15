@@ -1,5 +1,5 @@
 Class {
-	#name : #SystemCompletionFacade,
+	#name : #SystemComplishonEngine,
 	#superclass : #Object,
 	#instVars : [
 		'menuMorph',
@@ -12,17 +12,17 @@ Class {
 }
 
 { #category : #testing }
-SystemCompletionFacade class >> isCompletionEnabled [
+SystemComplishonEngine class >> isCompletionEnabled [
 	^true
 ]
 
 { #category : #smartis }
-SystemCompletionFacade >> captureNavigationKeys [
+SystemComplishonEngine >> captureNavigationKeys [
 	^ NECPreferences captureNavigationKeys
 ]
 
 { #category : #menu }
-SystemCompletionFacade >> closeMenu [
+SystemComplishonEngine >> closeMenu [
 
 	self stopCompletionDelay.
 	menuMorph
@@ -31,17 +31,17 @@ SystemCompletionFacade >> closeMenu [
 ]
 
 { #category : #accessing }
-SystemCompletionFacade >> context [
+SystemComplishonEngine >> context [
 	^ context
 ]
 
 { #category : #accessing }
-SystemCompletionFacade >> editor [
+SystemComplishonEngine >> editor [
 	^ editor
 ]
 
 { #category : #events }
-SystemCompletionFacade >> handleKeystrokeAfter: aKeyboardEvent editor: aParagraphEditor [ 
+SystemComplishonEngine >> handleKeystrokeAfter: aKeyboardEvent editor: aParagraphEditor [ 
 	(aParagraphEditor isNil or: [ self isMenuOpen not ])
 		ifTrue: [ ^ self ].
 		
@@ -55,7 +55,7 @@ SystemCompletionFacade >> handleKeystrokeAfter: aKeyboardEvent editor: aParagrap
 ]
 
 { #category : #events }
-SystemCompletionFacade >> handleKeystrokeBefore: aKeyboardEvent editor: anEditor [
+SystemComplishonEngine >> handleKeystrokeBefore: aKeyboardEvent editor: anEditor [
 	"I return a boolean. 
 	true when I have handled the event and no futher processing is needed by the caller.
 	
@@ -125,7 +125,7 @@ SystemCompletionFacade >> handleKeystrokeBefore: aKeyboardEvent editor: anEditor
 ]
 
 { #category : #events }
-SystemCompletionFacade >> handleKeystrokeWithoutMenu: aKeyboardEvent [
+SystemComplishonEngine >> handleKeystrokeWithoutMenu: aKeyboardEvent [
 	"I handle resetting the completion menu, and I return true when I handle an event."
 	
 	self editor atCompletionPosition ifFalse: [ 
@@ -150,17 +150,17 @@ SystemCompletionFacade >> handleKeystrokeWithoutMenu: aKeyboardEvent [
 ]
 
 { #category : #smarties }
-SystemCompletionFacade >> invalidateEditorMorph [
+SystemComplishonEngine >> invalidateEditorMorph [
 	editor morph invalidRect: editor morph bounds.
 ]
 
 { #category : #menu }
-SystemCompletionFacade >> isMenuOpen [
+SystemComplishonEngine >> isMenuOpen [
 	^menuMorph notNil
 ]
 
 { #category : #testing }
-SystemCompletionFacade >> isScripting [
+SystemComplishonEngine >> isScripting [
 
 	^ self editor 
 		ifNotNil: [ self editor isScripting ]
@@ -168,18 +168,18 @@ SystemCompletionFacade >> isScripting [
 ]
 
 { #category : #menu }
-SystemCompletionFacade >> menuClosed [
+SystemComplishonEngine >> menuClosed [
 	menuMorph := nil.
 	context := nil.
 ]
 
 { #category : #menu }
-SystemCompletionFacade >> menuMorphClass [
+SystemComplishonEngine >> menuMorphClass [
 	^ NECMenuMorph
 ]
 
 { #category : #smarties }
-SystemCompletionFacade >> newSmartCharacterInsertionStringForLeft: left right: right [
+SystemComplishonEngine >> newSmartCharacterInsertionStringForLeft: left right: right [
 	((NECPreferences smartCharactersWithDoubleSpace includes: left) or: [
 	(NECPreferences smartCharactersWithDoubleSpace includes: right)])
 	ifTrue: [ 
@@ -194,13 +194,13 @@ SystemCompletionFacade >> newSmartCharacterInsertionStringForLeft: left right: r
 ]
 
 { #category : #menu }
-SystemCompletionFacade >> openMenu [
+SystemComplishonEngine >> openMenu [
 	| theMenu class |
 	self stopCompletionDelay.
 	
 	class := editor model ifNotNil: [ :model | model selectedClassOrMetaClass ].
 
-	context := SystemCompletionContext
+	context := SystemComplishonContext
 				engine: self
 				class: class
 				source: editor text string
@@ -218,7 +218,7 @@ SystemCompletionFacade >> openMenu [
 ]
 
 { #category : #process }
-SystemCompletionFacade >> resetCompletionDelay [
+SystemComplishonEngine >> resetCompletionDelay [
 	"Open the popup after 100ms and only after certain characters"
 	self stopCompletionDelay.
 	self isMenuOpen ifTrue: [ ^ self ].
@@ -233,7 +233,7 @@ SystemCompletionFacade >> resetCompletionDelay [
 ]
 
 { #category : #accessing }
-SystemCompletionFacade >> setEditor: anObject [
+SystemComplishonEngine >> setEditor: anObject [
 	editor ifNotNil: [  
 		"make sure we unsubscribe from old editor"
 		editor morph ifNotNil: [:m | m announcer unsubscribe: self] ].
@@ -242,7 +242,7 @@ SystemCompletionFacade >> setEditor: anObject [
 ]
 
 { #category : #smartis }
-SystemCompletionFacade >> smartBackspace [
+SystemComplishonEngine >> smartBackspace [
 	| opposite currentText currentEditor smartCharacter |
 	
 	currentEditor := editor.
@@ -277,12 +277,12 @@ SystemCompletionFacade >> smartBackspace [
 ]
 
 { #category : #smartis }
-SystemCompletionFacade >> smartCharacterOppositeOf: char ifAbsent: aBlock [
+SystemComplishonEngine >> smartCharacterOppositeOf: char ifAbsent: aBlock [
 	^(self smartCharactersMapping at: char ifAbsent: [ ^aBlock value ]) key
 ]
 
 { #category : #smartis }
-SystemCompletionFacade >> smartCharacterPairFor: char ifAbsent: aBlock [
+SystemComplishonEngine >> smartCharacterPairFor: char ifAbsent: aBlock [
 	| left right |
 	
 	left := self smartCharactersMapping at: char ifPresent: [ char ] ifAbsent: [ 
@@ -294,12 +294,12 @@ SystemCompletionFacade >> smartCharacterPairFor: char ifAbsent: aBlock [
 ]
 
 { #category : #smartis }
-SystemCompletionFacade >> smartCharacterShouldClose: char [
+SystemComplishonEngine >> smartCharacterShouldClose: char [
 	^(self smartCharactersMapping at: char ifAbsent: [ ^false ]) value
 ]
 
 { #category : #smartis }
-SystemCompletionFacade >> smartCharacterWithEvent: anEvent [
+SystemComplishonEngine >> smartCharacterWithEvent: anEvent [
 	"char is extracted from anEvent, anEvent is passed because we may need it.
 	We may remove char if this is not costly."
 
@@ -344,17 +344,17 @@ SystemCompletionFacade >> smartCharacterWithEvent: anEvent [
 ]
 
 { #category : #smartis }
-SystemCompletionFacade >> smartCharacters [
+SystemComplishonEngine >> smartCharacters [
 	^ NECPreferences smartCharacters 
 ]
 
 { #category : #smartis }
-SystemCompletionFacade >> smartCharactersMapping [
+SystemComplishonEngine >> smartCharactersMapping [
 	^ NECPreferences smartCharactersMapping 
 ]
 
 { #category : #smartis }
-SystemCompletionFacade >> smartInputWithEvent: anEvent [
+SystemComplishonEngine >> smartInputWithEvent: anEvent [
 	"aCharacter is extracted from anEvent, anEvent is passed because we may need it.
 	We may remove aCharacter if this is not costly."
 	
@@ -369,7 +369,7 @@ SystemCompletionFacade >> smartInputWithEvent: anEvent [
 ]
 
 { #category : #smartis }
-SystemCompletionFacade >> smartInverseMapping [
+SystemComplishonEngine >> smartInverseMapping [
 	^ inverseMapping ifNil: [ 
 		inverseMapping := Dictionary new.
 		self smartCharactersMapping
@@ -378,7 +378,7 @@ SystemCompletionFacade >> smartInverseMapping [
 ]
 
 { #category : #smartis }
-SystemCompletionFacade >> smartNeedExtraRemoveIn: currentText for: smartCharacter opposite: opposite at: position [
+SystemComplishonEngine >> smartNeedExtraRemoveIn: currentText for: smartCharacter opposite: opposite at: position [
 	"Test if we need to remove an extra character when removing a smart character (any kind of smart character)"
 	
 	smartCharacter = opposite
@@ -396,7 +396,7 @@ SystemCompletionFacade >> smartNeedExtraRemoveIn: currentText for: smartCharacte
 ]
 
 { #category : #smartis }
-SystemCompletionFacade >> smartNeedExtraRemovePairedIn: currentText for: smartCharacter opposite: opposite at: position [
+SystemComplishonEngine >> smartNeedExtraRemovePairedIn: currentText for: smartCharacter opposite: opposite at: position [
 	"Test if we need to remove an extra character when removed a paired smart character.
 	 A paired smart character is any smart character who has an opposite who is diferent to itself: [], ()"
 	
@@ -424,7 +424,7 @@ SystemCompletionFacade >> smartNeedExtraRemovePairedIn: currentText for: smartCh
 ]
 
 { #category : #smartis }
-SystemCompletionFacade >> smartStartIndexIn: currentText for: smartCharacter  opposite: opposite  at: position [
+SystemComplishonEngine >> smartStartIndexIn: currentText for: smartCharacter  opposite: opposite  at: position [
 	
 	(position - 1) to: 1 by: -1 do: [ :index | | char | 
 		char := currentText at: index.
@@ -435,7 +435,7 @@ SystemCompletionFacade >> smartStartIndexIn: currentText for: smartCharacter  op
 ]
 
 { #category : #process }
-SystemCompletionFacade >> stopCompletionDelay [
+SystemComplishonEngine >> stopCompletionDelay [
 
     completionDelay ifNotNil: [ 
         completionDelay isTerminating ifFalse: [ completionDelay terminate ] ]
