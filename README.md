@@ -2,7 +2,7 @@
 
 Experimental code completion engine using generators.
 Instead of query the entire system and generate lots of potentially intermediate collections that we need to concatenate, copy, grow, iterate all those sub-collections in order.
-Generators provide a stream-like access to those collections (and sequences of collections) without scanning the full system.
+Generators provide a stream-like access to those collections (and sequences of collections) without scanning the full system eagerly.
 
 This package is meant for Pharo 9.0 for now. It is highly experimental, there are things that may break :).
 
