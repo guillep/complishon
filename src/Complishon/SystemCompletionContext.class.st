@@ -257,7 +257,9 @@ SystemCompletionContext >> visitMethodNode: aRBMethodNode [
 	"We are maybe trying to redefine an existing method in the package?"
 	^ self
 		configureFetcherForNode: aRBMethodNode
-		using: [ PackageImplementedMessagesComplishonFetcher new ]
+		using: [ (self newSuperMessageInHierarchyFetcher,
+				PackageImplementedMessagesComplishonFetcher new)
+					withoutRepetition ]
 		narrowingWith: aRBMethodNode selector
 ]
 
