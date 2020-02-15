@@ -9,22 +9,8 @@ Class {
 
 { #category : #tests }
 ComposedFetcherTest >> fetcher [
-	| c |
-	c := InstanceVariableComplishonFetcher new
-		andThen: [ GlobalVariableComplishonFetcher new ].
-	c
-		context:
-			(ComplishonContext new
-				complishonClass:
-					(ComplishonMockClass new
-						instanceVariables: {'a' . 'b' . 'c'};
-						yourself);
-				complishonEnvironment:
-					(ComplishonMockEnvironment new
-						globals: {'A' . 'B' . 'C'};
-						yourself);
-				yourself).
-	^ c
+	
+	^ fetcher
 ]
 
 { #category : #tests }
