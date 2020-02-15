@@ -127,14 +127,10 @@ SystemCompletionContext >> entryCount [
 SystemCompletionContext >> fetcherForMessageNode: aRBMessageNode [ 
 	
 	aRBMessageNode receiver isSelf ifTrue: [ 
-		^ ClassImplementedMessagesComplishonFetcher new
-			completionClass: complishonContext complishonClass;
-			forHierarchy ].
+		^ self newSelfMessageInHierarchyFetcher ].
 
 	aRBMessageNode receiver isSuper ifTrue: [ 
-		^ ClassImplementedMessagesComplishonFetcher new
-			completionClass: complishonContext complishonClass superclass;
-			forHierarchy ].
+		^ self newSuperMessageInHierarchyFetcher ].
 	
 	aRBMessageNode receiver isVariable ifTrue: [ 
 		Smalltalk globals at: aRBMessageNode receiver name ifPresent: [ :class |
@@ -189,6 +185,22 @@ SystemCompletionContext >> narrowWith: aString [
 	complishon filterWithString: aString.
 	"and update the completionToken"
 	completionToken := aString
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> newSelfMessageInHierarchyFetcher [
+	
+	^ ClassImplementedMessagesComplishonFetcher new
+		completionClass: complishonContext complishonClass;
+		forHierarchy
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> newSuperMessageInHierarchyFetcher [
+	
+	^ ClassImplementedMessagesComplishonFetcher new
+		completionClass: complishonContext complishonClass superclass;
+		forHierarchy
 ]
 
 { #category : #accessing }
