@@ -377,6 +377,63 @@ SystemCompletionFacade >> smartInverseMapping [
 		inverseMapping ]
 ]
 
+{ #category : #smartis }
+SystemCompletionFacade >> smartNeedExtraRemoveIn: currentText for: smartCharacter opposite: opposite at: position [
+	"Test if we need to remove an extra character when removing a smart character (any kind of smart character)"
+	
+	smartCharacter = opposite
+		ifTrue: [ 
+			(self smartNeedExtraRemoveIn: currentText for: opposite)
+				ifFalse: [ ^ false ] ]
+		ifFalse: [ 
+			(self
+				smartNeedExtraRemovePairedIn: currentText
+				for: smartCharacter
+				opposite: opposite
+				at: position)
+					ifFalse: [ ^false ] ].
+	^ true
+]
+
+{ #category : #smartis }
+SystemCompletionFacade >> smartNeedExtraRemovePairedIn: currentText for: smartCharacter opposite: opposite at: position [
+	"Test if we need to remove an extra character when removed a paired smart character.
+	 A paired smart character is any smart character who has an opposite who is diferent to itself: [], ()"
+	
+	| startIndex countSmart countOpposite |
+	
+	countSmart := 0.
+	countOpposite := 0.
+	startIndex := self
+		smartStartIndexIn: currentText
+		for: smartCharacter
+		opposite: opposite
+		at: position.
+		
+	(currentText allButFirst: startIndex) 
+		do: [ :char | 
+			char = smartCharacter
+				ifTrue: [ countSmart := countSmart + 1 ].
+			char = opposite
+				ifTrue: [ countOpposite := countOpposite + 1 ] ].
+	
+	(countSmart > countOpposite and: [ (countOpposite - countSmart) odd ])
+		ifTrue: [ ^ false ].
+		
+	^true
+]
+
+{ #category : #smartis }
+SystemCompletionFacade >> smartStartIndexIn: currentText for: smartCharacter  opposite: opposite  at: position [
+	
+	(position - 1) to: 1 by: -1 do: [ :index | | char | 
+		char := currentText at: index.
+		(char = smartCharacter or: [ char = opposite])
+			 ifFalse: [ ^index ] ].
+	
+	^0
+]
+
 { #category : #process }
 SystemCompletionFacade >> stopCompletionDelay [
 

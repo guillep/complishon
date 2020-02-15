@@ -202,6 +202,13 @@ SystemCompletionContext >> title [
 ]
 
 { #category : #visiting }
+SystemCompletionContext >> visitBlockNode: aRBBlockNode [ 
+
+	"I'm probably in a comment..."
+	^ self configureEmptyFetcherForNode: aRBBlockNode
+]
+
+{ #category : #visiting }
 SystemCompletionContext >> visitLiteralValueNode: aRBLiteralValueNode [ 
 	
 	^ self configureEmptyFetcherForNode: aRBLiteralValueNode
