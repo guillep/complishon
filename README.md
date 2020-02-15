@@ -147,7 +147,7 @@ If the AST node is a message whose receiver is `super`, autocomplete all message
 If the AST node is a message whose receiver is a class name like `OrderedCollection`, autocomplete all messages in the class-side hierarchy of that class.
 ```smalltalk
 (ClassImplementedMessagesComplishonFetcher new
-		completionClass: (Smalltalk globals at: aRBMessageNode receiver name) classSide;
+		completionClass: (completionContext environmentAt: aRBMessageNode receiver name) classSide;
 		forHierarchy) withoutRepetition
 ```
 
@@ -156,11 +156,11 @@ If the AST node is a message whose receiver is a variable that has type informat
 Then continue with normal completion.
 There are two cases: variables starting with `a` such as `aPoint` and variables starting with `an` such as `anASTCache`.
 ```smalltalk
-Smalltalk globals at: aRBMessageNode receiver name allButFirst asSymbol ifPresent: [ :class |
+completionContext environmentAt: aRBMessageNode receiver name allButFirst asSymbol ifPresent: [ :class |
 			^ (ClassImplementedMessagesComplishonFetcher new
 				completionClass: class;
 				forHierarchy), PackageImplementedMessagesComplishonFetcher new  ].
-Smalltalk globals at: (aRBMessageNode receiver name allButFirst: 2) asSymbol ifPresent: [ :class |
+completionContext environmentAt: (aRBMessageNode receiver name allButFirst: 2) asSymbol ifPresent: [ :class |
 			^ (ClassImplementedMessagesComplishonFetcher new
 				completionClass: class;
 				forHierarchy), PackageImplementedMessagesComplishonFetcher new  ]
