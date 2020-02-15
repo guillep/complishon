@@ -20,6 +20,7 @@ SystemCompletionContext class >> engine: aCompletionEngine class: aClass source:
 			complishonClass: aClass;
 			complishonEnvironment: ComplishonSystemEnvironment new;
 			yourself);
+		engine: aCompletionEngine;
 		source: aString;
 		position: anInteger;
 		yourself
@@ -46,7 +47,9 @@ SystemCompletionContext >> complishon [
 	| node fetcher |
 	complishon ifNotNil: [ ^ complishon ].
 
-	node := (RBParser parseFaultyMethod: source) nodeForOffset: position.
+	node := (self isWorkspace
+		ifTrue: [ RBParser parseFaultyExpression: source ]
+		ifFalse: [ RBParser parseFaultyMethod: source ]) nodeForOffset: position.
 	fetcher := node acceptVisitor: self.
 	complishonContext astNode: node.
 	complishon := Complishon onContext: complishonContext fetcher: fetcher.
@@ -95,6 +98,12 @@ SystemCompletionContext >> hasEntries [
 SystemCompletionContext >> hasMessage [
 	
 	^ false
+]
+
+{ #category : #testing }
+SystemCompletionContext >> isWorkspace [
+	
+	^ engine notNil and: [ engine isScripting ]
 ]
 
 { #category : #narrowing }
@@ -159,6 +168,18 @@ SystemCompletionContext >> visitMethodNode: aRBMethodNode [
 
 	"We are maybe trying to redefine an existing method in the package?"
 	^ PackageImplementedMessagesComplishonFetcher new
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> visitParseErrorNode: aRBParseErrorNode [ 
+	
+	^ EmptyComplishonFetcher new
+]
+
+{ #category : #visiting }
+SystemCompletionContext >> visitSelfNode: aRBSelfNode [ 
+	
+	^ EmptyComplishonFetcher new
 ]
 
 { #category : #visiting }

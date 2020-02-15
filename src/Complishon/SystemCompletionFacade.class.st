@@ -11,6 +11,11 @@ Class {
 	#category : #'Complishon-SystemIntegration'
 }
 
+{ #category : #testing }
+SystemCompletionFacade class >> isCompletionEnabled [
+	^true
+]
+
 { #category : #menu }
 SystemCompletionFacade >> closeMenu [
 
@@ -147,6 +152,14 @@ SystemCompletionFacade >> invalidateEditorMorph [
 { #category : #menu }
 SystemCompletionFacade >> isMenuOpen [
 	^menuMorph notNil
+]
+
+{ #category : #testing }
+SystemCompletionFacade >> isScripting [
+
+	^ self editor 
+		ifNotNil: [ self editor isScripting ]
+		ifNil: [ false ]
 ]
 
 { #category : #menu }

@@ -13,6 +13,13 @@ ComposedComplishonFetcher >> add: aComplishon [
 	subcomplishons add: aComplishon
 ]
 
+{ #category : #resetting }
+ComposedComplishonFetcher >> context: anObject [
+	
+	super context: anObject.
+	subcomplishons do: [ :each | each context: anObject ]
+]
+
 { #category : #accessing }
 ComposedComplishonFetcher >> entriesInContext: aContext do: aBlock [
 	
