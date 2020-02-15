@@ -24,6 +24,14 @@ ClassBasedComplishonFetcher >> completionClass: anObject [
 ]
 
 { #category : #'hierarchy-fetching' }
+ClassBasedComplishonFetcher >> forHierarchy [
+	
+	^ HierarchyComplishonFetcher new
+		complishonFetcher: self;
+		yourself
+]
+
+{ #category : #'hierarchy-fetching' }
 ClassBasedComplishonFetcher >> onSuperclass [
 	
 	completionClass superclass

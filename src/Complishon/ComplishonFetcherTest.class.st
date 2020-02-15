@@ -1,17 +1,20 @@
 Class {
 	#name : #ComplishonFetcherTest,
-	#superclass : #BasicComplishonTest,
+	#superclass : #BasicFetcherTest,
 	#category : #'Complishon-Tests'
 }
 
 { #category : #tests }
+ComplishonFetcherTest >> setUp [
+
+	super setUp.
+	fetcher := InstanceVariableComplishonFetcher new.
+	fetcher context: self context.
+	fetcher := fetcher select: [ :e | false ].
+]
+
+{ #category : #tests }
 ComplishonFetcherTest >> testComplishonWithNoResultsShouldBeAtEnd [
 
-	| c |
-	c := InstanceVariableComplishonFetcher new.
-	c context: self context.
-	
-	c := c select: [ :e | false ].
-	
-	self assert: c atEnd
+	self assert: self fetcher atEnd
 ]

@@ -10,6 +10,7 @@ BasicComplishonTest >> context [
 		complishonClass:
 			(ComplishonMockClass new
 				instanceVariables: {'a' . 'b' . 'c'};
+				selectors: #( ma mb mc );
 				yourself);
 		complishonEnvironment:
 			(ComplishonMockEnvironment new

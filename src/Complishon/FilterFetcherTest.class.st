@@ -1,17 +1,15 @@
 Class {
 	#name : #FilterFetcherTest,
-	#superclass : #BasicComplishonTest,
+	#superclass : #BasicFetcherWithElementsTest,
 	#category : #'Complishon-Tests'
 }
 
 { #category : #tests }
-FilterFetcherTest >> testFilterComplishonBeforeFetchingShouldNarrowResults [
+FilterFetcherTest >> setUp [
 
-	| c |
-	c := InstanceVariableComplishonFetcher new.
-	c context: self context.
-	
-	c := c select: [ :e | (e beginsWith: 'a') not ].
-	
-	self assert: c next equals: 'b'
+	super setUp.
+	fetcher := InstanceVariableComplishonFetcher new.
+	fetcher context: self context.
+	fetcher := fetcher select: [ :e | (e beginsWith: 'a') not ].
+	expectedElements := #(b c).
 ]

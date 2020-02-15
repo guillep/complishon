@@ -16,6 +16,11 @@ SystemCompletionFacade class >> isCompletionEnabled [
 	^true
 ]
 
+{ #category : #smartis }
+SystemCompletionFacade >> captureNavigationKeys [
+	^ NECPreferences captureNavigationKeys
+]
+
 { #category : #menu }
 SystemCompletionFacade >> closeMenu [
 

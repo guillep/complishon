@@ -220,7 +220,10 @@ SystemCompletionContext >> visitMessageNode: aRBMessageNode [
 SystemCompletionContext >> visitMethodNode: aRBMethodNode [ 
 
 	"We are maybe trying to redefine an existing method in the package?"
-	^ PackageImplementedMessagesComplishonFetcher new
+	^ self
+		configureFetcherForNode: aRBMethodNode
+		using: [ PackageImplementedMessagesComplishonFetcher new ]
+		narrowingWith: aRBMethodNode selector
 ]
 
 { #category : #visiting }

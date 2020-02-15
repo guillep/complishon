@@ -48,14 +48,6 @@ ComplishonFetcher >> entriesInContext: aContext do: aBlock [
 	^ self subclassResponsibility
 ]
 
-{ #category : #composing }
-ComplishonFetcher >> forHierarchy [
-	
-	^ HierarchyComplishonFetcher new
-		complishonFetcher: self;
-		yourself
-]
-
 { #category : #accessing }
 ComplishonFetcher >> generator [
 	
