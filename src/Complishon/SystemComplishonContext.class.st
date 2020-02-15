@@ -136,7 +136,21 @@ SystemComplishonContext >> fetcherForMessageNode: aRBMessageNode [
 		Smalltalk globals at: aRBMessageNode receiver name ifPresent: [ :class |
 			^ ClassImplementedMessagesComplishonFetcher new
 				completionClass: class classSide;
-				forHierarchy  ] ].
+				forHierarchy  ].
+		
+		"Heuristic: variables with type information.
+		This is maybe an instance of this class, autocomplete for that class first, then continue with normal completion.
+		E.g., aCollection => use completion for Collection class first, then normal collection.
+		There are two cases: aPoint and anASTCache"
+		Smalltalk globals at: aRBMessageNode receiver name allButFirst asSymbol ifPresent: [ :class |
+			^ (ClassImplementedMessagesComplishonFetcher new
+				completionClass: class;
+				forHierarchy), PackageImplementedMessagesComplishonFetcher new  ].
+		Smalltalk globals at: (aRBMessageNode receiver name allButFirst: 2) asSymbol ifPresent: [ :class |
+			^ (ClassImplementedMessagesComplishonFetcher new
+				completionClass: class;
+				forHierarchy), PackageImplementedMessagesComplishonFetcher new  ]
+	].
 
 	^ PackageImplementedMessagesComplishonFetcher new
 ]
