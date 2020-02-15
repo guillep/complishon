@@ -7,5 +7,5 @@ Class {
 { #category : #accessing }
 ComplishonSystemEnvironment >> globals [
 	
-	^ Smalltalk globals keys
+	^ Smalltalk globals keys sorted
 ]
