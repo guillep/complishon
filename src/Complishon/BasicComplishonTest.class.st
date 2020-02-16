@@ -7,6 +7,12 @@ Class {
 	#category : #'Complishon-Tests'
 }
 
+{ #category : #testing }
+BasicComplishonTest class >> isAbstract [
+
+	^ self == BasicComplishonTest
+]
+
 { #category : #tests }
 BasicComplishonTest >> context [
 	| innerNode |

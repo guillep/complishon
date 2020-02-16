@@ -26,6 +26,12 @@ SystemComplishonContext class >> engine: aCompletionEngine class: aClass source:
 		yourself
 ]
 
+{ #category : #activating }
+SystemComplishonContext >> activateEntryAt: anIndex [
+
+	(self entries at: anIndex) activateOn: self
+]
+
 { #category : #smartis }
 SystemComplishonContext >> commonPrefix [
 	"Longest match among the typed text and all menu entries"
@@ -228,6 +234,12 @@ SystemComplishonContext >> position [
 { #category : #accessing }
 SystemComplishonContext >> position: anObject [
 	position := anObject
+]
+
+{ #category : #replacing }
+SystemComplishonContext >> replaceTokenInEditorWith: aString [
+	
+	engine replaceTokenInEditorWith: aString
 ]
 
 { #category : #accessing }
