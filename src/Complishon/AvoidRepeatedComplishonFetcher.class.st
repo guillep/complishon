@@ -1,3 +1,6 @@
+"
+I'm a fetcher decorator. I ensure that I will not return twice the same entity.
+"
 Class {
 	#name : #AvoidRepeatedComplishonFetcher,
 	#superclass : #ComplishonFetcher,
