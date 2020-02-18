@@ -1,3 +1,7 @@
+"
+I'm a fetcher composed of a sequence of subfetchers. 
+When executed, I execute my subfetchers one by one.
+"
 Class {
 	#name : #ComposedComplishonFetcher,
 	#superclass : #ComplishonFetcher,

@@ -1,3 +1,6 @@
+"
+I'm a fetcher simply enumerating a collection of items defined using the collection: message.
+"
 Class {
 	#name : #GenericComplishonFetcher,
 	#superclass : #ComplishonFetcher,
