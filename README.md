@@ -8,20 +8,23 @@ This package is meant for Pharo 9.0 for now. It is highly experimental, there ar
 
 ## Installing
 
-If you want to install it globally in the system, evaluate the following expression:
+If you want to install it globally in the system, evaluate the following expression which will tell the completion engine to use our completion context:
 ```smalltalk
-RubSmalltalkEditor completionEngineClass: SystemComplishonEngine
+CompletionEngine contextClass: SystemComplishonContext.
 ```
 
 Otherwise, you can add it per spec text component as follows:
 
 ```smalltalk
+e := CompletionEngine new.
+e contextClass: SystemComplishonContext.
 p := SpCodePresenter new
-	behavior: MyClassToAutoComplete;
+	behavior: SpCodePresenter;
 	syntaxHighlight: true;
-	completionEngine: SystemComplishonEngine new.;
+	completionEngine: e;
 	yourself.
 p openWithSpec.
+e
 ```
 
 ## Architecture

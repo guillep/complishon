@@ -22,6 +22,12 @@ ComplishonSystemEnvironment class >> new [
 ]
 
 { #category : #accessing }
+ComplishonSystemEnvironment >> at: aString ifPresent: aBlockClosure [
+	
+	systemDictionary at: aString ifPresent: aBlockClosure
+]
+
+{ #category : #accessing }
 ComplishonSystemEnvironment >> environmentAt: aKey ifPresent: aBlock [
 	
 	^ systemDictionary at: aKey ifPresent: aBlock
