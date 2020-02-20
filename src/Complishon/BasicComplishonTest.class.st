@@ -28,7 +28,7 @@ BasicComplishonTest >> context [
 				body: (RBSequenceNode
 					temporaries: (#(blockTemporary) collect: [ :e | RBVariableNode named: e ])
 					statements: { innerNode := RBVariableNode named: '' })}).
-	^ context := ComplishonContext new
+	^ context := ComplishonContextForTest new
 		complishonClass:
 			(ComplishonMockClass new
 				instanceVariables: #(a b c);

@@ -1,42 +1,42 @@
 Class {
-	#name : #ComplishonContext,
+	#name : #ComplishonContextForTest,
 	#superclass : #Object,
 	#instVars : [
 		'complishonClass',
 		'complishonEnvironment',
 		'astNode'
 	],
-	#category : #'Complishon-Core'
+	#category : #'Complishon-Tests'
 }
 
 { #category : #accessing }
-ComplishonContext >> complishonClass [
+ComplishonContextForTest >> complishonClass [
 	^ complishonClass
 ]
 
 { #category : #accessing }
-ComplishonContext >> complishonClass: anObject [
+ComplishonContextForTest >> complishonClass: anObject [
 	complishonClass := anObject
 ]
 
 { #category : #accessing }
-ComplishonContext >> complishonEnvironment [
+ComplishonContextForTest >> complishonEnvironment [
 	^ complishonEnvironment
 ]
 
 { #category : #accessing }
-ComplishonContext >> complishonEnvironment: anObject [
+ComplishonContextForTest >> complishonEnvironment: anObject [
 	complishonEnvironment := anObject
 ]
 
 { #category : #accessing }
-ComplishonContext >> complishonPackage [
+ComplishonContextForTest >> complishonPackage [
 	
 	^ self complishonClass package
 ]
 
 { #category : #accessing }
-ComplishonContext >> copyWithClass: aClass [
+ComplishonContextForTest >> copyWithClass: aClass [
 
 	^ self copy
 		complishonClass: aClass;
@@ -44,7 +44,7 @@ ComplishonContext >> copyWithClass: aClass [
 ]
 
 { #category : #accessing }
-ComplishonContext >> environmentAt: aKey ifPresent: aBlock [
+ComplishonContextForTest >> environmentAt: aKey ifPresent: aBlock [
 
 	self complishonEnvironment at: aKey ifPresent: aBlock
 ]
