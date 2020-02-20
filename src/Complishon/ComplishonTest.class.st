@@ -13,7 +13,6 @@ ComplishonTest >> setUp [
 	super setUp.
 	self context complishonClass addInstanceVariable: 'ba'.
 	complishon := Complishon
-		onContext: context
 		fetcher: (InstanceVariableComplishonFetcher new
 			completionClass: context complishonClass)
 ]
@@ -47,9 +46,7 @@ ComplishonTest >> testComplishonWithElementsToFetchShouldHaveMore [
 ComplishonTest >> testComplishonWithNoElementsToFetchShouldNotHaveMore [
 
 	| c |
-	c := Complishon
-		onContext: self context
-		fetcher: (InstanceVariableComplishonFetcher new
+	c := Complishon fetcher: (InstanceVariableComplishonFetcher new
 			completionClass: self context complishonClass).
 	c fetchAll.	
 	self deny: c hasMoreElements

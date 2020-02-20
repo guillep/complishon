@@ -52,7 +52,7 @@ ComplishonASTHeuristicsBuilder >> configureFetcherForNode: aNode using: aBlock n
 	
 	| fetcher complishon2 |
 	fetcher := aBlock value.
-	complishon2 := Complishon onContext: complishonContext complishonContext fetcher: fetcher.
+	complishon2 := Complishon fetcher: fetcher.
 	complishon2 filterWithString: aString.
 	^ complishon2
 ]

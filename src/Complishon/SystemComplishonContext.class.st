@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'engine',
-		'complishonContext',
 		'source',
 		'position',
 		'complishon',
@@ -16,10 +15,6 @@ Class {
 SystemComplishonContext class >> engine: aCompletionEngine class: aClass source: aString position: anInteger [
 
 	^ self new
-		complishonContext: (ComplishonContext new
-			complishonClass: aClass;
-			complishonEnvironment: ComplishonSystemEnvironment new;
-			yourself);
 		engine: aCompletionEngine;
 		source: aString;
 		yourself
@@ -57,23 +52,13 @@ SystemComplishonContext >> complishon [
 { #category : #accessing }
 SystemComplishonContext >> complishonClass [
 	
-	^ complishonContext complishonClass
-]
-
-{ #category : #accessing }
-SystemComplishonContext >> complishonContext [
-	^ complishonContext
-]
-
-{ #category : #accessing }
-SystemComplishonContext >> complishonContext: anObject [
-	complishonContext := anObject
+	^ engine completionClass
 ]
 
 { #category : #accessing }
 SystemComplishonContext >> complishonEnvironment [
 	
-	^ complishonContext complishonEnvironment
+	^ ComplishonSystemEnvironment new
 ]
 
 { #category : #accessing }
@@ -100,7 +85,7 @@ SystemComplishonContext >> entryCount [
 { #category : #accessing }
 SystemComplishonContext >> environmentAt: aString ifPresent: aBlockClosure [ 
 	
-	^ complishonContext environmentAt: aString ifPresent: aBlockClosure
+	^ self complishonEnvironment environmentAt: aString ifPresent: aBlockClosure
 ]
 
 { #category : #testing }

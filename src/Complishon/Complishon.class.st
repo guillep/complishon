@@ -4,17 +4,23 @@ Class {
 	#instVars : [
 		'results',
 		'fetcher',
-		'context',
 		'completionString'
 	],
 	#category : #'Complishon-Core'
 }
 
 { #category : #'instance creation' }
+Complishon class >> fetcher: aFetcher [
+	
+	^ self new
+		fetcher: aFetcher;
+		yourself
+]
+
+{ #category : #'instance creation' }
 Complishon class >> onContext: aComplishonContext fetcher: aFetcher [
 	
 	^ self new
-		context: aComplishonContext;
 		fetcher: aFetcher;
 		yourself
 ]
@@ -23,16 +29,6 @@ Complishon class >> onContext: aComplishonContext fetcher: aFetcher [
 Complishon >> completionToken [
 	
 	^ completionString
-]
-
-{ #category : #accessing }
-Complishon >> context [
-	^ context
-]
-
-{ #category : #accessing }
-Complishon >> context: anObject [
-	context := anObject
 ]
 
 { #category : #enumerating }
