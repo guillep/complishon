@@ -25,11 +25,10 @@ HierarchyComplishonFetcher >> context: aContext [
 ]
 
 { #category : #accessing }
-HierarchyComplishonFetcher >> entriesInContext: aContext do: aBlock [
-
+HierarchyComplishonFetcher >> entriesDo: aBlock [
 	| currentComplishonFetcher |
 	currentComplishonFetcher := complishonFetcher.
-	[ currentComplishonFetcher isEmptyComplishonFetcher ] whileFalse: [
-		currentComplishonFetcher entriesInContext: aContext do: aBlock.
-		currentComplishonFetcher := currentComplishonFetcher onSuperclass ]
+	[ currentComplishonFetcher isEmptyComplishonFetcher ]
+		whileFalse: [ currentComplishonFetcher entriesDo: aBlock.
+			currentComplishonFetcher := currentComplishonFetcher onSuperclass ]
 ]

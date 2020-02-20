@@ -1,14 +1,27 @@
 Class {
 	#name : #MethodVariableComplishonFetcher,
 	#superclass : #ComplishonFetcher,
+	#instVars : [
+		'complishonASTNode'
+	],
 	#category : #'Complishon-Fetchers'
 }
 
 { #category : #accessing }
-MethodVariableComplishonFetcher >> entriesInContext: aContext do: aBlock [
+MethodVariableComplishonFetcher >> complishonASTNode [
+	^ complishonASTNode
+]
+
+{ #category : #accessing }
+MethodVariableComplishonFetcher >> complishonASTNode: anObject [
+	complishonASTNode := anObject
+]
+
+{ #category : #accessing }
+MethodVariableComplishonFetcher >> entriesDo: aBlock [
 
 	| currentNode |
-	currentNode := aContext complishonASTNode.
+	currentNode := complishonASTNode.
 	[ currentNode notNil ] whileTrue: [ 
 		"ASTs are strange.
 		There is no way to ask the variables defined in the scope in an ordered way.

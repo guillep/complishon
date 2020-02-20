@@ -9,6 +9,6 @@ InstanceVariableFetcherTest >> setUp [
 
 	super setUp.
 	fetcher := InstanceVariableComplishonFetcher new.
-	fetcher context: self context.
+	fetcher completionClass: self context complishonClass.
 	expectedElements := #( a b c )
 ]

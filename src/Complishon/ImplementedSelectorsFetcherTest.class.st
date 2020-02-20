@@ -9,6 +9,6 @@ ImplementedSelectorsFetcherTest >> setUp [
 
 	super setUp.
 	fetcher := ClassImplementedMessagesComplishonFetcher new.
-	fetcher context: self context.
+	fetcher completionClass: self context complishonClass.
 	expectedElements := #(ma mb mc).
 ]

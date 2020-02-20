@@ -10,17 +10,6 @@ Class {
 }
 
 { #category : #accessing }
-ComplishonContext >> astNode: aNode [ 
-	astNode := aNode
-]
-
-{ #category : #accessing }
-ComplishonContext >> complishonASTNode [
-	
-	^ astNode
-]
-
-{ #category : #accessing }
 ComplishonContext >> complishonClass [
 	^ complishonClass
 ]

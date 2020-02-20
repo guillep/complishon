@@ -14,6 +14,5 @@ RepeatedHierarchyImplementedSelectorsFetcherTest >> setUp [
 		withoutRepetition.
 	self context complishonClass superclass
 		selectors: (self context complishonClass superclass selectors copyWith: 'ma').
-	fetcher context: self context.
 	expectedElements := #(ma mb mc superma supermb supermc).
 ]

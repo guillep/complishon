@@ -1,15 +1,24 @@
 Class {
 	#name : #PackageImplementedMessagesComplishonFetcher,
 	#superclass : #ComplishonFetcher,
+	#instVars : [
+		'complishonPackage'
+	],
 	#category : #'Complishon-Fetchers'
 }
 
 { #category : #accessing }
-PackageImplementedMessagesComplishonFetcher >> entriesInContext: aContext do: aBlock [
+PackageImplementedMessagesComplishonFetcher >> complishonPackage [
+	^ complishonPackage
+]
+
+{ #category : #accessing }
+PackageImplementedMessagesComplishonFetcher >> complishonPackage: anObject [
+	complishonPackage := anObject
+]
+
+{ #category : #accessing }
+PackageImplementedMessagesComplishonFetcher >> entriesDo: aBlock [
 	
-	aContext complishonClass ifNil: [
-		"Playground? Do nothing for now"
-		^ self
-	].
-	SystemNavigation new allSentMessagesInPackage: aContext complishonPackage do: aBlock
+	SystemNavigation new allSentMessagesInPackage: complishonPackage do: aBlock
 ]

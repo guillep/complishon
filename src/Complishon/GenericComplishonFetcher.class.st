@@ -24,7 +24,7 @@ GenericComplishonFetcher >> collection: aCollection [
 ]
 
 { #category : #accessing }
-GenericComplishonFetcher >> entriesInContext: aContext do: aBlock [
+GenericComplishonFetcher >> entriesDo: aBlock [
 
 	collection do: aBlock
 ]

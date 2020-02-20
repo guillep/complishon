@@ -8,9 +8,10 @@ Class {
 ComposedFetcherTest >> setUp [
 
 	super setUp.
-	fetcher := InstanceVariableComplishonFetcher new
-		andThen: [ GlobalVariableComplishonFetcher new ].
-	fetcher context: self context.
+	fetcher := (InstanceVariableComplishonFetcher new
+			completionClass: self context complishonClass)
+				andThen: [ GlobalVariableComplishonFetcher new
+					complishonEnvironment: self context complishonEnvironment ].
 	expectedElements := #(a b c A B C)
 ]
 

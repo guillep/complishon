@@ -18,13 +18,12 @@ AvoidRepeatedComplishonFetcher >> complishonFetcher: anotherFetcher [
 ]
 
 { #category : #accessing }
-AvoidRepeatedComplishonFetcher >> entriesInContext: aContext do: aBlock [
-	
-	fetcher context: aContext.
-	fetcher entriesInContext: aContext do: [ :elem |
-		(self hasAlreadyReturned: elem) ifFalse: [ 
-			elements add: elem.
-			aBlock value: elem ] ]
+AvoidRepeatedComplishonFetcher >> entriesDo: aBlock [
+	fetcher
+		entriesDo: [ :elem | 
+			(self hasAlreadyReturned: elem)
+				ifFalse: [ elements add: elem.
+					aBlock value: elem ] ]
 ]
 
 { #category : #accessing }

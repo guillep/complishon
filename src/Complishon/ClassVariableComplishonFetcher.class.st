@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #entries }
-ClassVariableComplishonFetcher >> entriesInContext: aContext do: aBlock [
+ClassVariableComplishonFetcher >> entriesDo: aBlock [
 	
 	self completionClass instanceSide classVarNames do: aBlock
 ]

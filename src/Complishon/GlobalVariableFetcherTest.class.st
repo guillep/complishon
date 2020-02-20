@@ -9,6 +9,6 @@ GlobalVariableFetcherTest >> setUp [
 
 	super setUp.
 	fetcher := GlobalVariableComplishonFetcher new.
-	fetcher context: self context.
+	fetcher complishonEnvironment: self context complishonEnvironment.
 	expectedElements := #(A B C).
 ]

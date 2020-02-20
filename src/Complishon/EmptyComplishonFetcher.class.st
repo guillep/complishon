@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #accessing }
-EmptyComplishonFetcher >> entriesInContext: aContext do: aBlock [
+EmptyComplishonFetcher >> entriesDo: aBlock [
 
 	"Nothing"
 ]

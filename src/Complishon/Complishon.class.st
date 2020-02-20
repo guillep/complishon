@@ -20,6 +20,12 @@ Complishon class >> onContext: aComplishonContext fetcher: aFetcher [
 ]
 
 { #category : #accessing }
+Complishon >> completionToken [
+	
+	^ completionString
+]
+
+{ #category : #accessing }
 Complishon >> context [
 	^ context
 ]
@@ -57,8 +63,8 @@ Complishon >> fetcher [
 
 { #category : #accessing }
 Complishon >> fetcher: anObject [
-	fetcher := anObject.
-	fetcher context: context
+
+	fetcher := anObject
 ]
 
 { #category : #'api-filtering' }

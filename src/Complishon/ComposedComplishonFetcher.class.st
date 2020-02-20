@@ -25,10 +25,8 @@ ComposedComplishonFetcher >> context: anObject [
 ]
 
 { #category : #accessing }
-ComposedComplishonFetcher >> entriesInContext: aContext do: aBlock [
-	
-	subcomplishons do: [ :complishon |
-		complishon entriesInContext: aContext do: aBlock ]
+ComposedComplishonFetcher >> entriesDo: aBlock [
+	subcomplishons do: [ :complishon | complishon entriesDo: aBlock ]
 ]
 
 { #category : #adding }

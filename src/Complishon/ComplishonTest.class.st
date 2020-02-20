@@ -10,13 +10,12 @@ Class {
 { #category : #tests }
 ComplishonTest >> setUp [
 
-	| context |
 	super setUp.
-	(context := self context)
-		complishonClass addInstanceVariable: 'ba'.
+	self context complishonClass addInstanceVariable: 'ba'.
 	complishon := Complishon
 		onContext: context
-		fetcher: InstanceVariableComplishonFetcher new
+		fetcher: (InstanceVariableComplishonFetcher new
+			completionClass: context complishonClass)
 ]
 
 { #category : #tests }
@@ -50,7 +49,8 @@ ComplishonTest >> testComplishonWithNoElementsToFetchShouldNotHaveMore [
 	| c |
 	c := Complishon
 		onContext: self context
-		fetcher: InstanceVariableComplishonFetcher new.
+		fetcher: (InstanceVariableComplishonFetcher new
+			completionClass: self context complishonClass).
 	c fetchAll.	
 	self deny: c hasMoreElements
 ]

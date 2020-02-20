@@ -2,7 +2,8 @@ Class {
 	#name : #BasicComplishonTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'context'
+		'context',
+		'innerNode'
 	],
 	#category : #'Complishon-Tests'
 }
@@ -15,8 +16,6 @@ BasicComplishonTest class >> isAbstract [
 
 { #category : #tests }
 BasicComplishonTest >> context [
-	| innerNode |
-	
 	context ifNotNil: [ ^ context ].
 	
 	RBMethodNode
@@ -45,6 +44,5 @@ BasicComplishonTest >> context [
 			(ComplishonMockEnvironment new
 				globals: {'A' . 'B' . 'C'};
 				yourself);
-		astNode: innerNode;
 		yourself.
 ]

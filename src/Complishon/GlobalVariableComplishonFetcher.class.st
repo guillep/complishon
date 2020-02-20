@@ -1,11 +1,24 @@
 Class {
 	#name : #GlobalVariableComplishonFetcher,
 	#superclass : #ComplishonFetcher,
+	#instVars : [
+		'complishonEnvironment'
+	],
 	#category : #'Complishon-Fetchers'
 }
 
 { #category : #accessing }
-GlobalVariableComplishonFetcher >> entriesInContext: aContext do: aBlock [
+GlobalVariableComplishonFetcher >> complishonEnvironment [
+	^ complishonEnvironment
+]
 
-	aContext complishonEnvironment globals do: aBlock
+{ #category : #accessing }
+GlobalVariableComplishonFetcher >> complishonEnvironment: anObject [
+	complishonEnvironment := anObject
+]
+
+{ #category : #accessing }
+GlobalVariableComplishonFetcher >> entriesDo: aBlock [
+
+	complishonEnvironment globals do: aBlock
 ]

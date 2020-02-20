@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-ClassImplementedMessagesComplishonFetcher >> entriesInContext: aContext do: aBlock [
+ClassImplementedMessagesComplishonFetcher >> entriesDo: aBlock [
 	
 	self completionClass selectorsDo: aBlock
 ]

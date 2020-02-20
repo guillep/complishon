@@ -15,7 +15,7 @@ ClassBasedComplishonFetcher class >> isAbstract [
 
 { #category : #accessing }
 ClassBasedComplishonFetcher >> completionClass [
-	^ completionClass ifNil: [ context complishonClass ]
+	^ completionClass
 ]
 
 { #category : #accessing }

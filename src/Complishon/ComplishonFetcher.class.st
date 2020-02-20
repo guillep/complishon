@@ -42,7 +42,6 @@ Class {
 	#name : #ComplishonFetcher,
 	#superclass : #Object,
 	#instVars : [
-		'context',
 		'generator'
 	],
 	#category : #'Complishon-Core'
@@ -73,17 +72,7 @@ ComplishonFetcher >> atEnd [
 ]
 
 { #category : #accessing }
-ComplishonFetcher >> context [
-	^ context
-]
-
-{ #category : #accessing }
-ComplishonFetcher >> context: anObject [
-	context := anObject
-]
-
-{ #category : #accessing }
-ComplishonFetcher >> entriesInContext: aContext do: aBlock [
+ComplishonFetcher >> entriesDo: aBlock [
 	"Key method for subclasses to define their semantics."
 	
 	^ self subclassResponsibility
@@ -91,10 +80,9 @@ ComplishonFetcher >> entriesInContext: aContext do: aBlock [
 
 { #category : #accessing }
 ComplishonFetcher >> generator [
-	
-	^ generator ifNil: [
+	^ generator ifNil: [ 
 		generator := Generator on: [ :g | 
-			self entriesInContext: context do: [ :entry | g yield: entry ] ] ]
+			self entriesDo: [ :entry | g yield: entry ] ] ]
 ]
 
 { #category : #testing }
@@ -137,7 +125,6 @@ ComplishonFetcher >> select: aBlockClosure [
 	
 	^ FilterComplishonFetcher new
 		complishon: self;
-		context: context;
 		filterBlock: aBlockClosure;
 		yourself
 ]
