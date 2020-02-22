@@ -56,15 +56,6 @@ ComplishonFetcher >> , anotherFetcher [
 		yourself
 ]
 
-{ #category : #composing }
-ComplishonFetcher >> andThen: aBlockClosure [ 
-	
-	^ ComplishonFetcherSequence new
-		add: self;
-		add: aBlockClosure value;
-		yourself
-]
-
 { #category : #testing }
 ComplishonFetcher >> atEnd [
 	
