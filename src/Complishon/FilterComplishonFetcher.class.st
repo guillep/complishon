@@ -1,8 +1,7 @@
 Class {
 	#name : #FilterComplishonFetcher,
-	#superclass : #ComplishonFetcher,
+	#superclass : #ComplishonFetcherDecorator,
 	#instVars : [
-		'complishon',
 		'filterBlock'
 	],
 	#category : #'Complishon-Core'
@@ -11,12 +10,12 @@ Class {
 { #category : #accessing }
 FilterComplishonFetcher >> complishon: aComplishonToFilter [ 
 
-	complishon := aComplishonToFilter
+	decoree := aComplishonToFilter
 ]
 
 { #category : #accessing }
 FilterComplishonFetcher >> entriesDo: aBlockClosure [
-	complishon
+	decoree
 		entriesDo: [ :each | 
 			(filterBlock value: each)
 				ifTrue: [ aBlockClosure value: each ] ]
@@ -38,7 +37,7 @@ FilterComplishonFetcher >> narrowFilterBlock: aBlock [
 FilterComplishonFetcher >> reset [
 	
 	super reset.
-	complishon reset.
+	decoree reset.
 ]
 
 { #category : #filtering }
@@ -47,11 +46,11 @@ FilterComplishonFetcher >> select: aBlockClosure [
 	"Do not filter over a filter.
 	Instead, create a new filter over the original fetcher"
 	
-	^ complishon select: aBlockClosure
+	^ decoree select: aBlockClosure
 ]
 
 { #category : #filtering }
 FilterComplishonFetcher >> withoutFilter [
 	
-	^ complishon
+	^ decoree
 ]

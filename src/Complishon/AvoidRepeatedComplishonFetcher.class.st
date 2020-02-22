@@ -3,9 +3,8 @@ I'm a fetcher decorator. I ensure that I will not return twice the same entity.
 "
 Class {
 	#name : #AvoidRepeatedComplishonFetcher,
-	#superclass : #ComplishonFetcher,
+	#superclass : #ComplishonFetcherDecorator,
 	#instVars : [
-		'fetcher',
 		'elements'
 	],
 	#category : #'Complishon-Core'
@@ -14,12 +13,12 @@ Class {
 { #category : #accessing }
 AvoidRepeatedComplishonFetcher >> complishonFetcher: anotherFetcher [
 	
-	fetcher := anotherFetcher
+	decoree := anotherFetcher
 ]
 
 { #category : #accessing }
 AvoidRepeatedComplishonFetcher >> entriesDo: aBlock [
-	fetcher
+	decoree
 		entriesDo: [ :elem | 
 			(self hasAlreadyReturned: elem)
 				ifFalse: [ elements add: elem.
@@ -44,5 +43,5 @@ AvoidRepeatedComplishonFetcher >> reset [
 
 	super reset.
 	elements := Set new.
-	fetcher reset.
+	decoree reset.
 ]

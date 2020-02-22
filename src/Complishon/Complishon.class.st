@@ -75,6 +75,7 @@ Complishon >> filterWithString: aString [
 		ifFalse: [
 			"Smaller filter, reset results and filter"
 			results := OrderedCollection new.
+			fetcher reset.
 			fetcher := fetcher select: [ :e | aString isEmpty or: [ e beginsWith: aString ] ].
 		].
 	completionString := aString

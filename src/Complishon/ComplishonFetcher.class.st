@@ -50,7 +50,7 @@ Class {
 { #category : #composing }
 ComplishonFetcher >> , anotherFetcher [ 
 
-	^ ComposedComplishonFetcher new
+	^ ComplishonFetcherSequence new
 		add: self;
 		add: anotherFetcher;
 		yourself
@@ -59,7 +59,7 @@ ComplishonFetcher >> , anotherFetcher [
 { #category : #composing }
 ComplishonFetcher >> andThen: aBlockClosure [ 
 	
-	^ ComposedComplishonFetcher new
+	^ ComplishonFetcherSequence new
 		add: self;
 		add: aBlockClosure value;
 		yourself

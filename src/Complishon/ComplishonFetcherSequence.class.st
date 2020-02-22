@@ -3,7 +3,7 @@ I'm a fetcher composed of a sequence of subfetchers.
 When executed, I execute my subfetchers one by one.
 "
 Class {
-	#name : #ComposedComplishonFetcher,
+	#name : #ComplishonFetcherSequence,
 	#superclass : #ComplishonFetcher,
 	#instVars : [
 		'subcomplishons'
@@ -12,32 +12,32 @@ Class {
 }
 
 { #category : #adding }
-ComposedComplishonFetcher >> add: aComplishon [
+ComplishonFetcherSequence >> add: aComplishon [
 	
 	subcomplishons add: aComplishon
 ]
 
 { #category : #resetting }
-ComposedComplishonFetcher >> context: anObject [
+ComplishonFetcherSequence >> context: anObject [
 	
 	super context: anObject.
 	subcomplishons do: [ :each | each context: anObject ]
 ]
 
 { #category : #accessing }
-ComposedComplishonFetcher >> entriesDo: aBlock [
+ComplishonFetcherSequence >> entriesDo: aBlock [
 	subcomplishons do: [ :complishon | complishon entriesDo: aBlock ]
 ]
 
 { #category : #adding }
-ComposedComplishonFetcher >> initialize [
+ComplishonFetcherSequence >> initialize [
 
 	super initialize.
 	subcomplishons := OrderedCollection new
 ]
 
 { #category : #resetting }
-ComposedComplishonFetcher >> reset [
+ComplishonFetcherSequence >> reset [
 	
 	super reset.
 	subcomplishons do: [ :each | each reset ].

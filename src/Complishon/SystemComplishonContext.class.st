@@ -6,7 +6,8 @@ Class {
 		'source',
 		'position',
 		'complishon',
-		'complishonBuilder'
+		'complishonBuilder',
+		'complishonClass'
 	],
 	#category : #'Complishon-SystemIntegration'
 }
@@ -15,6 +16,7 @@ Class {
 SystemComplishonContext class >> engine: aCompletionEngine class: aClass source: aString position: anInteger [
 
 	^ self new
+		complishonClass: aClass;
 		engine: aCompletionEngine;
 		source: aString;
 		yourself
@@ -50,9 +52,20 @@ SystemComplishonContext >> complishon [
 ]
 
 { #category : #accessing }
+SystemComplishonContext >> complishon: anObject [
+	complishon := anObject
+]
+
+{ #category : #accessing }
 SystemComplishonContext >> complishonClass [
 	
-	^ engine completionClass
+	^ complishonClass
+]
+
+{ #category : #accessing }
+SystemComplishonContext >> complishonClass: aClass [
+	
+	^ complishonClass := aClass
 ]
 
 { #category : #accessing }
@@ -115,7 +128,7 @@ SystemComplishonContext >> isWorkspace [
 
 { #category : #narrowing }
 SystemComplishonContext >> narrowWith: aString [ 
-	
+
 	self complishon filterWithString: aString
 ]
 
