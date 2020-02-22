@@ -1,6 +1,8 @@
 "
 I'm a fetcher composed of a sequence of subfetchers. 
 When executed, I execute my subfetchers one by one.
+
+Sequences are created by sending the message #, between two fetchers.
 "
 Class {
 	#name : #ComplishonFetcherSequence,

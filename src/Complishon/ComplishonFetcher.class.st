@@ -3,32 +3,30 @@ I'm a kind of iterator (in the sense of GoF) that goes one by one over ""a strea
 
 I provide access to the elements I return one by one (using the next message) in a controlled manner. 
 At the root, I define the architecture to yield one entry at a time. 
-The next method invokes the hook method entriesInContext:do: with the generator yielding capacibility.
-This way any use of next will be done step by step. 
+The next method invokes the hook method #entriesDo: with a generator yielding capability.
+This way any use of #next will be done step by step. 
 
-My subclasses implement the following method entriesInContext: aContext do: aBlock which defines the semantics of element fetching
-
-Here is a typical use (not mentioning the context of the completion, usually a tree and environment).
+My subclasses implement the following method entriesDo: aBlock which defines the semantics of element fetching
+Here is a simple example where a generic fetcher is used on a collection, and wrapped by a fetcher that avoids returning duplicate elements.
 
 [[[
 fetcher := AvoidRepeatedComplishonFetcher new
-				complishonFetcher: (GenericComplishonFetcher onCollection: #( a b b a c )).
+	complishonFetcher: (GenericComplishonFetcher onCollection: #( a b b a c )).
 ]]]
 	
 Here are two examples of definition
 
 [[[
-AvoidRepeatedCompleshonFecther >> entriesInContext: aContext do: aBlock
-	
-	fetcher context: aContext.
-	fetcher entriesInContext: aContext do: [ :elem |
-		(self hasAlreadyReturned: elem) ifFalse: [ 
-			elements add: elem.
-			aBlock value: elem ] ]
+AvoidRepeatedComplishonFecther >> entriesDo: aBlock
+	decoree
+		entriesDo: [ :elem | 
+			(self hasAlreadyReturned: elem)
+				ifFalse: [ elements add: elem.
+					aBlock value: elem ] ]
 ]]]
 
 [[[
-GenericComplishonFetcher >> entriesInContext: aContext do: aBlock
+GenericComplishonFetcher >> entriesDo: aBlock
 
 	collection do: aBlock
 ]]]
@@ -62,14 +60,14 @@ ComplishonFetcher >> atEnd [
 	^ self generator atEnd
 ]
 
-{ #category : #accessing }
+{ #category : #enumerating }
 ComplishonFetcher >> entriesDo: aBlock [
 	"Key method for subclasses to define their semantics."
 	
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ComplishonFetcher >> generator [
 	^ generator ifNil: [ 
 		generator := Generator on: [ :g | 
@@ -82,13 +80,13 @@ ComplishonFetcher >> isEmptyComplishonFetcher [
 	^ false
 ]
 
-{ #category : #filtering }
+{ #category : #composing }
 ComplishonFetcher >> narrowFilterBlock: aBlockClosure [ 
 	
 	^ self select: aBlockClosure
 ]
 
-{ #category : #accessing }
+{ #category : #fetching }
 ComplishonFetcher >> next [
 	
 	^ self generator next
@@ -111,11 +109,11 @@ ComplishonFetcher >> reset [
 	generator := nil
 ]
 
-{ #category : #filtering }
+{ #category : #composing }
 ComplishonFetcher >> select: aBlockClosure [ 
 	
 	^ FilterComplishonFetcher new
-		complishon: self;
+		decoree: self;
 		filterBlock: aBlockClosure;
 		yourself
 ]
@@ -126,7 +124,7 @@ ComplishonFetcher >> upToEnd [
 	^ self generator upToEnd
 ]
 
-{ #category : #filtering }
+{ #category : #composing }
 ComplishonFetcher >> withoutFilter [
 	
 	^ self
@@ -136,6 +134,6 @@ ComplishonFetcher >> withoutFilter [
 ComplishonFetcher >> withoutRepetition [
 
 	^ AvoidRepeatedComplishonFetcher new
-		complishonFetcher: self;
+		decoree: self;
 		yourself
 ]

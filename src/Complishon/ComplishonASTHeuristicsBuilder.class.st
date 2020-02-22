@@ -1,20 +1,19 @@
+"
+I am the an AST based heuristics builder.
+
+When building the complishon, I build the AST from the source in the context, and get the current node from the context position.
+Then I do a double dispatch on the current node and from it
+1) I decide what fetchers to create
+2) I extract the currently typed text and set is as initial filter
+"
 Class {
 	#name : #ComplishonASTHeuristicsBuilder,
-	#superclass : #Object,
+	#superclass : #ComplishonBuilder,
 	#instVars : [
-		'complishonContext',
 		'astNode'
 	],
 	#category : #'Complishon-SystemIntegration'
 }
-
-{ #category : #'instance creation' }
-ComplishonASTHeuristicsBuilder class >> initializeOnContext: aSystemComplishonContext [
-	
-	^ self new
-		initializeOnContext: aSystemComplishonContext;
-		yourself
-]
 
 { #category : #'API - building' }
 ComplishonASTHeuristicsBuilder >> buildComplishon [
@@ -26,16 +25,6 @@ ComplishonASTHeuristicsBuilder >> buildComplishon [
 	
 	"Visiting the node configures the completion for that node"
 	^ astNode acceptVisitor: self
-]
-
-{ #category : #accessing }
-ComplishonASTHeuristicsBuilder >> complishonContext [
-	^ complishonContext
-]
-
-{ #category : #accessing }
-ComplishonASTHeuristicsBuilder >> complishonContext: anObject [
-	complishonContext := anObject
 ]
 
 { #category : #visiting }
@@ -67,26 +56,23 @@ ComplishonASTHeuristicsBuilder >> fetcherForMessageNode: aRBMessageNode [
 		^ self newSuperMessageInHierarchyFetcher ].
 	
 	aRBMessageNode receiver isVariable ifTrue: [
-		complishonContext environmentAt: aRBMessageNode receiver name ifPresent: [ :class |
-			^ ClassImplementedMessagesComplishonFetcher new
-				completionClass: class classSide;
-				forHierarchy  ].
+		complishonContext environmentAt: aRBMessageNode receiver name ifPresent: [ :global |
+			^ self newFetcherForGlobal: global ].
 		
 		"Heuristic: variables with type information.
 		This is maybe an instance of this class, autocomplete for that class first, then continue with normal completion.
 		E.g., aCollection => use completion for Collection class first, then normal collection.
 		There are two cases: aPoint and anASTCache"
-		complishonContext environmentAt: aRBMessageNode receiver name allButFirst asSymbol ifPresent: [ :class |
-			^ (ClassImplementedMessagesComplishonFetcher new
-				completionClass: class;
-				forHierarchy), 
-					(PackageImplementedMessagesComplishonFetcher new
-						complishonPackage: class package)  ].
-		complishonContext environmentAt: (aRBMessageNode receiver name allButFirst: 2) asSymbol ifPresent: [ :class |
-			^ (ClassImplementedMessagesComplishonFetcher new
-				completionClass: class;
-				forHierarchy), (PackageImplementedMessagesComplishonFetcher new
-						complishonPackage: class package) ]
+		aRBMessageNode receiver name size > 1 and: [
+			complishonContext environmentAt: aRBMessageNode receiver name allButFirst asSymbol ifPresent: [ :global |
+				^ (self newFetcherForGlobal: global), 
+						(PackageImplementedMessagesComplishonFetcher new
+							complishonPackage: complishonContext complishonClass package)  ] ].
+		aRBMessageNode receiver name size > 2 and: [
+			complishonContext environmentAt: (aRBMessageNode receiver name allButFirst: 2) asSymbol ifPresent: [ :global |
+				^ (self newFetcherForGlobal: global),
+						(PackageImplementedMessagesComplishonFetcher new
+							complishonPackage: complishonContext complishonClass package) ] ]
 	].
 
 	^ PackageImplementedMessagesComplishonFetcher new
@@ -121,10 +107,19 @@ ComplishonASTHeuristicsBuilder >> fetcherForVariableNode: aRBVariableNode [
 		ifTrue: [ globallyAccessible, instanceAccessible ]
 ]
 
-{ #category : #initialization }
-ComplishonASTHeuristicsBuilder >> initializeOnContext: aComplishonContext [ 
-	
-	complishonContext := aComplishonContext
+{ #category : #visiting }
+ComplishonASTHeuristicsBuilder >> newFetcherForGlobal: aGlobal [
+
+	"This is a class or trait. Autocomplete class-side messages" 
+	aGlobal isClassOrTrait ifTrue: [
+		^ ClassImplementedMessagesComplishonFetcher new
+			completionClass: aGlobal classSide;
+			forHierarchy ].
+
+	"This is not a class binding but a global object. Autocomplete based on its class"
+	^ ClassImplementedMessagesComplishonFetcher new
+		completionClass: aGlobal class;
+		forHierarchy
 ]
 
 { #category : #visiting }
@@ -172,7 +167,9 @@ ComplishonASTHeuristicsBuilder >> visitMethodNode: aRBMethodNode [
 	^ self
 		configureFetcherForNode: aRBMethodNode
 		using: [ (self newSuperMessageInHierarchyFetcher,
-				PackageImplementedMessagesComplishonFetcher new)
+				(PackageImplementedMessagesComplishonFetcher new
+					complishonPackage: complishonContext complishonClass package;
+					yourself))
 					withoutRepetition ]
 		narrowingWith: aRBMethodNode selector
 ]
@@ -192,7 +189,7 @@ ComplishonASTHeuristicsBuilder >> visitSelfNode: aRBSelfNode [
 { #category : #visiting }
 ComplishonASTHeuristicsBuilder >> visitSequenceNode: aRBSequenceNode [ 
 	
-	self configureEmptyFetcherForNode: aRBSequenceNode
+	^ self configureEmptyFetcherForNode: aRBSequenceNode
 ]
 
 { #category : #visiting }

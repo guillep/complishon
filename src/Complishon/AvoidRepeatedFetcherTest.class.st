@@ -9,6 +9,6 @@ AvoidRepeatedFetcherTest >> setUp [
 
 	super setUp.
 	fetcher := AvoidRepeatedComplishonFetcher new
-		complishonFetcher: (GenericComplishonFetcher onCollection: #( a b b a c )).
+		decoree: (GenericComplishonFetcher onCollection: #( a b b a c )).
 	expectedElements := #(a b c).
 ]
