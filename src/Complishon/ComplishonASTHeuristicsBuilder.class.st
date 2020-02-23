@@ -27,7 +27,7 @@ ComplishonASTHeuristicsBuilder >> buildComplishon [
 	^ astNode acceptVisitor: self
 ]
 
-{ #category : #visiting }
+{ #category : #'private-building' }
 ComplishonASTHeuristicsBuilder >> configureEmptyFetcherForNode: aNode [
 	
 	^ self
@@ -36,7 +36,7 @@ ComplishonASTHeuristicsBuilder >> configureEmptyFetcherForNode: aNode [
 		narrowingWith: ''
 ]
 
-{ #category : #visiting }
+{ #category : #'private-building' }
 ComplishonASTHeuristicsBuilder >> configureFetcherForNode: aNode using: aBlock narrowingWith: aString [
 	
 	| fetcher complishon2 |
@@ -46,7 +46,7 @@ ComplishonASTHeuristicsBuilder >> configureFetcherForNode: aNode using: aBlock n
 	^ complishon2
 ]
 
-{ #category : #visiting }
+{ #category : #'private-building' }
 ComplishonASTHeuristicsBuilder >> fetcherForMessageNode: aRBMessageNode [ 
 	
 	aRBMessageNode receiver isSelf ifTrue: [ 
@@ -65,21 +65,16 @@ ComplishonASTHeuristicsBuilder >> fetcherForMessageNode: aRBMessageNode [
 		There are two cases: aPoint and anASTCache"
 		aRBMessageNode receiver name size > 1 and: [
 			complishonContext environmentAt: aRBMessageNode receiver name allButFirst asSymbol ifPresent: [ :global |
-				^ (self newFetcherForGlobal: global), 
-						(PackageImplementedMessagesComplishonFetcher new
-							complishonPackage: complishonContext complishonClass package)  ] ].
+				^ (self newFetcherForMaybeGlobalInstance: global), self newUnguessableMessagesFetcher  ] ].
 		aRBMessageNode receiver name size > 2 and: [
 			complishonContext environmentAt: (aRBMessageNode receiver name allButFirst: 2) asSymbol ifPresent: [ :global |
-				^ (self newFetcherForGlobal: global),
-						(PackageImplementedMessagesComplishonFetcher new
-							complishonPackage: complishonContext complishonClass package) ] ]
+				^ (self newFetcherForMaybeGlobalInstance: global), self newUnguessableMessagesFetcher ] ]
 	].
 
-	^ PackageImplementedMessagesComplishonFetcher new
-			complishonPackage: complishonContext complishonClass package
+	^ self newUnguessableMessagesFetcher
 ]
 
-{ #category : #visiting }
+{ #category : #'private-building' }
 ComplishonASTHeuristicsBuilder >> fetcherForVariableNode: aRBVariableNode [ 
 	
 	| instanceAccessible globallyAccessible |
@@ -107,7 +102,7 @@ ComplishonASTHeuristicsBuilder >> fetcherForVariableNode: aRBVariableNode [
 		ifTrue: [ globallyAccessible, instanceAccessible ]
 ]
 
-{ #category : #visiting }
+{ #category : #'common-fetchers' }
 ComplishonASTHeuristicsBuilder >> newFetcherForGlobal: aGlobal [
 
 	"This is a class or trait. Autocomplete class-side messages" 
@@ -122,7 +117,38 @@ ComplishonASTHeuristicsBuilder >> newFetcherForGlobal: aGlobal [
 		forHierarchy
 ]
 
-{ #category : #visiting }
+{ #category : #'common-fetchers' }
+ComplishonASTHeuristicsBuilder >> newFetcherForMaybeGlobalInstance: aGlobal [
+	"Fetcher for messages to instance variables containing type information.
+	For example: aCollection could autocomplete collection messages."
+
+	"This is a class or trait. Autocomplete instance-side messages" 
+	aGlobal isClassOrTrait ifTrue: [
+		1haltOnce.
+		^ ClassImplementedMessagesComplishonFetcher new
+			completionClass: aGlobal instanceSide;
+			forHierarchy ].
+
+	"This is not a class binding but a global object.
+	E.g., aSmalltalk
+	Autocomplete based on its class"
+	^ ClassImplementedMessagesComplishonFetcher new
+		completionClass: aGlobal class;
+		forHierarchy
+]
+
+{ #category : #'common-fetchers' }
+ComplishonASTHeuristicsBuilder >> newMessagesImplementedInCurrentPackageFetcher [
+
+	complishonContext isWorkspace
+		ifTrue: [ self error: 'You should not be creating this fetcher from a workspace, since no package is available.' ].
+	
+	^ PackageImplementedMessagesComplishonFetcher new
+			complishonPackage: complishonContext complishonClass package;
+			yourself
+]
+
+{ #category : #'common-fetchers' }
 ComplishonASTHeuristicsBuilder >> newSelfMessageInHierarchyFetcher [
 	
 	^ ClassImplementedMessagesComplishonFetcher new
@@ -130,12 +156,28 @@ ComplishonASTHeuristicsBuilder >> newSelfMessageInHierarchyFetcher [
 		forHierarchy
 ]
 
-{ #category : #visiting }
+{ #category : #'common-fetchers' }
 ComplishonASTHeuristicsBuilder >> newSuperMessageInHierarchyFetcher [
 	
 	^ ClassImplementedMessagesComplishonFetcher new
 		completionClass: complishonContext complishonClass superclass;
 		forHierarchy
+]
+
+{ #category : #'common-fetchers' }
+ComplishonASTHeuristicsBuilder >> newUnguessableMessagesFetcher [
+
+	"This is the main heuristic used for those messages where we cannot guess the type.
+	I can be used also after more fine heuristics, to complete guessed heuristics that cannot be trusted too much, like variable names"
+
+	"If the context allows it, autocomplete first messages in the current package, then the rest in the system"
+	complishonContext isWorkspace ifFalse: [
+		^ self newMessagesImplementedInCurrentPackageFetcher,
+			(GenericComplishonFetcher onCollection: Symbol selectorTable)
+	].
+
+	^ (GenericComplishonFetcher onCollection: Symbol selectorTable)
+
 ]
 
 { #category : #visiting }
