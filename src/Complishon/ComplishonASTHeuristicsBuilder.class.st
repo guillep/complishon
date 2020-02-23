@@ -124,7 +124,6 @@ ComplishonASTHeuristicsBuilder >> newFetcherForMaybeGlobalInstance: aGlobal [
 
 	"This is a class or trait. Autocomplete instance-side messages" 
 	aGlobal isClassOrTrait ifTrue: [
-		1haltOnce.
 		^ ClassImplementedMessagesComplishonFetcher new
 			completionClass: aGlobal instanceSide;
 			forHierarchy ].
