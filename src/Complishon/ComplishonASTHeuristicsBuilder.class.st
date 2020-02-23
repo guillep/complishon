@@ -48,7 +48,7 @@ ComplishonASTHeuristicsBuilder >> configureFetcherForNode: aNode using: aBlock n
 
 { #category : #'private-building' }
 ComplishonASTHeuristicsBuilder >> fetcherForMessageNode: aRBMessageNode [ 
-	
+		
 	aRBMessageNode receiver isSelf ifTrue: [ 
 		^ self newSelfMessageInHierarchyFetcher ].
 
@@ -56,6 +56,11 @@ ComplishonASTHeuristicsBuilder >> fetcherForMessageNode: aRBMessageNode [
 		^ self newSuperMessageInHierarchyFetcher ].
 	
 	aRBMessageNode receiver isVariable ifTrue: [
+		"First try to fetch the real value of the variable from the context"
+		self valueOfVariable: aRBMessageNode receiver name ifPresent: [ :value |
+			^ self newMessageInHierarchyFetcherForClass: value class
+		].
+		
 		complishonContext environmentAt: aRBMessageNode receiver name ifPresent: [ :global |
 			^ self newFetcherForGlobal: global ].
 		
@@ -137,6 +142,14 @@ ComplishonASTHeuristicsBuilder >> newFetcherForMaybeGlobalInstance: aGlobal [
 ]
 
 { #category : #'common-fetchers' }
+ComplishonASTHeuristicsBuilder >> newMessageInHierarchyFetcherForClass: aClass [
+	
+	^ ClassImplementedMessagesComplishonFetcher new
+		completionClass: aClass;
+		forHierarchy
+]
+
+{ #category : #'common-fetchers' }
 ComplishonASTHeuristicsBuilder >> newMessagesImplementedInCurrentPackageFetcher [
 
 	complishonContext isWorkspace
@@ -149,18 +162,26 @@ ComplishonASTHeuristicsBuilder >> newMessagesImplementedInCurrentPackageFetcher 
 
 { #category : #'common-fetchers' }
 ComplishonASTHeuristicsBuilder >> newSelfMessageInHierarchyFetcher [
-	
-	^ ClassImplementedMessagesComplishonFetcher new
-		completionClass: complishonContext complishonClass;
-		forHierarchy
+	"When in the playground, the complishon class is not available.
+	But self is bound to nil"
+
+	| completionClass |
+
+	completionClass := complishonContext complishonClass ifNil: [ nil class ].
+
+	^ self newMessageInHierarchyFetcherForClass: completionClass
 ]
 
 { #category : #'common-fetchers' }
 ComplishonASTHeuristicsBuilder >> newSuperMessageInHierarchyFetcher [
+	"When in the playground, the complishon class is not available.
+	But self is bound to nil"
+
+	| completionClass |
+
+	completionClass := complishonContext complishonClass ifNil: [ nil class ].
 	
-	^ ClassImplementedMessagesComplishonFetcher new
-		completionClass: complishonContext complishonClass superclass;
-		forHierarchy
+	^ self newMessageInHierarchyFetcherForClass: completionClass superclass
 ]
 
 { #category : #'common-fetchers' }
