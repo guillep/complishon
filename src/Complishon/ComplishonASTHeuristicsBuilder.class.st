@@ -204,9 +204,13 @@ ComplishonASTHeuristicsBuilder >> newUnguessableMessagesFetcher [
 ComplishonASTHeuristicsBuilder >> valueOfVariable: aName ifPresent: aBlock [
 
 	| binding |
-	"In the playground and debugger, the binding values comes in the bindings of the requestor.
+	"In the debugger, the binding values comes in the doItContext.
+	If we find in the doItContext has a variable with the given name, use it, otherwise ignore it."
+	(complishonContext doItContext lookupSymbol: aName)
+		ifNotNil: [ :value | ^ aBlock value: value ].
+
+	"In the playground, the binding values comes in the bindings of the requestor.
 	If we find in the requestor a binding with the given name, use it, otherwise ignore it."
-	
 	binding := (complishonContext doItRequestor bindingOf: aName)
 		ifNil: [ ^ self ].
 	
