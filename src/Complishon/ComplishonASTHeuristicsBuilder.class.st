@@ -200,6 +200,19 @@ ComplishonASTHeuristicsBuilder >> newUnguessableMessagesFetcher [
 
 ]
 
+{ #category : #'private-building' }
+ComplishonASTHeuristicsBuilder >> valueOfVariable: aName ifPresent: aBlock [
+
+	| binding |
+	"In the playground and debugger, the binding values comes in the bindings of the requestor.
+	If we find in the requestor a binding with the given name, use it, otherwise ignore it."
+	
+	binding := (complishonContext doItRequestor bindingOf: aName)
+		ifNil: [ ^ self ].
+	
+	^ aBlock value: binding value
+]
+
 { #category : #visiting }
 ComplishonASTHeuristicsBuilder >> visitBlockNode: aRBBlockNode [ 
 
