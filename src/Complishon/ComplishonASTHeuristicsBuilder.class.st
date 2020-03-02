@@ -206,7 +206,7 @@ ComplishonASTHeuristicsBuilder >> valueOfVariable: aName ifPresent: aBlock [
 	| binding |
 	"In the debugger, the binding values comes in the doItContext.
 	If we find in the doItContext has a variable with the given name, use it, otherwise ignore it."
-	(complishonContext doItContext lookupSymbol: aName)
+	(complishonContext doItContext ifNotNil: [ :c | c lookupSymbol: aName ])
 		ifNotNil: [ :value | ^ aBlock value: value ].
 
 	"In the playground, the binding values comes in the bindings of the requestor.
