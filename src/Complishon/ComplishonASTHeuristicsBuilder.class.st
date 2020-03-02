@@ -39,11 +39,11 @@ ComplishonASTHeuristicsBuilder >> configureEmptyFetcherForNode: aNode [
 { #category : #'private-building' }
 ComplishonASTHeuristicsBuilder >> configureFetcherForNode: aNode using: aBlock narrowingWith: aString [
 	
-	| fetcher complishon2 |
+	| fetcher complishon |
 	fetcher := aBlock value.
-	complishon2 := Complishon fetcher: fetcher.
-	complishon2 filterWithString: aString.
-	^ complishon2
+	complishon := Complishon fetcher: fetcher.
+	complishon filterWithString: aString.
+	^ complishon
 ]
 
 { #category : #'private-building' }
