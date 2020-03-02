@@ -11,45 +11,31 @@ Class {
 	#superclass : #ComplishonASTBuilder,
 	#instVars : [
 		'messageHeuristic',
-		'methodNodeHeuristic'
+		'methodNodeHeuristic',
+		'variablesHeuristic'
 	],
 	#category : #'Complishon-SystemIntegration'
 }
-
-{ #category : #'private-building' }
-ComplishonASTHeuristicsBuilder >> fetcherForVariableNode: aRBVariableNode [ 
-	
-	| fetcher |
-	"First variables in the code"
-	fetcher := ((MethodVariableComplishonFetcher new) complishonASTNode: astNode).
-	
-	complishonContext isWorkspace ifFalse: [
-		"Then instance variables"
-		fetcher := fetcher, (InstanceVariableComplishonFetcher new
-			completionClass: complishonContext complishonClass) forHierarchy.
-		"Then class variables if not a workspace"
-		fetcher := fetcher, (ClassVariableComplishonFetcher new
-			completionClass: complishonContext complishonClass) forHierarchy ].
-	
-	"Finally, globals"
-	^ fetcher, (GlobalVariableComplishonFetcher new
-			complishonEnvironment: complishonContext complishonEnvironment;
-			yourself)
-]
 
 { #category : #initialization }
 ComplishonASTHeuristicsBuilder >> initialize [
 
 	super initialize.
+	methodNodeHeuristic := CoSuperMessageHeuristic new
+		next: CoUnknownMessageHeuristic new.
+
 	messageHeuristic := CoSelfMessageHeuristic new
 		next: (CoSuperMessageHeuristic new
 			next: (CoVariableValueMessageHeuristic new
 				next: (CoGlobalVariableMessageHeuristic new
 					next: (CoVariableWithTypeNameMessageHeuristic new
 						next: CoUnknownMessageHeuristic new)))).
-	
-	methodNodeHeuristic := CoSuperMessageHeuristic new
-		next: CoUnknownMessageHeuristic new
+		
+	variablesHeuristic := CoLocalScopeVariablesHeuristic new
+		next: (CoWorkspaceVariablesHeuristic new
+			next: (CoInstanceAccessibleVariablesHeuristic new
+				next: CoGlobalVariablesHeuristic new)).
+
 ]
 
 { #category : #visiting }
@@ -74,7 +60,7 @@ ComplishonASTHeuristicsBuilder >> visitMethodNode: aRBMethodNode [
 ComplishonASTHeuristicsBuilder >> visitVariableNode: aRBVariableNode [ 
 	
 	^ self
-		configureFetcher: (self fetcherForVariableNode: aRBVariableNode)
-		forNode: aRBVariableNode
+		configureFetcherForNode: aRBVariableNode
+		usingHeuristic: variablesHeuristic
 		narrowingWith: aRBVariableNode name
 ]
