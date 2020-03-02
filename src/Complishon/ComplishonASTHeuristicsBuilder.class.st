@@ -8,226 +8,49 @@ Then I do a double dispatch on the current node and from it
 "
 Class {
 	#name : #ComplishonASTHeuristicsBuilder,
-	#superclass : #ComplishonBuilder,
+	#superclass : #ComplishonASTBuilder,
 	#instVars : [
-		'astNode'
+		'messageHeuristic',
+		'methodNodeHeuristic'
 	],
 	#category : #'Complishon-SystemIntegration'
 }
 
-{ #category : #'API - building' }
-ComplishonASTHeuristicsBuilder >> buildComplishon [
-
-	astNode := (complishonContext isWorkspace
-		ifTrue: [ RBParser parseFaultyExpression: complishonContext source ]
-		ifFalse: [ RBParser parseFaultyMethod: complishonContext source ])
-			nodeForOffset: complishonContext position.
-	
-	"Visiting the node configures the completion for that node"
-	^ astNode acceptVisitor: self
-]
-
-{ #category : #'private-building' }
-ComplishonASTHeuristicsBuilder >> configureEmptyFetcherForNode: aNode [
-	
-	^ self
-		configureFetcherForNode: aNode
-		using: EmptyComplishonFetcher new
-		narrowingWith: ''
-]
-
-{ #category : #'private-building' }
-ComplishonASTHeuristicsBuilder >> configureFetcherForNode: aNode using: aBlock narrowingWith: aString [
-	
-	| fetcher complishon |
-	fetcher := aBlock value.
-	complishon := Complishon fetcher: fetcher.
-	complishon filterWithString: aString.
-	^ complishon
-]
-
-{ #category : #'private-building' }
-ComplishonASTHeuristicsBuilder >> fetcherForMessageNode: aRBMessageNode [ 
-		
-	aRBMessageNode receiver isSelf ifTrue: [ 
-		^ self newSelfMessageInHierarchyFetcher ].
-
-	aRBMessageNode receiver isSuper ifTrue: [ 
-		^ self newSuperMessageInHierarchyFetcher ].
-	
-	aRBMessageNode receiver isVariable ifTrue: [
-		"First try to fetch the real value of the variable from the context"
-		self valueOfVariable: aRBMessageNode receiver name ifPresent: [ :value |
-			^ self newMessageInHierarchyFetcherForClass: value class
-		].
-		
-		complishonContext environmentAt: aRBMessageNode receiver name ifPresent: [ :global |
-			^ self newFetcherForGlobal: global ].
-		
-		"Heuristic: variables with type information.
-		This is maybe an instance of this class, autocomplete for that class first, then continue with normal completion.
-		E.g., aCollection => use completion for Collection class first, then normal collection.
-		There are two cases: aPoint and anASTCache"
-		aRBMessageNode receiver name size > 1 and: [
-			complishonContext environmentAt: aRBMessageNode receiver name allButFirst asSymbol ifPresent: [ :global |
-				^ (self newFetcherForMaybeGlobalInstance: global), self newUnguessableMessagesFetcher  ] ].
-		aRBMessageNode receiver name size > 2 and: [
-			complishonContext environmentAt: (aRBMessageNode receiver name allButFirst: 2) asSymbol ifPresent: [ :global |
-				^ (self newFetcherForMaybeGlobalInstance: global), self newUnguessableMessagesFetcher ] ]
-	].
-
-	^ self newUnguessableMessagesFetcher
-]
-
 { #category : #'private-building' }
 ComplishonASTHeuristicsBuilder >> fetcherForVariableNode: aRBVariableNode [ 
 	
-	| instanceAccessible globallyAccessible |
+	| fetcher |
+	"First variables in the code"
+	fetcher := ((MethodVariableComplishonFetcher new) complishonASTNode: astNode).
 	
-	instanceAccessible := complishonContext isWorkspace
-		ifTrue: [ EmptyComplishonFetcher new ]
-		ifFalse: [ ((MethodVariableComplishonFetcher new)
-				complishonASTNode: astNode),
-			(InstanceVariableComplishonFetcher new
-				completionClass: complishonContext complishonClass)
-					forHierarchy ].
+	"Then instance variables"
+	fetcher := fetcher, (InstanceVariableComplishonFetcher new
+		completionClass: complishonContext complishonClass) forHierarchy.
 
-	globallyAccessible := complishonContext isWorkspace
-		ifTrue: [ GlobalVariableComplishonFetcher new
-			complishonEnvironment: complishonContext complishonEnvironment;
-			yourself ]
-		ifFalse: [ (ClassVariableComplishonFetcher new
-			completionClass: complishonContext complishonClass) forHierarchy,
-				(GlobalVariableComplishonFetcher new
-					complishonEnvironment: complishonContext complishonEnvironment;
-					yourself) ].
-	
-	^ aRBVariableNode name first isUppercase
-		ifFalse: [ instanceAccessible , globallyAccessible ]
-		ifTrue: [ globallyAccessible, instanceAccessible ]
-]
-
-{ #category : #'common-fetchers' }
-ComplishonASTHeuristicsBuilder >> newFetcherForGlobal: aGlobal [
-
-	"This is a class or trait. Autocomplete class-side messages" 
-	aGlobal isClassOrTrait ifTrue: [
-		^ ClassImplementedMessagesComplishonFetcher new
-			completionClass: aGlobal classSide;
-			forHierarchy ].
-
-	"This is not a class binding but a global object. Autocomplete based on its class"
-	^ ClassImplementedMessagesComplishonFetcher new
-		completionClass: aGlobal class;
-		forHierarchy
-]
-
-{ #category : #'common-fetchers' }
-ComplishonASTHeuristicsBuilder >> newFetcherForMaybeGlobalInstance: aGlobal [
-	"Fetcher for messages to instance variables containing type information.
-	For example: aCollection could autocomplete collection messages."
-
-	"This is a class or trait. Autocomplete instance-side messages" 
-	aGlobal isClassOrTrait ifTrue: [
-		^ ClassImplementedMessagesComplishonFetcher new
-			completionClass: aGlobal instanceSide;
-			forHierarchy ].
-
-	"This is not a class binding but a global object.
-	E.g., aSmalltalk
-	Autocomplete based on its class"
-	^ ClassImplementedMessagesComplishonFetcher new
-		completionClass: aGlobal class;
-		forHierarchy
-]
-
-{ #category : #'common-fetchers' }
-ComplishonASTHeuristicsBuilder >> newMessageInHierarchyFetcherForClass: aClass [
-	
-	^ ClassImplementedMessagesComplishonFetcher new
-		completionClass: aClass;
-		forHierarchy
-]
-
-{ #category : #'common-fetchers' }
-ComplishonASTHeuristicsBuilder >> newMessagesImplementedInCurrentPackageFetcher [
-
-	complishonContext isWorkspace
-		ifTrue: [ self error: 'You should not be creating this fetcher from a workspace, since no package is available.' ].
-	
-	^ PackageImplementedMessagesComplishonFetcher new
-			complishonPackage: complishonContext complishonClass package;
-			yourself
-]
-
-{ #category : #'common-fetchers' }
-ComplishonASTHeuristicsBuilder >> newSelfMessageInHierarchyFetcher [
-	"When in the playground, the complishon class is not available.
-	But self is bound to nil"
-
-	| completionClass |
-
-	completionClass := complishonContext complishonClass ifNil: [ nil class ].
-
-	^ self newMessageInHierarchyFetcherForClass: completionClass
-]
-
-{ #category : #'common-fetchers' }
-ComplishonASTHeuristicsBuilder >> newSuperMessageInHierarchyFetcher [
-	"When in the playground, the complishon class is not available.
-	But self is bound to nil"
-
-	| completionClass |
-
-	completionClass := complishonContext complishonClass ifNil: [ nil class ].
-	
-	^ self newMessageInHierarchyFetcherForClass: completionClass superclass
-]
-
-{ #category : #'common-fetchers' }
-ComplishonASTHeuristicsBuilder >> newUnguessableMessagesFetcher [
-
-	"This is the main heuristic used for those messages where we cannot guess the type.
-	I can be used also after more fine heuristics, to complete guessed heuristics that cannot be trusted too much, like variable names"
-
-	"If the context allows it, autocomplete first messages in the current package, then the rest in the system"
+	"Then class variables if not a workspace"
 	complishonContext isWorkspace ifFalse: [
-		^ self newMessagesImplementedInCurrentPackageFetcher,
-			(GenericComplishonFetcher onCollection: Symbol selectorTable)
-	].
-
-	^ (GenericComplishonFetcher onCollection: Symbol selectorTable)
-
-]
-
-{ #category : #'private-building' }
-ComplishonASTHeuristicsBuilder >> valueOfVariable: aName ifPresent: aBlock [
-
-	| binding |
-	"In the debugger, the binding values comes in the doItContext.
-	If we find in the doItContext has a variable with the given name, use it, otherwise ignore it."
-	(complishonContext doItContext ifNotNil: [ :c | c lookupSymbol: aName ])
-		ifNotNil: [ :value | ^ aBlock value: value ].
-
-	"In the playground, the binding values comes in the bindings of the requestor.
-	If we find in the requestor a binding with the given name, use it, otherwise ignore it."
-	binding := (complishonContext doItRequestor bindingOf: aName)
-		ifNil: [ ^ self ].
+		fetcher := fetcher, (ClassVariableComplishonFetcher new
+			completionClass: complishonContext complishonClass) forHierarchy ].
 	
-	^ aBlock value: binding value
+	"Finally, globals"
+	^ fetcher, (GlobalVariableComplishonFetcher new
+			complishonEnvironment: complishonContext complishonEnvironment;
+			yourself)
 ]
 
-{ #category : #visiting }
-ComplishonASTHeuristicsBuilder >> visitBlockNode: aRBBlockNode [ 
+{ #category : #initialization }
+ComplishonASTHeuristicsBuilder >> initialize [
 
-	"I'm probably in a comment..."
-	^ self configureEmptyFetcherForNode: aRBBlockNode
-]
-
-{ #category : #visiting }
-ComplishonASTHeuristicsBuilder >> visitLiteralValueNode: aRBLiteralValueNode [ 
+	super initialize.
+	messageHeuristic := CoSelfMessageHeuristic new
+		next: (CoSuperMessageHeuristic new
+			next: (CoVariableValueMessageHeuristic new
+				next: (CoGlobalVariableMessageHeuristic new
+					next: (CoVariableWithTypeNameMessageHeuristic new
+						next: CoUnknownMessageHeuristic new)))).
 	
-	^ self configureEmptyFetcherForNode: aRBLiteralValueNode
+	methodNodeHeuristic := CoSuperMessageHeuristic new
+		next: CoUnknownMessageHeuristic new
 ]
 
 { #category : #visiting }
@@ -235,53 +58,24 @@ ComplishonASTHeuristicsBuilder >> visitMessageNode: aRBMessageNode [
 	
 	^ self
 		configureFetcherForNode: aRBMessageNode
-		using: [ (self fetcherForMessageNode: aRBMessageNode) withoutRepetition ]
+		usingHeuristicAvoidingRepetitions: messageHeuristic
 		narrowingWith: aRBMessageNode selector
 ]
 
 { #category : #visiting }
 ComplishonASTHeuristicsBuilder >> visitMethodNode: aRBMethodNode [ 
 
-	"We are maybe trying to redefine an existing method in the package?"
 	^ self
 		configureFetcherForNode: aRBMethodNode
-		using: [ (self newSuperMessageInHierarchyFetcher,
-				(PackageImplementedMessagesComplishonFetcher new
-					complishonPackage: complishonContext complishonClass package;
-					yourself))
-					withoutRepetition ]
+		usingHeuristicAvoidingRepetitions: methodNodeHeuristic
 		narrowingWith: aRBMethodNode selector
-]
-
-{ #category : #visiting }
-ComplishonASTHeuristicsBuilder >> visitParseErrorNode: aRBParseErrorNode [ 
-	
-	^ self configureEmptyFetcherForNode: aRBParseErrorNode
-]
-
-{ #category : #visiting }
-ComplishonASTHeuristicsBuilder >> visitSelfNode: aRBSelfNode [ 
-	
-	^ self configureEmptyFetcherForNode: aRBSelfNode
-]
-
-{ #category : #visiting }
-ComplishonASTHeuristicsBuilder >> visitSequenceNode: aRBSequenceNode [ 
-	
-	^ self configureEmptyFetcherForNode: aRBSequenceNode
-]
-
-{ #category : #visiting }
-ComplishonASTHeuristicsBuilder >> visitSuperNode: aRBSuperNode [ 
-	
-	^ self visitSelfNode: aRBSuperNode
 ]
 
 { #category : #visiting }
 ComplishonASTHeuristicsBuilder >> visitVariableNode: aRBVariableNode [ 
 	
 	^ self
-		configureFetcherForNode: aRBVariableNode
-		using: [ self fetcherForVariableNode: aRBVariableNode ]
+		configureFetcher: (self fetcherForVariableNode: aRBVariableNode)
+		forNode: aRBVariableNode
 		narrowingWith: aRBVariableNode name
 ]

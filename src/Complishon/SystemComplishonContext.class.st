@@ -53,12 +53,24 @@ SystemComplishonContext >> completionToken [
 SystemComplishonContext >> complishon [
 
 	complishon ifNotNil: [ ^ complishon ].
-	^ complishon := complishonBuilder buildComplishon
+	^ complishon := self complishonBuilder
+		complishonContext: self;
+		buildComplishon
 ]
 
 { #category : #accessing }
 SystemComplishonContext >> complishon: anObject [
 	complishon := anObject
+]
+
+{ #category : #accessing }
+SystemComplishonContext >> complishonBuilder [
+	^ complishonBuilder
+]
+
+{ #category : #accessing }
+SystemComplishonContext >> complishonBuilder: anUndefinedObject [ 
+	complishonBuilder := anUndefinedObject
 ]
 
 { #category : #accessing }
