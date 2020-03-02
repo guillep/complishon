@@ -24,6 +24,7 @@ SystemComplishonContext class >> engine: aCompletionEngine class: aClass source:
 		complishonClass: aClass;
 		engine: aCompletionEngine;
 		source: aString;
+		position: anInteger;
 		yourself
 ]
 
@@ -167,7 +168,7 @@ SystemComplishonContext >> narrowWith: aString [
 
 { #category : #accessing }
 SystemComplishonContext >> position [
-	^ engine position
+	^ position
 ]
 
 { #category : #accessing }
