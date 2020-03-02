@@ -23,12 +23,11 @@ ComplishonASTHeuristicsBuilder >> fetcherForVariableNode: aRBVariableNode [
 	"First variables in the code"
 	fetcher := ((MethodVariableComplishonFetcher new) complishonASTNode: astNode).
 	
-	"Then instance variables"
-	fetcher := fetcher, (InstanceVariableComplishonFetcher new
-		completionClass: complishonContext complishonClass) forHierarchy.
-
-	"Then class variables if not a workspace"
 	complishonContext isWorkspace ifFalse: [
+		"Then instance variables"
+		fetcher := fetcher, (InstanceVariableComplishonFetcher new
+			completionClass: complishonContext complishonClass) forHierarchy.
+		"Then class variables if not a workspace"
 		fetcher := fetcher, (ClassVariableComplishonFetcher new
 			completionClass: complishonContext complishonClass) forHierarchy ].
 	
