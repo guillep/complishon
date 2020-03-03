@@ -19,12 +19,8 @@ ComplishonASTBuilder class >> isAbstract [
 { #category : #'API - building' }
 ComplishonASTBuilder >> buildComplishon [
 
-	astNode := (complishonContext isWorkspace
-		ifTrue: [ RBParser parseFaultyExpression: complishonContext source ]
-		ifFalse: [ RBParser parseFaultyMethod: complishonContext source ])
-			nodeForOffset: complishonContext position.
-	
 	"Visiting the node configures the completion for that node"
+	astNode := self parseNode.
 	^ astNode acceptVisitor: self
 ]
 
@@ -66,6 +62,15 @@ ComplishonASTBuilder >> configureFetcherForNode: aNode usingHeuristicAvoidingRep
 		configureFetcher: fetcher withoutRepetition
 		forNode: aNode
 		narrowingWith: aString
+]
+
+{ #category : #'API - building' }
+ComplishonASTBuilder >> parseNode [
+
+	^ (complishonContext isWorkspace
+		ifTrue: [ RBParser parseFaultyExpression: complishonContext source ]
+		ifFalse: [ RBParser parseFaultyMethod: complishonContext source ])
+			nodeForOffset: complishonContext position
 ]
 
 { #category : #visiting }

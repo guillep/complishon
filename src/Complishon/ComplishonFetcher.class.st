@@ -60,6 +60,15 @@ ComplishonFetcher >> atEnd [
 	^ self generator atEnd
 ]
 
+{ #category : #composing }
+ComplishonFetcher >> collect: aBlockClosure [ 
+	
+	^ MappingComplishonFetcher new
+		decoree: self;
+		collectBlock: aBlockClosure;
+		yourself
+]
+
 { #category : #enumerating }
 ComplishonFetcher >> entriesDo: aBlock [
 	"Key method for subclasses to define their semantics."

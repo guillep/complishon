@@ -26,6 +26,13 @@ MethodVariableComplishonFetcher >> complishonASTNode: anObject [
 { #category : #accessing }
 MethodVariableComplishonFetcher >> entriesDo: aBlock [
 
+	self methodVariableNamesDo: [ :each |
+		aBlock value: (NECLocalEntry contents: each node: self) ]
+]
+
+{ #category : #accessing }
+MethodVariableComplishonFetcher >> methodVariableNamesDo: aBlock [
+
 	| currentNode |
 	currentNode := complishonASTNode.
 	[ currentNode notNil ] whileTrue: [ 

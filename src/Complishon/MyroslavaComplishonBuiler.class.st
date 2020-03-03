@@ -5,11 +5,24 @@ Class {
 }
 
 { #category : #visiting }
+MyroslavaComplishonBuiler >> parseNode [
+
+	| node |
+	node := super parseNode.
+	node doSemanticAnalysis.
+	TypingVisitor new visitNode: node.
+	^ node
+]
+
+{ #category : #visiting }
 MyroslavaComplishonBuiler >> visitNode: aNode [
 
+	| fetcher |
+	fetcher := (GenericComplishonFetcher onCollection: 
+		(aNode completionEntries: complishonContext position)).
+
 	^ self
-		configureFetcherForNode: aNode
-		using: (GenericComplishonFetcher
-			onCollection: (aNode completionEntries: complishonContext position))
+		configureFetcher: fetcher
+		forNode: aNode
 		narrowingWith: (aNode completionToken: complishonContext position)
 ]

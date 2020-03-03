@@ -10,5 +10,6 @@ Class {
 { #category : #entries }
 ClassVariableComplishonFetcher >> entriesDo: aBlock [
 	
-	self completionClass instanceSide classVarNames do: aBlock
+	self completionClass instanceSide classVarNames do: [ :e |
+		aBlock value: (NECClassVarEntry contents: e node: self)]
 ]

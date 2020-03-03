@@ -121,7 +121,7 @@ SystemComplishonContext >> engine: anObject [
 { #category : #accessing }
 SystemComplishonContext >> entries [
 
-	^ (self complishon first: 20) collect: [ :e | NECInstVarEntry contents: e node: nil ]
+	^ self complishon first: 20
 ]
 
 { #category : #accessing }

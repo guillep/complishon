@@ -58,7 +58,7 @@ ComplishonASTHeuristicsBuilder >> visitMethodNode: aRBMethodNode [
 
 { #category : #visiting }
 ComplishonASTHeuristicsBuilder >> visitVariableNode: aRBVariableNode [ 
-	
+
 	^ self
 		configureFetcherForNode: aRBVariableNode
 		usingHeuristic: variablesHeuristic

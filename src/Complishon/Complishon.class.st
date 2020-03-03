@@ -81,13 +81,13 @@ Complishon >> filterWithString: aString [
 	aString size >= completionString size
 		ifTrue: [ 
 			"Filter existing results".
-			fetcher := fetcher narrowFilterBlock: [ :e | aString isEmpty or: [ e beginsWith: aString ] ].
-			results := results select: [ :e | aString isEmpty or: [ e beginsWith: aString ] ] ]
+			fetcher := fetcher narrowFilterBlock: [ :e | aString isEmpty or: [ e contents beginsWith: aString ] ].
+			results := results select: [ :e | aString isEmpty or: [ e contents beginsWith: aString ] ] ]
 		ifFalse: [
 			"Smaller filter, reset results and filter"
 			results := OrderedCollection new.
 			fetcher reset.
-			fetcher := fetcher select: [ :e | aString isEmpty or: [ e beginsWith: aString ] ].
+			fetcher := fetcher select: [ :e | aString isEmpty or: [ e contents beginsWith: aString ] ].
 		].
 	completionString := aString
 ]

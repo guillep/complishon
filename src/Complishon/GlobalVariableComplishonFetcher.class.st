@@ -23,5 +23,6 @@ GlobalVariableComplishonFetcher >> complishonEnvironment: anObject [
 { #category : #accessing }
 GlobalVariableComplishonFetcher >> entriesDo: aBlock [
 
-	complishonEnvironment globals do: aBlock
+	complishonEnvironment globals do: [ :e |
+		aBlock value: (NECGlobalEntry contents: e node: self)]
 ]

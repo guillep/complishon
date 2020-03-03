@@ -23,5 +23,6 @@ PackageImplementedMessagesComplishonFetcher >> complishonPackage: anObject [
 { #category : #accessing }
 PackageImplementedMessagesComplishonFetcher >> entriesDo: aBlock [
 	
-	SystemNavigation new allSentMessagesInPackage: complishonPackage do: aBlock
+	SystemNavigation new allSentMessagesInPackage: complishonPackage do: [ :e |
+		aBlock value: (NECSelectorEntry contents: e node: self)]
 ]
