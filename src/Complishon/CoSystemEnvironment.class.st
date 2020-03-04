@@ -3,7 +3,7 @@ I represent an environment for the completion.
 I know a system dictionary, and can be initialized with for example, Smalltalk globals.
 "
 Class {
-	#name : #ComplishonSystemEnvironment,
+	#name : #CoSystemEnvironment,
 	#superclass : #Object,
 	#instVars : [
 		'systemDictionary'
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ComplishonSystemEnvironment class >> forSmalltalkGlobals [
+CoSystemEnvironment class >> forSmalltalkGlobals [
 
 	^ super new
 		systemDictionary: Smalltalk globals;
@@ -20,31 +20,31 @@ ComplishonSystemEnvironment class >> forSmalltalkGlobals [
 ]
 
 { #category : #'instance creation' }
-ComplishonSystemEnvironment class >> new [
+CoSystemEnvironment class >> new [
 
 	^ self forSmalltalkGlobals
 ]
 
 { #category : #accessing }
-ComplishonSystemEnvironment >> at: aString ifPresent: aBlockClosure [
+CoSystemEnvironment >> at: aString ifPresent: aBlockClosure [
 	
 	systemDictionary at: aString ifPresent: aBlockClosure
 ]
 
 { #category : #accessing }
-ComplishonSystemEnvironment >> environmentAt: aKey ifPresent: aBlock [
+CoSystemEnvironment >> environmentAt: aKey ifPresent: aBlock [
 	
 	^ systemDictionary at: aKey ifPresent: aBlock
 ]
 
 { #category : #accessing }
-ComplishonSystemEnvironment >> globals [
+CoSystemEnvironment >> globals [
 	
 	^ systemDictionary keys sorted
 ]
 
 { #category : #accessing }
-ComplishonSystemEnvironment >> systemDictionary: aDictionary [
+CoSystemEnvironment >> systemDictionary: aDictionary [
 
 	systemDictionary := aDictionary
 ]

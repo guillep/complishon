@@ -2,8 +2,8 @@
 I am a fetcher looking for globals in an environment.
 "
 Class {
-	#name : #GlobalVariableComplishonFetcher,
-	#superclass : #ComplishonFetcher,
+	#name : #CoGlobalVariableFetcher,
+	#superclass : #CoFetcher,
 	#instVars : [
 		'complishonEnvironment'
 	],
@@ -11,17 +11,17 @@ Class {
 }
 
 { #category : #accessing }
-GlobalVariableComplishonFetcher >> complishonEnvironment [
+CoGlobalVariableFetcher >> complishonEnvironment [
 	^ complishonEnvironment
 ]
 
 { #category : #accessing }
-GlobalVariableComplishonFetcher >> complishonEnvironment: anObject [
+CoGlobalVariableFetcher >> complishonEnvironment: anObject [
 	complishonEnvironment := anObject
 ]
 
 { #category : #accessing }
-GlobalVariableComplishonFetcher >> entriesDo: aBlock [
+CoGlobalVariableFetcher >> entriesDo: aBlock [
 
 	complishonEnvironment globals do: [ :e |
 		aBlock value: (NECGlobalEntry contents: e node: self)]

@@ -9,8 +9,8 @@ I can be easily created by sending the #withoutRepetition message to another fet
 (GenericComplishonFetcher onCollection: aCollection) withoutRepetition.
 "
 Class {
-	#name : #AvoidRepeatedComplishonFetcher,
-	#superclass : #ComplishonFetcherDecorator,
+	#name : #CoAvoidRepeatedFetcher,
+	#superclass : #CoFetcherDecorator,
 	#instVars : [
 		'elements'
 	],
@@ -18,7 +18,7 @@ Class {
 }
 
 { #category : #accessing }
-AvoidRepeatedComplishonFetcher >> entriesDo: aBlock [
+CoAvoidRepeatedFetcher >> entriesDo: aBlock [
 	decoree
 		entriesDo: [ :elem | 
 			(self hasAlreadyReturned: elem)
@@ -27,20 +27,20 @@ AvoidRepeatedComplishonFetcher >> entriesDo: aBlock [
 ]
 
 { #category : #accessing }
-AvoidRepeatedComplishonFetcher >> hasAlreadyReturned: anObject [
+CoAvoidRepeatedFetcher >> hasAlreadyReturned: anObject [
 
 	^ elements includes: anObject
 ]
 
 { #category : #accessing }
-AvoidRepeatedComplishonFetcher >> initialize [
+CoAvoidRepeatedFetcher >> initialize [
 
 	super initialize.
 	elements := Set new.
 ]
 
 { #category : #accessing }
-AvoidRepeatedComplishonFetcher >> reset [
+CoAvoidRepeatedFetcher >> reset [
 
 	super reset.
 	elements := Set new.

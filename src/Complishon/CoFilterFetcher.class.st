@@ -12,8 +12,8 @@ Finally, as a convenience for code completion, the method #narrowFilterBlock: is
 It should be used only if the block actually narrows the selection, or at least filters the same elements.
 "
 Class {
-	#name : #FilterComplishonFetcher,
-	#superclass : #ComplishonFetcherDecorator,
+	#name : #CoFilterFetcher,
+	#superclass : #CoFetcherDecorator,
 	#instVars : [
 		'filterBlock'
 	],
@@ -21,7 +21,7 @@ Class {
 }
 
 { #category : #accessing }
-FilterComplishonFetcher >> entriesDo: aBlockClosure [
+CoFilterFetcher >> entriesDo: aBlockClosure [
 	decoree
 		entriesDo: [ :each | 
 			(filterBlock value: each)
@@ -29,19 +29,19 @@ FilterComplishonFetcher >> entriesDo: aBlockClosure [
 ]
 
 { #category : #accessing }
-FilterComplishonFetcher >> filterBlock: aBlockClosure [ 
+CoFilterFetcher >> filterBlock: aBlockClosure [ 
 	
 	filterBlock := aBlockClosure
 ]
 
 { #category : #filtering }
-FilterComplishonFetcher >> narrowFilterBlock: aBlock [
+CoFilterFetcher >> narrowFilterBlock: aBlock [
 
 	self filterBlock: aBlock
 ]
 
 { #category : #filtering }
-FilterComplishonFetcher >> select: aBlockClosure [
+CoFilterFetcher >> select: aBlockClosure [
 
 	"Do not filter over a filter.
 	Instead, create a new filter over the original fetcher"
@@ -49,7 +49,7 @@ FilterComplishonFetcher >> select: aBlockClosure [
 ]
 
 { #category : #filtering }
-FilterComplishonFetcher >> withoutFilter [
+CoFilterFetcher >> withoutFilter [
 	
 	^ decoree
 ]

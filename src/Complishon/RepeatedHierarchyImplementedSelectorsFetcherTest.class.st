@@ -8,7 +8,7 @@ Class {
 RepeatedHierarchyImplementedSelectorsFetcherTest >> setUp [
 
 	super setUp.
-	fetcher := (ClassImplementedMessagesComplishonFetcher new
+	fetcher := (CoClassImplementedMessagesFetcher new
 		completionClass: self context complishonClass;
 		forHierarchy)
 		withoutRepetition.

@@ -8,8 +8,8 @@ Class {
 FilterFetcherTest >> setUp [
 
 	super setUp.
-	fetcher := InstanceVariableComplishonFetcher new.
+	fetcher := CoInstanceVariableFetcher new.
 	fetcher completionClass: self context complishonClass.
-	fetcher := fetcher select: [ :e | (e beginsWith: 'a') not ].
+	fetcher := fetcher select: [ :e | (e contents beginsWith: 'a') not ].
 	expectedElements := #(b c).
 ]

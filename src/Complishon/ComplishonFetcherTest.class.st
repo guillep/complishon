@@ -8,7 +8,7 @@ Class {
 ComplishonFetcherTest >> setUp [
 
 	super setUp.
-	fetcher := InstanceVariableComplishonFetcher new.
+	fetcher := CoInstanceVariableFetcher new.
 	fetcher completionClass: self context complishonClass.
 	fetcher := fetcher select: [ :e | false ].
 ]

@@ -5,8 +5,8 @@ When executed, I execute my subfetchers one by one.
 Sequences are created by sending the message #, between two fetchers.
 "
 Class {
-	#name : #ComplishonFetcherSequence,
-	#superclass : #ComplishonFetcher,
+	#name : #CoFetcherSequence,
+	#superclass : #CoFetcher,
 	#instVars : [
 		'subcomplishons'
 	],
@@ -14,32 +14,32 @@ Class {
 }
 
 { #category : #adding }
-ComplishonFetcherSequence >> add: aComplishon [
+CoFetcherSequence >> add: aComplishon [
 	
 	subcomplishons add: aComplishon
 ]
 
 { #category : #resetting }
-ComplishonFetcherSequence >> context: anObject [
+CoFetcherSequence >> context: anObject [
 	
 	super context: anObject.
 	subcomplishons do: [ :each | each context: anObject ]
 ]
 
 { #category : #accessing }
-ComplishonFetcherSequence >> entriesDo: aBlock [
+CoFetcherSequence >> entriesDo: aBlock [
 	subcomplishons do: [ :complishon | complishon entriesDo: aBlock ]
 ]
 
 { #category : #adding }
-ComplishonFetcherSequence >> initialize [
+CoFetcherSequence >> initialize [
 
 	super initialize.
 	subcomplishons := OrderedCollection new
 ]
 
 { #category : #resetting }
-ComplishonFetcherSequence >> reset [
+CoFetcherSequence >> reset [
 	
 	super reset.
 	subcomplishons do: [ :each | each reset ].

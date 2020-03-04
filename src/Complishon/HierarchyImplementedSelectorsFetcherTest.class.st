@@ -8,7 +8,7 @@ Class {
 HierarchyImplementedSelectorsFetcherTest >> setUp [
 
 	super setUp.
-	fetcher := ClassImplementedMessagesComplishonFetcher new
+	fetcher := CoClassImplementedMessagesFetcher new
 		completionClass: self context complishonClass;
 		forHierarchy.
 	expectedElements := #(ma mb mc superma supermb supermc).

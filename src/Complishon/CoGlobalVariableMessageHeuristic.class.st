@@ -27,12 +27,12 @@ CoGlobalVariableMessageHeuristic >> newFetcherForGlobal: aGlobal [
 
 	"This is a class or trait. Autocomplete class-side messages" 
 	aGlobal isClassOrTrait ifTrue: [
-		^ ClassImplementedMessagesComplishonFetcher new
+		^ CoClassImplementedMessagesFetcher new
 			completionClass: aGlobal classSide;
 			forHierarchy ].
 
 	"This is not a class binding but a global object. Autocomplete based on its class"
-	^ ClassImplementedMessagesComplishonFetcher new
+	^ CoClassImplementedMessagesFetcher new
 		completionClass: aGlobal class;
 		forHierarchy
 ]

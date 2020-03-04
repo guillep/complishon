@@ -10,7 +10,7 @@ In such a case, some of the results already fetched are still valid, and the fet
 In case the filter is being broadened (e.g., we go from 'abc' to 'ab'), all results we already have are valid, but probably lots of other results were filtered already. So we reset both the results and the fetcher and restart the search.
 "
 Class {
-	#name : #Complishon,
+	#name : #CoResultSet,
 	#superclass : #Object,
 	#instVars : [
 		'results',
@@ -21,7 +21,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-Complishon class >> fetcher: aFetcher [
+CoResultSet class >> fetcher: aFetcher [
 	
 	^ self new
 		fetcher: aFetcher;
@@ -29,7 +29,7 @@ Complishon class >> fetcher: aFetcher [
 ]
 
 { #category : #'instance creation' }
-Complishon class >> onContext: aComplishonContext fetcher: aFetcher [
+CoResultSet class >> onContext: aComplishonContext fetcher: aFetcher [
 	
 	^ self new
 		fetcher: aFetcher;
@@ -37,20 +37,20 @@ Complishon class >> onContext: aComplishonContext fetcher: aFetcher [
 ]
 
 { #category : #accessing }
-Complishon >> completionToken [
+CoResultSet >> completionToken [
 	
 	^ completionString
 ]
 
 { #category : #enumerating }
-Complishon >> ensureResults: aSize [
+CoResultSet >> ensureResults: aSize [
 	
 	results size >= aSize ifTrue: [ ^ self ].
 	self fetch: aSize - results size.
 ]
 
 { #category : #fetching }
-Complishon >> fetch: anInteger [ 
+CoResultSet >> fetch: anInteger [ 
 	
 	| newResults |
 	newResults := fetcher next: anInteger.
@@ -58,24 +58,24 @@ Complishon >> fetch: anInteger [
 ]
 
 { #category : #fetching }
-Complishon >> fetchAll [
+CoResultSet >> fetchAll [
 	
 	results addAll: fetcher upToEnd
 ]
 
 { #category : #accessing }
-Complishon >> fetcher [
+CoResultSet >> fetcher [
 	^ fetcher
 ]
 
 { #category : #accessing }
-Complishon >> fetcher: anObject [
+CoResultSet >> fetcher: anObject [
 
 	fetcher := anObject
 ]
 
 { #category : #'api-filtering' }
-Complishon >> filterWithString: aString [ 
+CoResultSet >> filterWithString: aString [ 
 	
 	"Narrow results"
 	aString size >= completionString size
@@ -93,14 +93,14 @@ Complishon >> filterWithString: aString [
 ]
 
 { #category : #enumerating }
-Complishon >> first [
+CoResultSet >> first [
 	
 	self ensureResults: 1.
 	^ results first
 ]
 
 { #category : #accessing }
-Complishon >> first: anInteger [ 
+CoResultSet >> first: anInteger [ 
 
 	self ensureResults: anInteger.	
 	
@@ -110,13 +110,13 @@ Complishon >> first: anInteger [
 ]
 
 { #category : #testing }
-Complishon >> hasMoreElements [
+CoResultSet >> hasMoreElements [
 	
 	^ fetcher atEnd not
 ]
 
 { #category : #accessing }
-Complishon >> initialize [
+CoResultSet >> initialize [
 
 	super initialize.
 	results := OrderedCollection new.
@@ -124,24 +124,24 @@ Complishon >> initialize [
 ]
 
 { #category : #testing }
-Complishon >> notEmpty [
+CoResultSet >> notEmpty [
 	
 	^ results notEmpty or: [ fetcher atEnd not ]
 ]
 
 { #category : #'api-filtering' }
-Complishon >> resetFilter [
+CoResultSet >> resetFilter [
 	
 	results removeAll.
 	fetcher := fetcher withoutFilter.
 ]
 
 { #category : #accessing }
-Complishon >> results [
+CoResultSet >> results [
 	^ results
 ]
 
 { #category : #accessing }
-Complishon >> results: anObject [
+CoResultSet >> results: anObject [
 	results := anObject
 ]

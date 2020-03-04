@@ -8,7 +8,7 @@ Class {
 AvoidRepeatedFetcherTest >> setUp [
 
 	super setUp.
-	fetcher := AvoidRepeatedComplishonFetcher new
-		decoree: (GenericComplishonFetcher onCollection: #( a b b a c )).
+	fetcher := CoAvoidRepeatedFetcher new
+		decoree: (CoGenericFetcher onCollection: #( a b b a c )).
 	expectedElements := #(a b c).
 ]

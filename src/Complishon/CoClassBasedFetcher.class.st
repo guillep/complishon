@@ -8,8 +8,8 @@ This allows other combinators to act upon me.
 - I define #forHierarchy that decorates myself with a HierarchyComplishonFetcher that makes a search for the entire hierarchy.
 "
 Class {
-	#name : #ClassBasedComplishonFetcher,
-	#superclass : #ComplishonFetcher,
+	#name : #CoClassBasedFetcher,
+	#superclass : #CoFetcher,
 	#instVars : [
 		'completionClass'
 	],
@@ -17,34 +17,34 @@ Class {
 }
 
 { #category : #testing }
-ClassBasedComplishonFetcher class >> isAbstract [
+CoClassBasedFetcher class >> isAbstract [
 
-	^ self == ClassBasedComplishonFetcher
+	^ self == CoClassBasedFetcher
 ]
 
 { #category : #accessing }
-ClassBasedComplishonFetcher >> completionClass [
+CoClassBasedFetcher >> completionClass [
 	^ completionClass
 ]
 
 { #category : #accessing }
-ClassBasedComplishonFetcher >> completionClass: anObject [
+CoClassBasedFetcher >> completionClass: anObject [
 	completionClass := anObject
 ]
 
 { #category : #'hierarchy-fetching' }
-ClassBasedComplishonFetcher >> forHierarchy [
+CoClassBasedFetcher >> forHierarchy [
 	
-	^ HierarchyComplishonFetcher new
+	^ CoHierarchyFetcher new
 		decoree: self;
 		yourself
 ]
 
 { #category : #'hierarchy-fetching' }
-ClassBasedComplishonFetcher >> onSuperclass [
+CoClassBasedFetcher >> onSuperclass [
 	
 	completionClass superclass
-		ifNil: [ ^ EmptyComplishonFetcher new ].
+		ifNil: [ ^ CoEmptyFetcher new ].
 
 	^ self copy
 		completionClass: completionClass superclass;

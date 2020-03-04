@@ -26,7 +26,7 @@ CoASTNodeFetcherHeuristic >> appliesForNode: aRBMessageNode inContext: aContext 
 { #category : #requests }
 CoASTNodeFetcherHeuristic >> buildFetcherFor: aRBMessageNode inContext: aContext [
 
-	^ EmptyComplishonFetcher new
+	^ CoEmptyFetcher new
 ]
 
 { #category : #requests }
@@ -47,7 +47,7 @@ CoASTNodeFetcherHeuristic >> initialize [
 { #category : #'fetcher-creation' }
 CoASTNodeFetcherHeuristic >> newMessageInHierarchyFetcherForClass: aClass [
 	
-	^ ClassImplementedMessagesComplishonFetcher new
+	^ CoClassImplementedMessagesFetcher new
 		completionClass: aClass;
 		forHierarchy
 ]

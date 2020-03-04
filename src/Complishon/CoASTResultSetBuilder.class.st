@@ -2,8 +2,8 @@
 I'm an abstract superclass for defining AST Based Complishons
 "
 Class {
-	#name : #ComplishonASTBuilder,
-	#superclass : #ComplishonBuilder,
+	#name : #CoASTResultSetBuilder,
+	#superclass : #CoResultSetBuilder,
 	#instVars : [
 		'astNode'
 	],
@@ -11,13 +11,13 @@ Class {
 }
 
 { #category : #testing }
-ComplishonASTBuilder class >> isAbstract [
+CoASTResultSetBuilder class >> isAbstract [
 
-	^ self == ComplishonASTBuilder
+	^ self == CoASTResultSetBuilder
 ]
 
 { #category : #'API - building' }
-ComplishonASTBuilder >> buildComplishon [
+CoASTResultSetBuilder >> buildComplishon [
 
 	"Visiting the node configures the completion for that node"
 	astNode := self parseNode.
@@ -25,25 +25,25 @@ ComplishonASTBuilder >> buildComplishon [
 ]
 
 { #category : #'API - building' }
-ComplishonASTBuilder >> configureEmptyFetcherForNode: aNode [
+CoASTResultSetBuilder >> configureEmptyFetcherForNode: aNode [
 	
 	^ self
-		configureFetcher: EmptyComplishonFetcher new
+		configureFetcher: CoEmptyFetcher new
 		forNode: aNode
 		narrowingWith: ''
 ]
 
 { #category : #'private-building' }
-ComplishonASTBuilder >> configureFetcher: aFetcher forNode: aNode narrowingWith: aString [
+CoASTResultSetBuilder >> configureFetcher: aFetcher forNode: aNode narrowingWith: aString [
 	
 	| complishon |
-	complishon := Complishon fetcher: aFetcher.
+	complishon := CoResultSet fetcher: aFetcher.
 	complishon filterWithString: aString.
 	^ complishon
 ]
 
 { #category : #'private-building' }
-ComplishonASTBuilder >> configureFetcherForNode: aNode usingHeuristic: heuristic narrowingWith: aString [
+CoASTResultSetBuilder >> configureFetcherForNode: aNode usingHeuristic: heuristic narrowingWith: aString [
 	
 	| fetcher |
 	fetcher := heuristic fetcherFor: aNode inContext: complishonContext.
@@ -54,7 +54,7 @@ ComplishonASTBuilder >> configureFetcherForNode: aNode usingHeuristic: heuristic
 ]
 
 { #category : #'private-building' }
-ComplishonASTBuilder >> configureFetcherForNode: aNode usingHeuristicAvoidingRepetitions: heuristic narrowingWith: aString [
+CoASTResultSetBuilder >> configureFetcherForNode: aNode usingHeuristicAvoidingRepetitions: heuristic narrowingWith: aString [
 	
 	| fetcher |
 	fetcher := heuristic fetcherFor: aNode inContext: complishonContext.
@@ -65,7 +65,7 @@ ComplishonASTBuilder >> configureFetcherForNode: aNode usingHeuristicAvoidingRep
 ]
 
 { #category : #'API - building' }
-ComplishonASTBuilder >> parseNode [
+CoASTResultSetBuilder >> parseNode [
 
 	^ (complishonContext isWorkspace
 		ifTrue: [ RBParser parseFaultyExpression: complishonContext source ]
@@ -74,61 +74,61 @@ ComplishonASTBuilder >> parseNode [
 ]
 
 { #category : #visiting }
-ComplishonASTBuilder >> visitBlockNode: aRBBlockNode [ 
+CoASTResultSetBuilder >> visitBlockNode: aRBBlockNode [ 
 
 	^ self visitNode: aRBBlockNode
 ]
 
 { #category : #visiting }
-ComplishonASTBuilder >> visitLiteralValueNode: aRBLiteralValueNode [ 
+CoASTResultSetBuilder >> visitLiteralValueNode: aRBLiteralValueNode [ 
 	
 	^ self visitNode: aRBLiteralValueNode
 ]
 
 { #category : #visiting }
-ComplishonASTBuilder >> visitMessageNode: aRBMessageNode [
+CoASTResultSetBuilder >> visitMessageNode: aRBMessageNode [
 	
 	^ self visitNode: aRBMessageNode
 ]
 
 { #category : #visiting }
-ComplishonASTBuilder >> visitMethodNode: aRBMethodNode [
+CoASTResultSetBuilder >> visitMethodNode: aRBMethodNode [
 	
 	^ self visitNode: aRBMethodNode
 ]
 
 { #category : #visiting }
-ComplishonASTBuilder >> visitNode: aNode [
+CoASTResultSetBuilder >> visitNode: aNode [
 	
 	^ self configureEmptyFetcherForNode: aNode
 ]
 
 { #category : #visiting }
-ComplishonASTBuilder >> visitParseErrorNode: aRBParseErrorNode [ 
+CoASTResultSetBuilder >> visitParseErrorNode: aRBParseErrorNode [ 
 	
 	^ self visitNode: aRBParseErrorNode
 ]
 
 { #category : #visiting }
-ComplishonASTBuilder >> visitSelfNode: aRBSelfNode [ 
+CoASTResultSetBuilder >> visitSelfNode: aRBSelfNode [ 
 	
 	^ self visitNode: aRBSelfNode
 ]
 
 { #category : #visiting }
-ComplishonASTBuilder >> visitSequenceNode: aRBSequenceNode [ 
+CoASTResultSetBuilder >> visitSequenceNode: aRBSequenceNode [ 
 	
 	^ self visitNode: aRBSequenceNode
 ]
 
 { #category : #visiting }
-ComplishonASTBuilder >> visitSuperNode: aRBSuperNode [ 
+CoASTResultSetBuilder >> visitSuperNode: aRBSuperNode [ 
 	
 	^ self visitNode: aRBSuperNode
 ]
 
 { #category : #visiting }
-ComplishonASTBuilder >> visitVariableNode: aRBVariableNode [
+CoASTResultSetBuilder >> visitVariableNode: aRBVariableNode [
 	
 	^ self visitNode: aRBVariableNode
 ]

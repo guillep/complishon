@@ -5,8 +5,8 @@ That is, block temporaries, block arguments, method temporaries and method argum
 From a given ast node, I walk up the tree looking for scopes and yield the variables I find.
 "
 Class {
-	#name : #MethodVariableComplishonFetcher,
-	#superclass : #ComplishonFetcher,
+	#name : #CoMethodVariableFetcher,
+	#superclass : #CoFetcher,
 	#instVars : [
 		'complishonASTNode'
 	],
@@ -14,24 +14,24 @@ Class {
 }
 
 { #category : #accessing }
-MethodVariableComplishonFetcher >> complishonASTNode [
+CoMethodVariableFetcher >> complishonASTNode [
 	^ complishonASTNode
 ]
 
 { #category : #accessing }
-MethodVariableComplishonFetcher >> complishonASTNode: anObject [
+CoMethodVariableFetcher >> complishonASTNode: anObject [
 	complishonASTNode := anObject
 ]
 
 { #category : #accessing }
-MethodVariableComplishonFetcher >> entriesDo: aBlock [
+CoMethodVariableFetcher >> entriesDo: aBlock [
 
 	self methodVariableNamesDo: [ :each |
 		aBlock value: (NECLocalEntry contents: each node: self) ]
 ]
 
 { #category : #accessing }
-MethodVariableComplishonFetcher >> methodVariableNamesDo: aBlock [
+CoMethodVariableFetcher >> methodVariableNamesDo: aBlock [
 
 	| currentNode |
 	currentNode := complishonASTNode.

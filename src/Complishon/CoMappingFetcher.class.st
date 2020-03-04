@@ -5,8 +5,8 @@ I can be created by sending the #collect: message to an existing fetcher.
 (GenericComplishonFetcher onCollection: aCollection) collect [ :each | each * 2 ]
 "
 Class {
-	#name : #MappingComplishonFetcher,
-	#superclass : #ComplishonFetcherDecorator,
+	#name : #CoMappingFetcher,
+	#superclass : #CoFetcherDecorator,
 	#instVars : [
 		'collectBlock'
 	],
@@ -14,13 +14,13 @@ Class {
 }
 
 { #category : #accessing }
-MappingComplishonFetcher >> collectBlock: aBlockClosure [ 
+CoMappingFetcher >> collectBlock: aBlockClosure [ 
 	
 	collectBlock := aBlockClosure
 ]
 
 { #category : #accessing }
-MappingComplishonFetcher >> entriesDo: aBlockClosure [
+CoMappingFetcher >> entriesDo: aBlockClosure [
 
 	decoree entriesDo: [ :each | aBlockClosure value: (collectBlock value: each) ]
 ]

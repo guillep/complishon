@@ -2,13 +2,13 @@
 I am a fetcher looking for the messages implemented in a class.
 "
 Class {
-	#name : #ClassImplementedMessagesComplishonFetcher,
-	#superclass : #ClassBasedComplishonFetcher,
+	#name : #CoClassImplementedMessagesFetcher,
+	#superclass : #CoClassBasedFetcher,
 	#category : #'Complishon-Fetchers'
 }
 
 { #category : #accessing }
-ClassImplementedMessagesComplishonFetcher >> entriesDo: aBlock [
+CoClassImplementedMessagesFetcher >> entriesDo: aBlock [
 	
 	self completionClass selectorsDo: [ :e | 
 		aBlock value: (NECSelectorEntry contents: e node: self)]

@@ -3,13 +3,13 @@ I am a complishon fetcher decorator for ClassBasedComplishonFetcher that will it
 I'll yield all results found in one, then move to the superclass, and so on.
 "
 Class {
-	#name : #HierarchyComplishonFetcher,
-	#superclass : #ComplishonFetcherDecorator,
+	#name : #CoHierarchyFetcher,
+	#superclass : #CoFetcherDecorator,
 	#category : #'Complishon-Fetchers'
 }
 
 { #category : #accessing }
-HierarchyComplishonFetcher >> entriesDo: aBlock [
+CoHierarchyFetcher >> entriesDo: aBlock [
 	| currentComplishonFetcher |
 	currentComplishonFetcher := decoree.
 	[ currentComplishonFetcher isEmptyComplishonFetcher ]

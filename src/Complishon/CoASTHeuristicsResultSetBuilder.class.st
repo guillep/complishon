@@ -7,8 +7,8 @@ Then I do a double dispatch on the current node and from it
 2) I extract the currently typed text and set is as initial filter
 "
 Class {
-	#name : #ComplishonASTHeuristicsBuilder,
-	#superclass : #ComplishonASTBuilder,
+	#name : #CoASTHeuristicsResultSetBuilder,
+	#superclass : #CoASTResultSetBuilder,
 	#instVars : [
 		'messageHeuristic',
 		'methodNodeHeuristic',
@@ -18,7 +18,7 @@ Class {
 }
 
 { #category : #initialization }
-ComplishonASTHeuristicsBuilder >> initialize [
+CoASTHeuristicsResultSetBuilder >> initialize [
 
 	super initialize.
 	methodNodeHeuristic := CoSuperMessageHeuristic new
@@ -41,7 +41,7 @@ ComplishonASTHeuristicsBuilder >> initialize [
 ]
 
 { #category : #visiting }
-ComplishonASTHeuristicsBuilder >> visitMessageNode: aRBMessageNode [ 
+CoASTHeuristicsResultSetBuilder >> visitMessageNode: aRBMessageNode [ 
 	
 	^ self
 		configureFetcherForNode: aRBMessageNode
@@ -50,7 +50,7 @@ ComplishonASTHeuristicsBuilder >> visitMessageNode: aRBMessageNode [
 ]
 
 { #category : #visiting }
-ComplishonASTHeuristicsBuilder >> visitMethodNode: aRBMethodNode [ 
+CoASTHeuristicsResultSetBuilder >> visitMethodNode: aRBMethodNode [ 
 
 	^ self
 		configureFetcherForNode: aRBMethodNode
@@ -59,7 +59,7 @@ ComplishonASTHeuristicsBuilder >> visitMethodNode: aRBMethodNode [
 ]
 
 { #category : #visiting }
-ComplishonASTHeuristicsBuilder >> visitVariableNode: aRBVariableNode [ 
+CoASTHeuristicsResultSetBuilder >> visitVariableNode: aRBVariableNode [ 
 
 	^ self
 		configureFetcherForNode: aRBVariableNode

@@ -5,7 +5,7 @@ I contain a complishonBuilder that is used to create a complishon.
 See my superclass for details
 "
 Class {
-	#name : #SystemComplishonEngine,
+	#name : #CoCompletionEngine,
 	#superclass : #CompletionEngine,
 	#instVars : [
 		'complishonBuilder'
@@ -14,18 +14,18 @@ Class {
 }
 
 { #category : #accessing }
-SystemComplishonEngine >> complishonBuilder [
+CoCompletionEngine >> complishonBuilder [
 
-	^ complishonBuilder ifNil: [ ComplishonASTHeuristicsBuilder new ]
+	^ complishonBuilder ifNil: [ CoASTHeuristicsResultSetBuilder new ]
 ]
 
 { #category : #accessing }
-SystemComplishonEngine >> complishonBuilder: anObject [
+CoCompletionEngine >> complishonBuilder: anObject [
 	complishonBuilder := anObject
 ]
 
 { #category : #'menu morph' }
-SystemComplishonEngine >> createContext [
+CoCompletionEngine >> createContext [
 
 	^ super createContext
 		complishonBuilder: self complishonBuilder;
@@ -33,8 +33,8 @@ SystemComplishonEngine >> createContext [
 ]
 
 { #category : #initialization }
-SystemComplishonEngine >> initialize [
+CoCompletionEngine >> initialize [
 
 	super initialize.
-	contextClass := SystemComplishonContext.
+	contextClass := CoCompletionContext.
 ]

@@ -1,11 +1,11 @@
 Class {
-	#name : #MyroslavaComplishonBuiler,
-	#superclass : #ComplishonASTBuilder,
+	#name : #CoMyroslavaResultSetBuilder,
+	#superclass : #CoASTResultSetBuilder,
 	#category : #'Complishon-SystemIntegration'
 }
 
 { #category : #visiting }
-MyroslavaComplishonBuiler >> parseNode [
+CoMyroslavaResultSetBuilder >> parseNode [
 
 	| node |
 	node := super parseNode.
@@ -15,10 +15,10 @@ MyroslavaComplishonBuiler >> parseNode [
 ]
 
 { #category : #visiting }
-MyroslavaComplishonBuiler >> visitNode: aNode [
+CoMyroslavaResultSetBuilder >> visitNode: aNode [
 
 	| fetcher |
-	fetcher := (GenericComplishonFetcher onCollection: 
+	fetcher := (CoGenericFetcher onCollection: 
 		(aNode completionEntries: complishonContext position)).
 
 	^ self

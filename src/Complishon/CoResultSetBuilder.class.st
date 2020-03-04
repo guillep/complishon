@@ -6,7 +6,7 @@ I then return a Complishon object configured with a correct fetcher and initial 
 My subclasses define how to create the complishon given the context.
 "
 Class {
-	#name : #ComplishonBuilder,
+	#name : #CoResultSetBuilder,
 	#superclass : #Object,
 	#instVars : [
 		'complishonContext'
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ComplishonBuilder class >> initializeOnContext: aSystemComplishonContext [
+CoResultSetBuilder class >> initializeOnContext: aSystemComplishonContext [
 	
 	^ self new
 		initializeOnContext: aSystemComplishonContext;
@@ -23,23 +23,23 @@ ComplishonBuilder class >> initializeOnContext: aSystemComplishonContext [
 ]
 
 { #category : #'API - building' }
-ComplishonBuilder >> buildComplishon [
+CoResultSetBuilder >> buildComplishon [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-ComplishonBuilder >> complishonContext [
+CoResultSetBuilder >> complishonContext [
 	^ complishonContext
 ]
 
 { #category : #accessing }
-ComplishonBuilder >> complishonContext: anObject [
+CoResultSetBuilder >> complishonContext: anObject [
 	complishonContext := anObject
 ]
 
 { #category : #initialization }
-ComplishonBuilder >> initializeOnContext: aComplishonContext [ 
+CoResultSetBuilder >> initializeOnContext: aComplishonContext [ 
 	
 	complishonContext := aComplishonContext
 ]

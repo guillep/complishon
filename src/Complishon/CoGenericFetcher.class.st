@@ -3,8 +3,8 @@ I'm a fetcher simply enumerating a collection of items defined using the collect
 Mainly used for testing.
 "
 Class {
-	#name : #GenericComplishonFetcher,
-	#superclass : #ComplishonFetcher,
+	#name : #CoGenericFetcher,
+	#superclass : #CoFetcher,
 	#instVars : [
 		'collection'
 	],
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-GenericComplishonFetcher class >> onCollection: aCollection [ 
+CoGenericFetcher class >> onCollection: aCollection [ 
 	
 	^ self new
 		collection: aCollection;
@@ -20,12 +20,12 @@ GenericComplishonFetcher class >> onCollection: aCollection [
 ]
 
 { #category : #accessing }
-GenericComplishonFetcher >> collection: aCollection [ 
+CoGenericFetcher >> collection: aCollection [ 
 	collection := aCollection
 ]
 
 { #category : #accessing }
-GenericComplishonFetcher >> entriesDo: aBlock [
+CoGenericFetcher >> entriesDo: aBlock [
 
 	collection do: aBlock
 ]

@@ -4,8 +4,8 @@ I am a complishon fetcher exposing the same API, and redirecting it to my decore
 My decoree is also a complishon fetcher.
 "
 Class {
-	#name : #ComplishonFetcherDecorator,
-	#superclass : #ComplishonFetcher,
+	#name : #CoFetcherDecorator,
+	#superclass : #CoFetcher,
 	#instVars : [
 		'decoree'
 	],
@@ -13,19 +13,19 @@ Class {
 }
 
 { #category : #testing }
-ComplishonFetcherDecorator class >> isAbstract [
+CoFetcherDecorator class >> isAbstract [
 
-	^ self == ComplishonFetcherDecorator
+	^ self == CoFetcherDecorator
 ]
 
 { #category : #accessing }
-ComplishonFetcherDecorator >> decoree: anotherFetcher [
+CoFetcherDecorator >> decoree: anotherFetcher [
 	
 	decoree := anotherFetcher
 ]
 
 { #category : #resetting }
-ComplishonFetcherDecorator >> reset [
+CoFetcherDecorator >> reset [
 
 	super reset.
 	decoree reset.

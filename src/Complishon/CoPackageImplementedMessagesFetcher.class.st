@@ -2,8 +2,8 @@
 I am a fetcher that yields the messages implemented in the given package.
 "
 Class {
-	#name : #PackageImplementedMessagesComplishonFetcher,
-	#superclass : #ComplishonFetcher,
+	#name : #CoPackageImplementedMessagesFetcher,
+	#superclass : #CoFetcher,
 	#instVars : [
 		'complishonPackage'
 	],
@@ -11,17 +11,17 @@ Class {
 }
 
 { #category : #accessing }
-PackageImplementedMessagesComplishonFetcher >> complishonPackage [
+CoPackageImplementedMessagesFetcher >> complishonPackage [
 	^ complishonPackage
 ]
 
 { #category : #accessing }
-PackageImplementedMessagesComplishonFetcher >> complishonPackage: anObject [
+CoPackageImplementedMessagesFetcher >> complishonPackage: anObject [
 	complishonPackage := anObject
 ]
 
 { #category : #accessing }
-PackageImplementedMessagesComplishonFetcher >> entriesDo: aBlock [
+CoPackageImplementedMessagesFetcher >> entriesDo: aBlock [
 	
 	SystemNavigation new allSentMessagesInPackage: complishonPackage do: [ :e |
 		aBlock value: (NECSelectorEntry contents: e node: self)]

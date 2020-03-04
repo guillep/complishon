@@ -8,7 +8,7 @@ Class {
 HierarchyClassVariableFetcherTest >> setUp [
 
 	super setUp.
-	fetcher := ClassVariableComplishonFetcher new
+	fetcher := CoClassVariableFetcher new
 		completionClass: self context complishonClass;
 		forHierarchy.
 	expectedElements := #( Ca Cb Cc SuperCa SuperCb SuperCc )

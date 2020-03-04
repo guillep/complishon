@@ -8,7 +8,7 @@ Class {
 ImplementedSelectorsFetcherTest >> setUp [
 
 	super setUp.
-	fetcher := ClassImplementedMessagesComplishonFetcher new.
+	fetcher := CoClassImplementedMessagesFetcher new.
 	fetcher completionClass: self context complishonClass.
 	expectedElements := #(ma mb mc).
 ]

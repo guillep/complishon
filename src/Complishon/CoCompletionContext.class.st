@@ -4,7 +4,7 @@ I delegate the calculation of the entries completely to a complishon object whic
 The complishonBuilder instance can be specialized or replaced to change the search heuristics.
 "
 Class {
-	#name : #SystemComplishonContext,
+	#name : #CoCompletionContext,
 	#superclass : #Object,
 	#instVars : [
 		'engine',
@@ -18,7 +18,7 @@ Class {
 }
 
 { #category : #'initialize-release' }
-SystemComplishonContext class >> engine: aCompletionEngine class: aClass source: aString position: anInteger [
+CoCompletionContext class >> engine: aCompletionEngine class: aClass source: aString position: anInteger [
 
 	^ self new
 		complishonClass: aClass;
@@ -29,13 +29,13 @@ SystemComplishonContext class >> engine: aCompletionEngine class: aClass source:
 ]
 
 { #category : #activating }
-SystemComplishonContext >> activateEntryAt: anIndex [
+CoCompletionContext >> activateEntryAt: anIndex [
 
 	(self entries at: anIndex) activateOn: self
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> completionAt: aNumber [
+CoCompletionContext >> completionAt: aNumber [
 	| entry |
 	
 	entry := (self entries at: aNumber) contents asSymbol separateKeywords.
@@ -45,13 +45,13 @@ SystemComplishonContext >> completionAt: aNumber [
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> completionToken [
+CoCompletionContext >> completionToken [
 
 	^ self complishon completionToken
 ]
 
 { #category : #testing }
-SystemComplishonContext >> complishon [
+CoCompletionContext >> complishon [
 
 	complishon ifNotNil: [ ^ complishon ].
 	^ complishon := self complishonBuilder
@@ -60,40 +60,40 @@ SystemComplishonContext >> complishon [
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> complishon: anObject [
+CoCompletionContext >> complishon: anObject [
 	complishon := anObject
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> complishonBuilder [
+CoCompletionContext >> complishonBuilder [
 	^ complishonBuilder
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> complishonBuilder: anUndefinedObject [ 
+CoCompletionContext >> complishonBuilder: anUndefinedObject [ 
 	complishonBuilder := anUndefinedObject
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> complishonClass [
+CoCompletionContext >> complishonClass [
 	
 	^ complishonClass
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> complishonClass: aClass [
+CoCompletionContext >> complishonClass: aClass [
 	
 	^ complishonClass := aClass
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> complishonEnvironment [
+CoCompletionContext >> complishonEnvironment [
 	
-	^ ComplishonSystemEnvironment new
+	^ CoSystemEnvironment new
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> doItContext [
+CoCompletionContext >> doItContext [
 
 	"Rubric sends the morph as requestor to the compiler.
 	We need to use it to keep the same semantics..."
@@ -101,7 +101,7 @@ SystemComplishonContext >> doItContext [
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> doItRequestor [
+CoCompletionContext >> doItRequestor [
 
 	"Rubric sends the morph as requestor to the compiler.
 	We need to use it to keep the same semantics..."
@@ -109,91 +109,91 @@ SystemComplishonContext >> doItRequestor [
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> engine [
+CoCompletionContext >> engine [
 	^ engine
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> engine: anObject [
+CoCompletionContext >> engine: anObject [
 	engine := anObject
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> entries [
+CoCompletionContext >> entries [
 
 	^ self complishon first: 20
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> entryCount [
+CoCompletionContext >> entryCount [
 	^ self entries size
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> environmentAt: aString ifPresent: aBlockClosure [ 
+CoCompletionContext >> environmentAt: aString ifPresent: aBlockClosure [ 
 	
 	^ self complishonEnvironment environmentAt: aString ifPresent: aBlockClosure
 ]
 
 { #category : #testing }
-SystemComplishonContext >> hasEntries [
+CoCompletionContext >> hasEntries [
 
 	^ self complishon notEmpty
 ]
 
 { #category : #menu }
-SystemComplishonContext >> hasMessage [
+CoCompletionContext >> hasMessage [
 	
 	^ false
 ]
 
 { #category : #initialization }
-SystemComplishonContext >> initialize [
+CoCompletionContext >> initialize [
 
 	super initialize.
-	complishonBuilder := ComplishonASTHeuristicsBuilder initializeOnContext: self
+	complishonBuilder := CoASTHeuristicsResultSetBuilder initializeOnContext: self
 ]
 
 { #category : #testing }
-SystemComplishonContext >> isWorkspace [
+CoCompletionContext >> isWorkspace [
 	
 	^ engine notNil and: [ engine isScripting ]
 ]
 
 { #category : #narrowing }
-SystemComplishonContext >> narrowWith: aString [ 
+CoCompletionContext >> narrowWith: aString [ 
 
 	self complishon filterWithString: aString
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> position [
+CoCompletionContext >> position [
 	^ position
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> position: anObject [
+CoCompletionContext >> position: anObject [
 	position := anObject
 ]
 
 { #category : #replacing }
-SystemComplishonContext >> replaceTokenInEditorWith: aString [
+CoCompletionContext >> replaceTokenInEditorWith: aString [
 	
 	engine replaceTokenInEditorWith: aString
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> source [
+CoCompletionContext >> source [
 	^ source
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> source: anObject [
+CoCompletionContext >> source: anObject [
 	source := anObject
 ]
 
 { #category : #accessing }
-SystemComplishonContext >> title [
+CoCompletionContext >> title [
 
 	^ ''
 ]

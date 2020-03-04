@@ -37,7 +37,7 @@ GenericComplishonFetcher >> entriesDo: aBlock
 
 "
 Class {
-	#name : #ComplishonFetcher,
+	#name : #CoFetcher,
 	#superclass : #Object,
 	#instVars : [
 		'generator'
@@ -46,63 +46,63 @@ Class {
 }
 
 { #category : #composing }
-ComplishonFetcher >> , anotherFetcher [ 
+CoFetcher >> , anotherFetcher [ 
 
-	^ ComplishonFetcherSequence new
+	^ CoFetcherSequence new
 		add: self;
 		add: anotherFetcher;
 		yourself
 ]
 
 { #category : #testing }
-ComplishonFetcher >> atEnd [
+CoFetcher >> atEnd [
 	
 	^ self generator atEnd
 ]
 
 { #category : #composing }
-ComplishonFetcher >> collect: aBlockClosure [ 
+CoFetcher >> collect: aBlockClosure [ 
 	
-	^ MappingComplishonFetcher new
+	^ CoMappingFetcher new
 		decoree: self;
 		collectBlock: aBlockClosure;
 		yourself
 ]
 
 { #category : #enumerating }
-ComplishonFetcher >> entriesDo: aBlock [
+CoFetcher >> entriesDo: aBlock [
 	"Key method for subclasses to define their semantics."
 	
 	^ self subclassResponsibility
 ]
 
 { #category : #private }
-ComplishonFetcher >> generator [
+CoFetcher >> generator [
 	^ generator ifNil: [ 
 		generator := Generator on: [ :g | 
 			self entriesDo: [ :entry | g yield: entry ] ] ]
 ]
 
 { #category : #testing }
-ComplishonFetcher >> isEmptyComplishonFetcher [
+CoFetcher >> isEmptyComplishonFetcher [
 	
 	^ false
 ]
 
 { #category : #composing }
-ComplishonFetcher >> narrowFilterBlock: aBlockClosure [ 
+CoFetcher >> narrowFilterBlock: aBlockClosure [ 
 	
 	^ self select: aBlockClosure
 ]
 
 { #category : #fetching }
-ComplishonFetcher >> next [
+CoFetcher >> next [
 	
 	^ self generator next
 ]
 
 { #category : #fetching }
-ComplishonFetcher >> next: anInteger [ 
+CoFetcher >> next: anInteger [ 
 	
 	^ Array new: anInteger streamContents: [ :stream | | total last |
 		total := 0.
@@ -113,36 +113,36 @@ ComplishonFetcher >> next: anInteger [
 ]
 
 { #category : #resetting }
-ComplishonFetcher >> reset [
+CoFetcher >> reset [
 	
 	generator := nil
 ]
 
 { #category : #composing }
-ComplishonFetcher >> select: aBlockClosure [ 
+CoFetcher >> select: aBlockClosure [ 
 	
-	^ FilterComplishonFetcher new
+	^ CoFilterFetcher new
 		decoree: self;
 		filterBlock: aBlockClosure;
 		yourself
 ]
 
 { #category : #enumerating }
-ComplishonFetcher >> upToEnd [
+CoFetcher >> upToEnd [
 	
 	^ self generator upToEnd
 ]
 
 { #category : #composing }
-ComplishonFetcher >> withoutFilter [
+CoFetcher >> withoutFilter [
 	
 	^ self
 ]
 
 { #category : #composing }
-ComplishonFetcher >> withoutRepetition [
+CoFetcher >> withoutRepetition [
 
-	^ AvoidRepeatedComplishonFetcher new
+	^ CoAvoidRepeatedFetcher new
 		decoree: self;
 		yourself
 ]
