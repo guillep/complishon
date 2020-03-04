@@ -26,11 +26,12 @@ ComplishonASTHeuristicsBuilder >> initialize [
 
 	messageHeuristic := CoSelfMessageHeuristic new
 		next: (CoSuperMessageHeuristic new
-			next: (CoVariableValueMessageHeuristic new
-				next: (CoLiteralMessageHeuristic new
-					next: (CoGlobalVariableMessageHeuristic new
-						next: (CoVariableWithTypeNameMessageHeuristic new
-							next: CoUnknownMessageHeuristic new))))).
+			next: (CoInitializeInferencedMessageHeuristic new
+				next: (CoVariableValueMessageHeuristic new
+					next: (CoLiteralMessageHeuristic new
+						next: (CoGlobalVariableMessageHeuristic new
+							next: (CoVariableWithTypeNameMessageHeuristic new
+								next: CoUnknownMessageHeuristic new)))))).
 		
 	variablesHeuristic := CoLocalScopeVariablesHeuristic new
 		next: (CoWorkspaceVariablesHeuristic new
