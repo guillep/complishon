@@ -1,15 +1,15 @@
 Class {
-	#name : #HierarchyImplementedSelectorsFetcherTest,
-	#superclass : #ImplementedSelectorsFetcherTest,
+	#name : #CoHierarchyImplementedSelectorsFetcherTest,
+	#superclass : #CoImplementedSelectorsFetcherTest,
 	#category : #'Complishon-Tests'
 }
 
 { #category : #running }
-HierarchyImplementedSelectorsFetcherTest >> setUp [
+CoHierarchyImplementedSelectorsFetcherTest >> setUp [
 
 	super setUp.
 	fetcher := CoClassImplementedMessagesFetcher new
-		completionClass: self context complishonClass;
+		completionClass: self completionClass;
 		forHierarchy.
 	expectedElements := #(ma mb mc superma supermb supermc).
 ]

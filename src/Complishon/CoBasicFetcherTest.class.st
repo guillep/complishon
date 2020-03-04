@@ -1,6 +1,6 @@
 Class {
-	#name : #BasicFetcherTest,
-	#superclass : #BasicComplishonTest,
+	#name : #CoBasicFetcherTest,
+	#superclass : #CoBasicCompletionTest,
 	#instVars : [
 		'fetcher'
 	],
@@ -8,25 +8,25 @@ Class {
 }
 
 { #category : #testing }
-BasicFetcherTest class >> isAbstract [
+CoBasicFetcherTest class >> isAbstract [
 
-	^ self == BasicFetcherTest
+	^ self == CoBasicFetcherTest
 ]
 
 { #category : #accessing }
-BasicFetcherTest >> fetcher [
+CoBasicFetcherTest >> fetcher [
 	^ fetcher
 ]
 
 { #category : #tests }
-BasicFetcherTest >> testConsumedFetcherShouldBeAtEnd [
+CoBasicFetcherTest >> testConsumedFetcherShouldBeAtEnd [
 	
 	self fetcher upToEnd.
 	self assert: self fetcher atEnd
 ]
 
 { #category : #tests }
-BasicFetcherTest >> testNextShouldReturnNilAfterEnd [
+CoBasicFetcherTest >> testNextShouldReturnNilAfterEnd [
 
 	self fetcher upToEnd.
 	self assert: self fetcher next equals: nil

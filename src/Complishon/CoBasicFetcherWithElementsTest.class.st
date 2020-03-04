@@ -1,6 +1,6 @@
 Class {
-	#name : #BasicFetcherWithElementsTest,
-	#superclass : #BasicFetcherTest,
+	#name : #CoBasicFetcherWithElementsTest,
+	#superclass : #CoBasicFetcherTest,
 	#instVars : [
 		'expectedElements'
 	],
@@ -8,56 +8,56 @@ Class {
 }
 
 { #category : #testing }
-BasicFetcherWithElementsTest class >> isAbstract [
+CoBasicFetcherWithElementsTest class >> isAbstract [
 
-	^ self == BasicFetcherWithElementsTest
+	^ self == CoBasicFetcherWithElementsTest
 ]
 
 { #category : #helpers }
-BasicFetcherWithElementsTest >> firstExpectedElement [
+CoBasicFetcherWithElementsTest >> firstExpectedElement [
 
 	^ expectedElements first
 ]
 
 { #category : #helpers }
-BasicFetcherWithElementsTest >> secondExpectedElement [
+CoBasicFetcherWithElementsTest >> secondExpectedElement [
 
 	^ expectedElements second
 ]
 
 { #category : #tests }
-BasicFetcherWithElementsTest >> testNewFetcherWithElementsShouldNotBeAtEnd [
+CoBasicFetcherWithElementsTest >> testNewFetcherWithElementsShouldNotBeAtEnd [
 
 	self deny: self fetcher atEnd
 ]
 
 { #category : #tests }
-BasicFetcherWithElementsTest >> testNextManyAfterLimitShouldStopAfterLimit [
+CoBasicFetcherWithElementsTest >> testNextManyAfterLimitShouldStopAfterLimit [
 
 	self assert: (self fetcher next: expectedElements size + 1) equals: expectedElements
 ]
 
 { #category : #tests }
-BasicFetcherWithElementsTest >> testNextManyShouldReturnCollection [
+CoBasicFetcherWithElementsTest >> testNextManyShouldReturnCollection [
 
 	self assert: (self fetcher next: 2) equals: { self firstExpectedElement . self secondExpectedElement }
 ]
 
 { #category : #tests }
-BasicFetcherWithElementsTest >> testNextNextShouldReturnSecondExpectedElement [
+CoBasicFetcherWithElementsTest >> testNextNextShouldReturnSecondExpectedElement [
 
 	self fetcher next.
 	self assert: self fetcher next equals: self secondExpectedElement
 ]
 
 { #category : #tests }
-BasicFetcherWithElementsTest >> testNextShouldReturnFirstElement [
+CoBasicFetcherWithElementsTest >> testNextShouldReturnFirstElement [
 
 	self assert: self fetcher next equals: self firstExpectedElement
 ]
 
 { #category : #tests }
-BasicFetcherWithElementsTest >> testResetShouldRestartGenerator [
+CoBasicFetcherWithElementsTest >> testResetShouldRestartGenerator [
 
 	self fetcher upToEnd; reset.
 	self assert: (self fetcher next: expectedElements size + 1) equals: expectedElements

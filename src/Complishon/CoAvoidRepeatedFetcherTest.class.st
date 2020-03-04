@@ -1,11 +1,11 @@
 Class {
-	#name : #AvoidRepeatedFetcherTest,
-	#superclass : #BasicFetcherWithElementsTest,
+	#name : #CoAvoidRepeatedFetcherTest,
+	#superclass : #CoBasicFetcherWithElementsTest,
 	#category : #'Complishon-Tests'
 }
 
 { #category : #running }
-AvoidRepeatedFetcherTest >> setUp [
+CoAvoidRepeatedFetcherTest >> setUp [
 
 	super setUp.
 	fetcher := CoAvoidRepeatedFetcher new

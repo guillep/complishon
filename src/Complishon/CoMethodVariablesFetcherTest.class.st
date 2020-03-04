@@ -1,15 +1,14 @@
 Class {
-	#name : #MethodVariablesFetcherTest,
-	#superclass : #BasicFetcherWithElementsTest,
+	#name : #CoMethodVariablesFetcherTest,
+	#superclass : #CoBasicFetcherWithElementsTest,
 	#category : #'Complishon-Tests'
 }
 
 { #category : #running }
-MethodVariablesFetcherTest >> setUp [
+CoMethodVariablesFetcherTest >> setUp [
 
 	super setUp.
-	self context.
 	fetcher := CoMethodVariableFetcher new.
-	fetcher complishonASTNode: innerNode.
+	fetcher complishonASTNode: self innerASTNode.
 	expectedElements := #(blockTemporary blockArgument methodTemporary methodArgument).
 ]

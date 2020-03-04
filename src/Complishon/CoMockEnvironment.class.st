@@ -1,5 +1,5 @@
 Class {
-	#name : #ComplishonMockEnvironment,
+	#name : #CoMockEnvironment,
 	#superclass : #Object,
 	#instVars : [
 		'globals'
@@ -8,11 +8,11 @@ Class {
 }
 
 { #category : #accessing }
-ComplishonMockEnvironment >> globals [
+CoMockEnvironment >> globals [
 	^ globals
 ]
 
 { #category : #accessing }
-ComplishonMockEnvironment >> globals: anObject [
+CoMockEnvironment >> globals: anObject [
 	globals := anObject
 ]

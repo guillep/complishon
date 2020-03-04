@@ -1,5 +1,5 @@
 Class {
-	#name : #ComplishonMockClass,
+	#name : #CoMockClass,
 	#superclass : #Object,
 	#instVars : [
 		'instanceVariables',
@@ -11,76 +11,76 @@ Class {
 }
 
 { #category : #configuration }
-ComplishonMockClass >> addInstanceVariable: aString [ 
+CoMockClass >> addInstanceVariable: aString [ 
 	
 	instanceVariables := instanceVariables copyWith: aString
 ]
 
 { #category : #accessing }
-ComplishonMockClass >> classVarNames [
+CoMockClass >> classVarNames [
 	
 	^ classVariables
 ]
 
 { #category : #accessing }
-ComplishonMockClass >> classVariables: aCollection [
+CoMockClass >> classVariables: aCollection [
 
 	classVariables := aCollection
 ]
 
 { #category : #initialization }
-ComplishonMockClass >> initialize [
+CoMockClass >> initialize [
 
 	super initialize.
 	selectors := OrderedCollection new
 ]
 
 { #category : #accessing }
-ComplishonMockClass >> instVarNames [
+CoMockClass >> instVarNames [
 	
 	^ self instanceVariables
 ]
 
 { #category : #accessing }
-ComplishonMockClass >> instanceSide [
+CoMockClass >> instanceSide [
 	
 	^ self
 ]
 
 { #category : #accessing }
-ComplishonMockClass >> instanceVariables [
+CoMockClass >> instanceVariables [
 	^ instanceVariables
 ]
 
 { #category : #accessing }
-ComplishonMockClass >> instanceVariables: anObject [
+CoMockClass >> instanceVariables: anObject [
 	instanceVariables := anObject
 ]
 
 { #category : #accessing }
-ComplishonMockClass >> selectors [
+CoMockClass >> selectors [
 	^ selectors
 ]
 
 { #category : #accessing }
-ComplishonMockClass >> selectors: aCollection [ 
+CoMockClass >> selectors: aCollection [ 
 	selectors := aCollection
 ]
 
 { #category : #enumerating }
-ComplishonMockClass >> selectorsDo: aBlockClosure [ 
+CoMockClass >> selectorsDo: aBlockClosure [ 
 	
 	selectors do: aBlockClosure
 ]
 
 { #category : #accessing }
-ComplishonMockClass >> superclass [
+CoMockClass >> superclass [
 	
 	^ superclass
 ]
 
 { #category : #accessing }
-ComplishonMockClass >> superclass: aComplishonMockClass [ 
+CoMockClass >> superclass: aComplishonMockClass [ 
 	
 	superclass := aComplishonMockClass
 ]

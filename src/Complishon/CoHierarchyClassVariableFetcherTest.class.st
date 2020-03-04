@@ -1,15 +1,15 @@
 Class {
-	#name : #HierarchyClassVariableFetcherTest,
-	#superclass : #ClassVariableFetcherTest,
+	#name : #CoHierarchyClassVariableFetcherTest,
+	#superclass : #CoClassVariableFetcherTest,
 	#category : #'Complishon-Tests'
 }
 
 { #category : #tests }
-HierarchyClassVariableFetcherTest >> setUp [
+CoHierarchyClassVariableFetcherTest >> setUp [
 
 	super setUp.
 	fetcher := CoClassVariableFetcher new
-		completionClass: self context complishonClass;
+		completionClass: self completionClass;
 		forHierarchy.
 	expectedElements := #( Ca Cb Cc SuperCa SuperCb SuperCc )
 ]

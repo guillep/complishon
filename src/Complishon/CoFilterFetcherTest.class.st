@@ -1,15 +1,15 @@
 Class {
-	#name : #FilterFetcherTest,
-	#superclass : #BasicFetcherWithElementsTest,
+	#name : #CoFilterFetcherTest,
+	#superclass : #CoBasicFetcherWithElementsTest,
 	#category : #'Complishon-Tests'
 }
 
 { #category : #tests }
-FilterFetcherTest >> setUp [
+CoFilterFetcherTest >> setUp [
 
 	super setUp.
 	fetcher := CoInstanceVariableFetcher new.
-	fetcher completionClass: self context complishonClass.
+	fetcher completionClass: self completionClass.
 	fetcher := fetcher select: [ :e | (e contents beginsWith: 'a') not ].
 	expectedElements := #(b c).
 ]

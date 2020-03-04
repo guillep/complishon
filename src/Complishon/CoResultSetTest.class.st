@@ -1,6 +1,6 @@
 Class {
-	#name : #ComplishonTest,
-	#superclass : #BasicComplishonTest,
+	#name : #CoResultSetTest,
+	#superclass : #CoBasicCompletionTest,
 	#instVars : [
 		'complishon'
 	],
@@ -8,17 +8,17 @@ Class {
 }
 
 { #category : #tests }
-ComplishonTest >> setUp [
+CoResultSetTest >> setUp [
 
 	super setUp.
-	self context complishonClass addInstanceVariable: 'ba'.
+	self completionClass addInstanceVariable: 'ba'.
 	complishon := CoResultSet
 		fetcher: (CoInstanceVariableFetcher new
-			completionClass: context complishonClass)
+			completionClass: self completionClass)
 ]
 
 { #category : #tests }
-ComplishonTest >> testBroadenFilterAfterFetchComplishonShouldBroadenResults [
+CoResultSetTest >> testBroadenFilterAfterFetchComplishonShouldBroadenResults [
 
 	complishon filterWithString: 'ba'.
 	complishon fetch: 1.
@@ -28,7 +28,7 @@ ComplishonTest >> testBroadenFilterAfterFetchComplishonShouldBroadenResults [
 ]
 
 { #category : #tests }
-ComplishonTest >> testBroaderFilterComplishonShouldBroadenResults [
+CoResultSetTest >> testBroaderFilterComplishonShouldBroadenResults [
 
 	complishon filterWithString: 'ba'.
 	complishon filterWithString: 'b'.
@@ -37,29 +37,29 @@ ComplishonTest >> testBroaderFilterComplishonShouldBroadenResults [
 ]
 
 { #category : #tests }
-ComplishonTest >> testComplishonWithElementsToFetchShouldHaveMore [
+CoResultSetTest >> testComplishonWithElementsToFetchShouldHaveMore [
 
 	self assert: complishon hasMoreElements
 ]
 
 { #category : #tests }
-ComplishonTest >> testComplishonWithNoElementsToFetchShouldNotHaveMore [
+CoResultSetTest >> testComplishonWithNoElementsToFetchShouldNotHaveMore [
 
 	| c |
 	c := CoResultSet fetcher: (CoInstanceVariableFetcher new
-			completionClass: self context complishonClass).
+			completionClass: self completionClass).
 	c fetchAll.	
 	self deny: c hasMoreElements
 ]
 
 { #category : #tests }
-ComplishonTest >> testEnumerateShouldFetch [
+CoResultSetTest >> testEnumerateShouldFetch [
 
 	self assert: complishon first equals: 'a'
 ]
 
 { #category : #tests }
-ComplishonTest >> testFilterComplishonAfterFetchingShouldNarrowResults [
+CoResultSetTest >> testFilterComplishonAfterFetchingShouldNarrowResults [
 
 	complishon fetch: 1.
 	complishon filterWithString: 'b'.
@@ -68,7 +68,7 @@ ComplishonTest >> testFilterComplishonAfterFetchingShouldNarrowResults [
 ]
 
 { #category : #tests }
-ComplishonTest >> testFilterTwiceWithSameCompletionShouldReturnSameResults [
+CoResultSetTest >> testFilterTwiceWithSameCompletionShouldReturnSameResults [
 	
 	complishon filterWithString: 'ba'.
 	complishon fetch: 2.
@@ -78,7 +78,7 @@ ComplishonTest >> testFilterTwiceWithSameCompletionShouldReturnSameResults [
 ]
 
 { #category : #tests }
-ComplishonTest >> testNarrowFilterAfterFetchComplishonShouldNarrowResults [
+CoResultSetTest >> testNarrowFilterAfterFetchComplishonShouldNarrowResults [
 
 	complishon filterWithString: 'b'.
 	complishon fetch: 1.
@@ -88,7 +88,7 @@ ComplishonTest >> testNarrowFilterAfterFetchComplishonShouldNarrowResults [
 ]
 
 { #category : #tests }
-ComplishonTest >> testNarrowerFilterComplishonShouldNarrowResults [
+CoResultSetTest >> testNarrowerFilterComplishonShouldNarrowResults [
 
 	complishon filterWithString: 'b'.
 	complishon filterWithString: 'ba'.
@@ -97,7 +97,7 @@ ComplishonTest >> testNarrowerFilterComplishonShouldNarrowResults [
 ]
 
 { #category : #tests }
-ComplishonTest >> testResetFilterShouldRetrievePreviousResults [
+CoResultSetTest >> testResetFilterShouldRetrievePreviousResults [
 
 	complishon filterWithString: 'b'.
 	complishon fetch: 5.
@@ -107,7 +107,7 @@ ComplishonTest >> testResetFilterShouldRetrievePreviousResults [
 ]
 
 { #category : #tests }
-ComplishonTest >> testResetFilterWithNoFilterSetShouldNotAlterResults [
+CoResultSetTest >> testResetFilterWithNoFilterSetShouldNotAlterResults [
 
 	complishon resetFilter.
 
