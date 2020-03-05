@@ -56,12 +56,23 @@ CoTypeInferencer >> ensureTypeOfVariable: aVariableName [
 { #category : #inference }
 CoTypeInferencer >> inferFrom: aClass [
 
+	self inferFrom: aClass typeGetters: true
+]
+
+{ #category : #inference }
+CoTypeInferencer >> inferFrom: aClass typeGetters: aBoolean [
+
 	receiverClass := aClass.
 	aClass allInstVarNames do: [ :each |
 		self ensureTypeOfVariable: each ].
 	self inferMethod: (aClass lookupSelector: #initialize).
 	aClass isTestCase ifTrue: [
 		self inferMethod: (aClass lookupSelector: #setUp) ].
+	
+	aBoolean ifTrue: [ 
+		aClass allInstVarNames do: [ :each |
+			(aClass lookupSelector: each) ifNotNil: [ :getter |
+				self inferMethod: getter ] ] ].
 	self cleanupTypes
 ]
 
