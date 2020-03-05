@@ -1,3 +1,6 @@
+"
+I am a completion engine that logs when the menu is closed without activating an entry.
+"
 Class {
 	#name : #CoStatisticsCompletionEngine,
 	#superclass : #CoCompletionEngine,
@@ -11,10 +14,11 @@ Class {
 CoStatisticsCompletionEngine >> closeMenu [
 
 	context ifNotNil: [
-		CoStatistics uniqueInstance
-			logCancelCompletionFromTypedToken: context completionToken
-			inClass: (self completionClass ifNotNil: [ :class | class name ])
-			withDynamicExtent: self isScripting ].
+		statistics logCancelEvent: (CoCompletionCancelledEvent new
+			typedToken: context completionToken;
+			contextClassName: (self completionClass ifNotNil: [ :class | class name ]);
+			isDynamicContext: self isScripting;
+			yourself) ].
 	super closeMenu
 ]
 
@@ -23,6 +27,8 @@ CoStatisticsCompletionEngine >> initialize [
 
 	super initialize.
 	statistics := CoStatistics uniqueInstance.
-	complishonBuilder := CoStatisticsASTHeuristicsResultSetBuilder new.
+	complishonBuilder := CoStatisticsASTHeuristicsResultSetBuilder new
+		statistics: statistics;
+		yourself.
 	contextClass := CoStatisticsCompletionContext.
 ]

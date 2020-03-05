@@ -8,37 +8,37 @@ Class {
 }
 
 { #category : #'test-average' }
-CoStatisticsTest >> logAcceptedEntry: anIndex [
+CoStatisticsTest >> logAcceptedEvent: anIndex [
 
-	self logAcceptedEntry: anIndex typedToken: 'to'
+	self logAcceptedEvent: anIndex typedToken: 'to'
 ]
 
 { #category : #'test-average' }
-CoStatisticsTest >> logAcceptedEntry: anIndex typedToken: aToken [
+CoStatisticsTest >> logAcceptedEvent: anIndex typedToken: aToken [
 
 	| entry |
-	entry := CoStatisticsAcceptedEntry new
+	entry := CoEntryAcceptedEvent new
 		index: anIndex;
 		source: 'heuristic';
 		typedToken: aToken;
 		completedEntry: 'toto'.
 	
-	statistics logAcceptEntry: entry
+	statistics logAcceptEvent: entry
 ]
 
 { #category : #'test-average' }
 CoStatisticsTest >> testAcceptEntryIncrementsAverage [
 	statistics := CoStatistics new.
-	self logAcceptedEntry: 1.
-	self logAcceptedEntry: 1 typedToken: 'tototo'.
+	self logAcceptedEvent: 1.
+	self logAcceptedEvent: 1 typedToken: 'tototo'.
 	self assert: statistics averageTypedCharacters equals: 4
 ]
 
 { #category : #'test-average' }
 CoStatisticsTest >> testAcceptEntryIncrementsAverageEvenIfAtDifferentIndexes [
 	statistics := CoStatistics new.
-	self logAcceptedEntry: 1.
-	self logAcceptedEntry: 2 typedToken: 'tototo'.
+	self logAcceptedEvent: 1.
+	self logAcceptedEvent: 2 typedToken: 'tototo'.
 	self assert: statistics averageTypedCharacters equals: 4
 ]
 
@@ -46,43 +46,43 @@ CoStatisticsTest >> testAcceptEntryIncrementsAverageEvenIfAtDifferentIndexes [
 CoStatisticsTest >> testAcceptEntryLogsAllSources [
 
 	statistics := CoStatistics new.
-	self logAcceptedEntry: 1.
-	self logAcceptedEntry: 2.
+	self logAcceptedEvent: 1.
+	self logAcceptedEvent: 2.
 	self assert: (statistics entriesGeneratedBy: 'heuristic') equals: 2
 ]
 
 { #category : #'test-average' }
 CoStatisticsTest >> testAcceptEntryLogsAverageTypedCharacters [
 	statistics := CoStatistics new.
-	self logAcceptedEntry: 1.
+	self logAcceptedEvent: 1.
 	self assert: statistics averageTypedCharacters equals: 2
 ]
 
 { #category : #'test-average' }
 CoStatisticsTest >> testAcceptEntryLogsAverageTypedCharactersAtPosition [
 	statistics := CoStatistics new.
-	self logAcceptedEntry: 1.
+	self logAcceptedEvent: 1.
 	self assert: (statistics averageTypedCharactersAt: 1) equals: 2
 ]
 
 { #category : #'test-average' }
 CoStatisticsTest >> testAcceptEntryLogsAverageTypedCharactersDoesNotAffectOtherIndexes [
 	statistics := CoStatistics new.
-	self logAcceptedEntry: 2.
+	self logAcceptedEvent: 2.
 	self assert: (statistics averageTypedCharactersAt: 1) equals: 0
 ]
 
 { #category : #'test-entries' }
 CoStatisticsTest >> testAcceptEntryLogsIt [
 	statistics := CoStatistics new.
-	self logAcceptedEntry: 1.
+	self logAcceptedEvent: 1.
 	self assert: statistics acceptedEntries notEmpty
 ]
 
 { #category : #'test-entries' }
 CoStatisticsTest >> testAcceptEntryLogsItsSize [
 	statistics := CoStatistics new.
-	self logAcceptedEntry: 1.
+	self logAcceptedEvent: 1.
 	self assert: (statistics entriesAtIndex: 1) size equals: 1
 ]
 
@@ -91,7 +91,7 @@ CoStatisticsTest >> testAcceptEntryLogsItsSource [
 
 	| entries |
 	statistics := CoStatistics new.
-	self logAcceptedEntry: 1.
+	self logAcceptedEvent: 1.
 	
 	entries := statistics groupBy: [ :e | e index = 1 and: [ e source = 'heuristic' ] ].
 	
@@ -103,7 +103,7 @@ CoStatisticsTest >> testAcceptEntryLogsItsSourceInSeparateEntries [
 
 	| entries |
 	statistics := CoStatistics new.
-	self logAcceptedEntry: 2.
+	self logAcceptedEvent: 2.
 	entries := statistics groupBy: [ :e | e index = 1 and: [ e source = 'heuristic' ] ].
 	self assert: entries size equals: 0
 ]
@@ -111,8 +111,8 @@ CoStatisticsTest >> testAcceptEntryLogsItsSourceInSeparateEntries [
 { #category : #'test-entries' }
 CoStatisticsTest >> testAcceptTwoEntriesAtDifferentIndexLogsSeparateCounts [
 	statistics := CoStatistics new.
-	self logAcceptedEntry: 1.
-	self logAcceptedEntry: 2.
+	self logAcceptedEvent: 1.
+	self logAcceptedEvent: 2.
 	self assert: (statistics entriesAtIndex: 1) size equals: 1.
 	self assert: (statistics entriesAtIndex: 2) size equals: 1
 ]
@@ -120,8 +120,8 @@ CoStatisticsTest >> testAcceptTwoEntriesAtDifferentIndexLogsSeparateCounts [
 { #category : #'test-entries' }
 CoStatisticsTest >> testAcceptTwoEntriesAtSameIndexLogsCount [
 	statistics := CoStatistics new.
-	self logAcceptedEntry: 1.
-	self logAcceptedEntry: 1.
+	self logAcceptedEvent: 1.
+	self logAcceptedEvent: 1.
 	self assert: (statistics entriesAtIndex: 1) size equals: 2
 ]
 

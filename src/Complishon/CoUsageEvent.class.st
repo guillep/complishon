@@ -1,5 +1,9 @@
+"
+I am an abstract class for events happening during code completion.
+I'm used to take statistics about code completion usage.
+"
 Class {
-	#name : #CoStatisticsEntry,
+	#name : #CoUsageEvent,
 	#superclass : #Object,
 	#instVars : [
 		'typedToken',
@@ -10,43 +14,43 @@ Class {
 }
 
 { #category : #testing }
-CoStatisticsEntry class >> isAbstract [
+CoUsageEvent class >> isAbstract [
 
-	^ self == CoStatisticsEntry
+	^ self == CoUsageEvent
 ]
 
 { #category : #accessing }
-CoStatisticsEntry >> contextClassName [
+CoUsageEvent >> contextClassName [
 	^ contextClassName
 ]
 
 { #category : #accessing }
-CoStatisticsEntry >> contextClassName: anObject [
+CoUsageEvent >> contextClassName: anObject [
 	contextClassName := anObject
 ]
 
 { #category : #accessing }
-CoStatisticsEntry >> isDynamicContext [
+CoUsageEvent >> isDynamicContext [
 	^ isDynamicContext
 ]
 
 { #category : #accessing }
-CoStatisticsEntry >> isDynamicContext: anObject [
+CoUsageEvent >> isDynamicContext: anObject [
 	isDynamicContext := anObject
 ]
 
 { #category : #accessing }
-CoStatisticsEntry >> numberOfTypedCharacter [
+CoUsageEvent >> numberOfTypedCharacter [
 	
 	^ typedToken size
 ]
 
 { #category : #accessing }
-CoStatisticsEntry >> typedToken [
+CoUsageEvent >> typedToken [
 	^ typedToken
 ]
 
 { #category : #accessing }
-CoStatisticsEntry >> typedToken: anObject [
+CoUsageEvent >> typedToken: anObject [
 	typedToken := anObject
 ]

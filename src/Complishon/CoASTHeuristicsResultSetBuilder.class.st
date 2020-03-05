@@ -17,14 +17,9 @@ Class {
 	#category : #'Complishon-SystemIntegration'
 }
 
-{ #category : #initialization }
-CoASTHeuristicsResultSetBuilder >> initialize [
-	super initialize.
-	methodNodeHeuristic := self newHeuristicBuilder
-		add: CoSuperMessageHeuristic new;
-		add: CoUnknownMessageHeuristic new;
-		build.
-	messageHeuristic := self newHeuristicBuilder
+{ #category : #heuristics }
+CoASTHeuristicsResultSetBuilder >> messageHeuristic [
+	^ messageHeuristic ifNil: [ messageHeuristic := self newHeuristicBuilder
 		add: CoSelfMessageHeuristic new;
 		add: CoSuperMessageHeuristic new;
 		add: CoInitializeInferencedMessageHeuristic new;
@@ -33,18 +28,31 @@ CoASTHeuristicsResultSetBuilder >> initialize [
 		add: CoGlobalVariableMessageHeuristic new;
 		add: CoVariableWithTypeNameMessageHeuristic new;
 		add: CoUnknownMessageHeuristic new;
-		build.
-	variablesHeuristic := self newHeuristicBuilder
+		build ]
+]
+
+{ #category : #heuristics }
+CoASTHeuristicsResultSetBuilder >> methodNodeHeuristic [
+	^ methodNodeHeuristic ifNil: [
+		methodNodeHeuristic := self newHeuristicBuilder
+		add: CoSuperMessageHeuristic new;
+		add: CoUnknownMessageHeuristic new;
+		build ]
+]
+
+{ #category : #heuristics }
+CoASTHeuristicsResultSetBuilder >> newHeuristicBuilder [
+	^ CoHeuristicBuilder new
+]
+
+{ #category : #heuristics }
+CoASTHeuristicsResultSetBuilder >> variablesHeuristic [
+	^ variablesHeuristic ifNil: [ variablesHeuristic := self newHeuristicBuilder
 		add: CoLocalScopeVariablesHeuristic new;
 		add: CoWorkspaceVariablesHeuristic new;
 		add: CoInstanceAccessibleVariablesHeuristic new;
 		add: CoGlobalVariablesHeuristic new;
-		build
-]
-
-{ #category : #initialization }
-CoASTHeuristicsResultSetBuilder >> newHeuristicBuilder [
-	^ CoHeuristicBuilder new
+		build ]
 ]
 
 { #category : #visiting }
@@ -52,7 +60,7 @@ CoASTHeuristicsResultSetBuilder >> visitMessageNode: aRBMessageNode [
 	
 	^ self
 		configureFetcherForNode: aRBMessageNode
-		usingHeuristicAvoidingRepetitions: messageHeuristic
+		usingHeuristicAvoidingRepetitions: self messageHeuristic
 		narrowingWith: aRBMessageNode selector
 ]
 
@@ -61,7 +69,7 @@ CoASTHeuristicsResultSetBuilder >> visitMethodNode: aRBMethodNode [
 
 	^ self
 		configureFetcherForNode: aRBMethodNode
-		usingHeuristicAvoidingRepetitions: methodNodeHeuristic
+		usingHeuristicAvoidingRepetitions: self methodNodeHeuristic
 		narrowingWith: aRBMethodNode selector
 ]
 
@@ -70,6 +78,6 @@ CoASTHeuristicsResultSetBuilder >> visitVariableNode: aRBVariableNode [
 
 	^ self
 		configureFetcherForNode: aRBVariableNode
-		usingHeuristic: variablesHeuristic
+		usingHeuristic: self variablesHeuristic
 		narrowingWith: aRBVariableNode name
 ]

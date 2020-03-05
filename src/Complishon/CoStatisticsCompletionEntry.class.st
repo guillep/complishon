@@ -1,10 +1,18 @@
+"
+I am an entry to put in the list of candidates in the code completion list.
+I wrap a normal entry (necEntry) and logs acceptance when I'm sent the #activateOn: message.
+
+I'm meant to be created by a CoStatisticsHeuristicWrapper for each completion entry.
+See CoStatisticsHeuristicWrapper for more details
+"
 Class {
 	#name : #CoStatisticsCompletionEntry,
 	#superclass : #Object,
 	#instVars : [
 		'necEntry',
 		'index',
-		'heuristic'
+		'heuristic',
+		'statistics'
 	],
 	#category : #'Complishon-Statistics'
 }
@@ -27,12 +35,12 @@ CoStatisticsCompletionEntry >> = anEntry [
 CoStatisticsCompletionEntry >> activateOn: aCoCompletionContext [ 
 	
 	| entry |
-	entry := CoStatisticsAcceptedEntry new
+	entry := CoEntryAcceptedEvent new
 		index: index;
 		source: heuristic;
 		typedToken: aCoCompletionContext completionToken;
 		completedEntry: self contents.
-	CoStatistics uniqueInstance logAcceptEntry: entry.
+	statistics logAcceptEvent: entry.
 	necEntry activateOn: aCoCompletionContext
 ]
 
@@ -78,4 +86,14 @@ CoStatisticsCompletionEntry >> necEntry [
 CoStatisticsCompletionEntry >> necEntry: aNECEntry [ 
 	"self haltIf: [ aNECEntry isKindOf: self class ]."
 	necEntry := aNECEntry
+]
+
+{ #category : #accessing }
+CoStatisticsCompletionEntry >> statistics [
+	^ statistics
+]
+
+{ #category : #accessing }
+CoStatisticsCompletionEntry >> statistics: anObject [
+	statistics := anObject
 ]

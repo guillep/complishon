@@ -1,3 +1,13 @@
+"
+I am an object keeping code completion statistics.
+I store two collection of events: accepted events and cancelled events.
+Both events contain information about the completion context (class, is workspace...).
+Accepted events contain also the text accepted, the index, and the heuristic.
+
+I provide methods to access and query the statistics.
+
+I have a singleton instance for convenience.
+"
 Class {
 	#name : #CoStatistics,
 	#superclass : #Object,
@@ -62,7 +72,7 @@ CoStatistics >> averageTypedCharactersAt: anIndex [
 { #category : #accessing }
 CoStatistics >> entriesAtIndex: anInteger [ 
 	
-	^ acceptedEntries at: anInteger ifAbsentPut: [ CoStatisticsAcceptedEntry new ]
+	^ acceptedEntries at: anInteger ifAbsentPut: [ CoEntryAcceptedEvent new ]
 ]
 
 { #category : #accessing }
@@ -84,47 +94,44 @@ CoStatistics >> initialize [
 
 	super initialize.
 	acceptedEntries := Dictionary new.
-	cancelledCompletions := Dictionary new
+	cancelledCompletions := OrderedCollection new
 ]
 
 { #category : #events }
-CoStatistics >> logAcceptEntry: anEntry [
+CoStatistics >> logAcceptEvent: anEntry [
 	
 	| entries |
-	self haltIf: [anEntry index isNil].
 	entries := acceptedEntries at: anEntry index ifAbsentPut: [ OrderedCollection new ].
 	entries add: anEntry
 ]
 
 { #category : #events }
 CoStatistics >> logCancelCompletionFromTypedToken: typedToken inClass: aClassName withDynamicExtent: isDynamicExtent [
+
+	self logCancelEvent: (CoCompletionCancelledEvent new
+		typedToken: typedToken;
+		contextClassName: aClassName;
+		isDynamicContext: isDynamicExtent;
+		yourself)
+]
+
+{ #category : #events }
+CoStatistics >> logCancelEvent: aCancelEntry [
 	
-	"We have a matrix indexed by class name and dynamic extent or not.
-	Classes are indexed with a dictionary.
-	Being in a dynamic extent or not is inside an array.
-	We store an average inside."
-	| d1 average |
-	d1 := cancelledCompletions
-		at: aClassName
-		ifAbsentPut: [ Array new: 2 ].
-	average := d1 at: isDynamicExtent asBit + 1.
-	average ifNil: [ d1 at: isDynamicExtent asBit + 1 put: (average := CoIncrementalAverage new) ].
-	average incrementBy: typedToken size
+	cancelledCompletions add: aCancelEntry.
+
 ]
 
 { #category : #accessing }
 CoStatistics >> numberOfCancels [
 	
-	^ cancelledCompletions sumNumbers: [ :cancelledCompletionsInClass | 
-		self numberOfCancelsByClassCompletions: cancelledCompletionsInClass ]
+	^ cancelledCompletions size
 ]
 
 { #category : #accessing }
 CoStatistics >> numberOfCancelsByClass: aClassName [ 
 	
-	^ self numberOfCancelsByClassCompletions: (cancelledCompletions
-		at: aClassName
-		ifAbsent: [ ^ 0 ])
+	^ cancelledCompletions count: [ :e | e contextClassName = aClassName ]
 ]
 
 { #category : #accessing }
