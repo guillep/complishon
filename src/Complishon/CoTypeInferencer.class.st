@@ -300,7 +300,7 @@ CoTypeInferencer >> visitMessageNode: aRBMessageNode receiverType: receiverType 
 					inferMessageReturn: aRBMessageNode
 					receiverType: type
 					argumentTypes: argumentTypes ]
-			level: (aRBMessageNode selector = #initialize
+			level: ((#( initialize setUp ) includes: aRBMessageNode selector)
 				ifTrue: [level]
 				ifFalse: [level - 1]) ]
 ]
