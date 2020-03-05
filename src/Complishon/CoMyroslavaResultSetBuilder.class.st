@@ -17,9 +17,12 @@ CoMyroslavaResultSetBuilder >> parseNode [
 { #category : #visiting }
 CoMyroslavaResultSetBuilder >> visitNode: aNode [
 
-	| fetcher |
-	fetcher := (CoCollectionFetcher onCollection: 
-		(aNode completionEntries: complishonContext position)).
+	| fetcher entries sorter |
+	entries := aNode completionEntries: complishonContext position.
+	sorter := complishonContext class sorterClass new context: complishonContext.
+	entries := sorter sortCompletionList: entries asOrderedCollection.
+
+	fetcher := (CoCollectionFetcher onCollection: entries).
 
 	^ self
 		configureFetcher: fetcher
