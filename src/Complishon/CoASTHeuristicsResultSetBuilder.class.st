@@ -19,25 +19,32 @@ Class {
 
 { #category : #initialization }
 CoASTHeuristicsResultSetBuilder >> initialize [
-
 	super initialize.
-	methodNodeHeuristic := CoSuperMessageHeuristic new
-		next: CoUnknownMessageHeuristic new.
+	methodNodeHeuristic := self newHeuristicBuilder
+		add: CoSuperMessageHeuristic new;
+		add: CoUnknownMessageHeuristic new;
+		build.
+	messageHeuristic := self newHeuristicBuilder
+		add: CoSelfMessageHeuristic new;
+		add: CoSuperMessageHeuristic new;
+		add: CoInitializeInferencedMessageHeuristic new;
+		add: CoVariableValueMessageHeuristic new;
+		add: CoLiteralMessageHeuristic new;
+		add: CoGlobalVariableMessageHeuristic new;
+		add: CoVariableWithTypeNameMessageHeuristic new;
+		add: CoUnknownMessageHeuristic new;
+		build.
+	variablesHeuristic := self newHeuristicBuilder
+		add: CoLocalScopeVariablesHeuristic new;
+		add: CoWorkspaceVariablesHeuristic new;
+		add: CoInstanceAccessibleVariablesHeuristic new;
+		add: CoGlobalVariablesHeuristic new;
+		build
+]
 
-	messageHeuristic := CoSelfMessageHeuristic new
-		next: (CoSuperMessageHeuristic new
-			next: (CoInitializeInferencedMessageHeuristic new
-				next: (CoVariableValueMessageHeuristic new
-					next: (CoLiteralMessageHeuristic new
-						next: (CoGlobalVariableMessageHeuristic new
-							next: (CoVariableWithTypeNameMessageHeuristic new
-								next: CoUnknownMessageHeuristic new)))))).
-		
-	variablesHeuristic := CoLocalScopeVariablesHeuristic new
-		next: (CoWorkspaceVariablesHeuristic new
-			next: (CoInstanceAccessibleVariablesHeuristic new
-				next: CoGlobalVariablesHeuristic new)).
-
+{ #category : #initialization }
+CoASTHeuristicsResultSetBuilder >> newHeuristicBuilder [
+	^ CoHeuristicBuilder new
 ]
 
 { #category : #visiting }

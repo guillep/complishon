@@ -24,7 +24,7 @@ CoUnknownMessageHeuristic >> buildFetcherFor: aNode inContext: complishonContext
 
 	"If the context allows it, autocomplete first messages in the current package, then the rest in the system"
 	| fetcher |
-	fetcher := (CoGenericFetcher onCollection: Symbol selectorTable)
+	fetcher := (CoCollectionFetcher onCollection: Symbol selectorTable)
 		collect: [ :e | NECSelectorEntry contents: e node: self ].
 	complishonContext isWorkspace ifFalse: [
 		fetcher := (CoPackageImplementedMessagesFetcher new

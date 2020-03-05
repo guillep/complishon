@@ -44,6 +44,12 @@ CoASTNodeFetcherHeuristic >> initialize [
 	next := CoNullFetcherHeuristic new
 ]
 
+{ #category : #testing }
+CoASTNodeFetcherHeuristic >> isStatisticsHeuristicWrapper [
+	
+	^ false
+]
+
 { #category : #'fetcher-creation' }
 CoASTNodeFetcherHeuristic >> newMessageInHierarchyFetcherForClass: aClass [
 	

@@ -19,6 +19,13 @@ CoFetcherSequence >> add: aComplishon [
 	subcomplishons add: aComplishon
 ]
 
+{ #category : #accessing }
+CoFetcherSequence >> collect: aBlockClosure [
+
+	self haltIf: [ subcomplishons first class == CoMappingFetcher ].
+	^ super collect: aBlockClosure
+]
+
 { #category : #resetting }
 CoFetcherSequence >> context: anObject [
 	

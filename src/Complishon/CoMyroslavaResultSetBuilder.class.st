@@ -18,7 +18,7 @@ CoMyroslavaResultSetBuilder >> parseNode [
 CoMyroslavaResultSetBuilder >> visitNode: aNode [
 
 	| fetcher |
-	fetcher := (CoGenericFetcher onCollection: 
+	fetcher := (CoCollectionFetcher onCollection: 
 		(aNode completionEntries: complishonContext position)).
 
 	^ self

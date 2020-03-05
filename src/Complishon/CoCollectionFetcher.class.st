@@ -3,7 +3,7 @@ I'm a fetcher simply enumerating a collection of items defined using the collect
 Mainly used for testing.
 "
 Class {
-	#name : #CoGenericFetcher,
+	#name : #CoCollectionFetcher,
 	#superclass : #CoFetcher,
 	#instVars : [
 		'collection'
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-CoGenericFetcher class >> onCollection: aCollection [ 
+CoCollectionFetcher class >> onCollection: aCollection [ 
 	
 	^ self new
 		collection: aCollection;
@@ -20,12 +20,12 @@ CoGenericFetcher class >> onCollection: aCollection [
 ]
 
 { #category : #accessing }
-CoGenericFetcher >> collection: aCollection [ 
+CoCollectionFetcher >> collection: aCollection [ 
 	collection := aCollection
 ]
 
 { #category : #accessing }
-CoGenericFetcher >> entriesDo: aBlock [
+CoCollectionFetcher >> entriesDo: aBlock [
 
 	collection do: aBlock
 ]

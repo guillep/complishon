@@ -12,3 +12,9 @@ CoNullFetcherHeuristic >> fetcherFor: aNode inContext: anObject [
 
 	^ CoEmptyFetcher new
 ]
+
+{ #category : #testing }
+CoNullFetcherHeuristic >> isNullHeuristic [
+	
+	^ true
+]
