@@ -1,21 +1,24 @@
+"
+I build a resultset with all possible candidates for an AST node, pre-sorted with a sorter.
+"
 Class {
-	#name : #CoMyroslavaResultSetBuilder,
+	#name : #CoGlobalSorterResultSetBuilder,
 	#superclass : #CoASTResultSetBuilder,
 	#category : #'Complishon-SystemIntegration'
 }
 
 { #category : #visiting }
-CoMyroslavaResultSetBuilder >> parseNode [
+CoGlobalSorterResultSetBuilder >> parseNode [
 
 	| node |
 	node := super parseNode.
-	node doSemanticAnalysis.
-	TypingVisitor new visitNode: node.
+	node methodNode doSemanticAnalysis.
+	TypingVisitor new visitNode: node methodNode.
 	^ node
 ]
 
 { #category : #visiting }
-CoMyroslavaResultSetBuilder >> visitNode: aNode [
+CoGlobalSorterResultSetBuilder >> visitNode: aNode [
 
 	| fetcher entries sorter |
 	entries := aNode completionEntries: complishonContext position.
