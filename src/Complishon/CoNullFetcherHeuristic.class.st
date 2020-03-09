@@ -10,5 +10,11 @@ Class {
 { #category : #requests }
 CoNullFetcherHeuristic >> fetcherFor: aNode inContext: anObject [
 
-	^ EmptyComplishonFetcher new
+	^ CoEmptyFetcher new
+]
+
+{ #category : #testing }
+CoNullFetcherHeuristic >> isNullHeuristic [
+	
+	^ true
 ]

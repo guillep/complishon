@@ -10,14 +10,13 @@ This package is meant for Pharo 9.0 for now. It is highly experimental, there ar
 
 If you want to install it globally in the system, evaluate the following expression which will tell the completion engine to use our completion context:
 ```smalltalk
-CompletionEngine contextClass: SystemComplishonContext.
+RubSmalltalkEditor completionEngineClass: CoCompletionEngine.
 ```
 
 Otherwise, you can add it per spec text component as follows:
 
 ```smalltalk
-e := CompletionEngine new.
-e contextClass: SystemComplishonContext.
+e := CoCompletionEngine new.
 p := SpCodePresenter new
 	behavior: SpCodePresenter;
 	syntaxHighlight: true;
@@ -36,17 +35,17 @@ This completion engine is done out of three main components:
  
  ### Fetchers
  
- Fetchers are subclasses of  `ComplishonFetcher`. They need to define the method `#entriesInContext: aContext do: aBlock` iterating a collection.
+ Fetchers are subclasses of  `CoFetcher`. They need to define the method `#entriesDo: aBlock` iterating a collection.
  The fetcher framework will take care of creating a streaming API for it using generators.
  For example, a simple fetcher can be created and used with:
  
 ```smalltalk
-ComplishonFetcher subclass: #MyFetcher
+CoFetcher subclass: #MyFetcher
 	instanceVariableNames: ''
 	classVariableNames: ''
 	package: 'Complishon-Core'
   
-MyFetcher >> entriesInContext: aContext do: aBlock [
+MyFetcher >> entriesDo: aBlock [
   1 to: 10000000000 do: aBlock
 ]
 
@@ -57,13 +56,13 @@ MyFetcher new next >>> 1.
 A simple generic fetcher works on a collection.
 
 ```smalltalk
-GenericComplishonFetcher onCollection: #( a b b a c )
+CoCollectionFetcher onCollection: #( a b b a c )
 ```
 
 And an empty fetcher is useful to provide no results
 
 ```smalltalk
-EmptyComplishonFetcher new
+CoEmptyFetcher new
 ```
 
 #### Fetcher combinators
@@ -72,43 +71,43 @@ The fetchers above can be combined between them with several simple combinators.
 A **sequence** of fetchers, created with the message `#,`, fetches first the elements in the first fetcher, then in the second one.
 
 ```smalltalk
-InstanceVariableComplishonFetcher new, GlobalVariableComplishonFetcher new
+CoInstanceVariableFetcher new, CoGlobalVariableFetcher new
 ```
 
 A **filter** fetcher, created with the message `#select:`, decorates another fetcher and filters it with a block.
 
 ```smalltalk
-InstanceVariableComplishonFetcher new select: [ :e | "a condition..." ]
+CoInstanceVariableFetcher new select: [ :e | "a condition..." ]
 ```
 
 A **no-repetition** fetcher, created with the message `#withoutRepetition`, decorates another fetcher and filters those elements that were already returned previously by himself.
 
 ```smalltalk
-PackageImplementedMessagesComplishonFetcher new select: [ :e | "a condition..." ]
+CoPackageImplementedMessagesFetcher new select: [ :e | "a condition..." ]
 ```
 
 ### Fetchers for code completion
 
 In addition, this engine provides already fetchers to iterate the following:
- - `InstanceVariableComplishonFetcher`: instance variables of a class
- - `ClassVariableComplishonFetcher`: class variables of a class
- - `ClassImplementedMessagesComplishonFetcher`: messages implemented by a class
- - `GlobalVariableComplishonFetcher`: global variables in an environment
- - `MethodVariableComplishonFetcher`: variables accessible to an AST node (in order)
- - `PackageImplementedMessagesComplishonFetcher`: messages sent in a package
+ - `CoInstanceVariableFetcher`: instance variables of a class
+ - `CoClassVariableFetcher`: class variables of a class
+ - `CoClassImplementedMessagesFetcher`: messages implemented by a class
+ - `CoGlobalVariableFetcher`: global variables in an environment
+ - `CoMethodVariableFetcher`: variables accessible to an AST node (in order)
+ - `CoPackageImplementedMessagesFetcher`: messages sent in a package
 
-For code completion, another combinator shows useful to iterate a fetcher up a class hierarchy: `HierarchyComplishonFetcher`.
-This hierarchy fetcher decorates a `ClassBasedComplishonFetcher` (i.e., a `ClassImplementedMessagesComplishonFetcher`, a `InstanceVariableComplishonFetcher` or a `ClassImplementedMessagesComplishonFetcher`), and can be created with the message `#forHierarchy`.
+For code completion, another combinator shows useful to iterate a fetcher up a class hierarchy: `CoHierarchyFetcher`.
+This hierarchy fetcher decorates a `ClassBasedComplishonFetcher` (i.e., a `CoClassImplementedMessagesFetcher`, a `CoInstanceVariableFetcher` or a `CoClassImplementedMessagesFetcher`), and can be created with the message `#forHierarchy`.
 
 ## Completion ResultSet
 
-The `Complishon` object will store a `ComplishonContext` (knowing the current selection and status of the UI to autocomplete) and a fetcher.
+The `CoResultSet` object will store a fetcher.
 It then lazily fetches and internally store objects on demand:
 
 ```smalltalk
-c := Complishon
-	onContext: self context
-	fetcher: InstanceVariableComplishonFetcher new.
+c := CoResultSet fetcher: (CoInstanceVariableFetcher new
+    completionClass: aClass;
+    yourself).
 
 "The first time it will fetch 20 elements from the fetcher and store them"
 c first: 20.
@@ -120,7 +119,7 @@ c first: 20.
 c first: 25.
 ```
 
-The `Complishon` object allows one to:
+The `CoResultSet` object allows one to:
  - explicit fetch using `fetch:` and `fetchAll`
  - retrieve the results using `first`, `first:` and `results`
  - filter those results using `filterByString:`
@@ -135,23 +134,23 @@ The following piece of code shows examples of heuristics implemented in the prot
 
 If the AST node is a message whose receiver is `self`, autocomplete all messages implemented in the hierarchy.
 ```smalltalk
-(ClassImplementedMessagesComplishonFetcher new
-		completionClass: complishonContext complishonClass;
-		forHierarchy) withoutRepetition
+(CoClassImplementedMessagesFetcher new
+    completionClass: aClass;
+    forHierarchy) withoutRepetition
 ```
 
 If the AST node is a message whose receiver is `super`, autocomplete all messages implemented in the hierarchy starting from the superclass.
 ```smalltalk
-(ClassImplementedMessagesComplishonFetcher new
-		completionClass: complishonContext complishonClass superclass;
-		forHierarchy) withoutRepetition
+(CoClassImplementedMessagesFetcher new
+    completionClass: aClass superclass;
+    forHierarchy) withoutRepetition
 ```
 
 If the AST node is a message whose receiver is a class name like `OrderedCollection`, autocomplete all messages in the class-side hierarchy of that class.
 ```smalltalk
 (ClassImplementedMessagesComplishonFetcher new
-		completionClass: (completionContext environmentAt: aRBMessageNode receiver name) classSide;
-		forHierarchy) withoutRepetition
+    completionClass: (completionContext environmentAt: aRBMessageNode receiver name) classSide;
+    forHierarchy) withoutRepetition
 ```
 
 
@@ -160,29 +159,33 @@ Then continue with normal completion.
 There are two cases: variables starting with `a` such as `aPoint` and variables starting with `an` such as `anASTCache`.
 ```smalltalk
 completionContext environmentAt: aRBMessageNode receiver name allButFirst asSymbol ifPresent: [ :class |
-			^ (ClassImplementedMessagesComplishonFetcher new
-				completionClass: class;
-				forHierarchy), PackageImplementedMessagesComplishonFetcher new  ].
+    ^ (ClassImplementedMessagesComplishonFetcher new
+        completionClass: class;
+        forHierarchy), PackageImplementedMessagesComplishonFetcher new  ].
 completionContext environmentAt: (aRBMessageNode receiver name allButFirst: 2) asSymbol ifPresent: [ :class |
-			^ (ClassImplementedMessagesComplishonFetcher new
-				completionClass: class;
-				forHierarchy), PackageImplementedMessagesComplishonFetcher new  ]
+    ^ (ClassImplementedMessagesComplishonFetcher new
+        completionClass: class;
+        forHierarchy), PackageImplementedMessagesComplishonFetcher new  ]
 ].
 ```
 
 If all the above fail, autocomplete all messages used in the current package.
 Chances are we are going to send them again.
 ```smalltalk
-	^ PackageImplementedMessagesComplishonFetcher new
+    ^ CoPackageImplementedMessagesFetcher new
+    	complishonPackage: aPackage;
+	yourself
 ```
 
 ### Heuristics for Method signature
 
 When autocompleting the name of a new method, chances are we want to override a method in the hierarchy, or to reimplement a method polymorphic with the ones existing in the current package. 
 ```smalltalk
-(self newSuperMessageInHierarchyFetcher,
-				PackageImplementedMessagesComplishonFetcher new)
-					withoutRepetition
+self newSuperMessageInHierarchyFetcher,
+    (CoPackageImplementedMessagesFetcher new
+        complishonPackage: aPackage;
+	yourself)
+            withoutRepetition
 ```
 
 ### Heuristics for variables
@@ -190,23 +193,49 @@ When autocompleting the name of a new method, chances are we want to override a 
 Variables accessed by an instance are first the ones in the method, then the ones in the hierarchy.
 
 ```smalltalk
-instanceAccessible := MethodVariableComplishonFetcher new,
-	(InstanceVariableComplishonFetcher new
-		completionClass: complishonContext complishonClass)
+instanceAccessible := (CoMethodVariableFetcher new
+        complishonASTNode: anAST;
+	yourself),
+            (CoInstanceVariableFetcher new
+                completionClass: aClass)
 			forHierarchy ].
 ```
 
 Then, variables accessed by an instance are also the ones in the class variables and globals.
 ```smalltalk
-globallyAccessible := (ClassVariableComplishonFetcher new
-	completionClass: complishonContext complishonClass)
-		forHierarchy,
-      GlobalVariableComplishonFetcher new.
+globallyAccessible := (CoClassVariableFetcher new
+    completionClass: complishonContext complishonClass)
+        forHierarchy,
+            (CoGlobalVariableFetcher new
+	        complishonEnvironment: anEnvironment;
+		yourself).
 ```
 
-However, invert the order if the variable we are typing starts in uppercase.
-```smalltalk	
-	^ aRBVariableNode name first isUppercase
-		ifFalse: [ instanceAccessible , globallyAccessible ]
-		ifTrue: [ globallyAccessible, instanceAccessible ]
+## Plugging different heuristics
+
+This completion engine is meant to be pluggable.
+New heuristics can be introduced, or the ones in the system can be completely replaced.
+If you want to implement your own completion you need to subclass `CoASTResultSetBuilder` or `CoResultSetBuilder`.
+`CoASTResultSetBuilder` provides already common behavior when basic the code completion algorithm on the AST.
+Then the completion engine can be configured with the required result set builder.
+
 ```
+CoCompletionEngine new
+    complishonBuilder: MyResultSetBuilder new;
+    yourself
+```
+
+### Subclassing CoResultSetBuilder
+
+The system will provide your builder with a completion context, and will then call `buildComplishon`.
+You need to redefine `buildComplishon` and return a `CoResultSet`.
+
+### Subclassing CoASTResultSetBuilder
+
+The system will provide your builder with a completion context, and will then call a default version of `buildComplishon`.
+By default it will parse the source code to get an AST, get the AST node corresponding to the caret position, and make a double dispatch on the node. As a result, the ASTResultSetBuilder will be sent a corresponding visit* with the corresponding node.
+You need to redefine `visit*` and return a `CoResultSet` configured depending on the AST node.
+
+### Subclassing CoASTHeuristicsResultSetBuilder
+
+`CoASTHeuristicsResultSetBuilder` is an `CoASTResultSetBuilder` based on heuristics. It has three sets of heuristics: one for messages, one for variables, and one for methods. You can redefine `messageHeuristic`, `methodHeuristic` or `variablesHeuristic` to change one of them.

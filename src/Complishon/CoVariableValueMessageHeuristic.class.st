@@ -29,7 +29,9 @@ CoVariableValueMessageHeuristic >> valueOfVariable: aName inContext: complishonC
 	| binding |
 	"In the debugger, the binding values comes in the doItContext.
 	If we find in the doItContext has a variable with the given name, use it, otherwise ignore it."
-	(complishonContext doItContext ifNotNil: [ :c | c lookupSymbol: aName ])
+	(complishonContext doItContext ifNotNil: [ :c | 
+		(c astScope lookupVar: aName)
+			ifNotNil: [ c lookupSymbol: aName ] ])
 		ifNotNil: [ :value | ^ aBlock value: value ].
 
 	"In the playground, the binding values comes in the bindings of the requestor.
