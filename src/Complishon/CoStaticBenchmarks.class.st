@@ -102,6 +102,12 @@ CoStaticBenchmarks >> completionIndexes [
 	}
 ]
 
+{ #category : #scoring }
+CoStaticBenchmarks >> gradeForPrefixSize: prefixSize [
+
+	^ self accuracyForCompletionIndex: (2 to: 8) withPrefixSize: prefixSize
+]
+
 { #category : #inspector }
 CoStaticBenchmarks >> gtResultsTableIn: composite [
 	<gtInspectorPresentationOrder: 1>
@@ -168,6 +174,12 @@ CoStaticBenchmarks >> run [
 { #category : #accessing }
 CoStaticBenchmarks >> scope: aClass [ 
 	scope := aClass
+]
+
+{ #category : #scoring }
+CoStaticBenchmarks >> score [
+	
+	^ ((1 to: 7) sum: [ :i | (self gradeForPrefixSize: i + 1) / i ]) * 100 / ((1 to: 7) sum: [ :index | 1/index ])
 ]
 
 { #category : #inspector }
