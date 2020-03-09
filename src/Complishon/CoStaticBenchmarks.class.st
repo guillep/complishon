@@ -149,9 +149,9 @@ CoStaticBenchmarks >> prefixSizes [
 CoStaticBenchmarks >> printOn: aStream [
 
 	aStream
-		print: self class;
-		nextPutAll: '(';
 		print: builder;
+		nextPutAll: '(';
+		print: scope;
 		nextPutAll: ')'
 ]
 
