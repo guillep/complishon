@@ -5,7 +5,7 @@ Class {
 		'method',
 		'callsite'
 	],
-	#category : #'Complishon-Statistics'
+	#category : #'Complishon-Benchmarks'
 }
 
 { #category : #accessing }
