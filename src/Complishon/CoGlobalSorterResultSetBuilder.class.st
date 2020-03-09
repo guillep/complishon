@@ -4,6 +4,9 @@ I build a resultset with all possible candidates for an AST node, pre-sorted wit
 Class {
 	#name : #CoGlobalSorterResultSetBuilder,
 	#superclass : #CoASTResultSetBuilder,
+	#instVars : [
+		'sorterClass'
+	],
 	#category : #'Complishon-SystemIntegration'
 }
 
@@ -17,12 +20,23 @@ CoGlobalSorterResultSetBuilder >> parseNode [
 	^ node
 ]
 
+{ #category : #accessing }
+CoGlobalSorterResultSetBuilder >> sorterClass [
+	
+	^ sorterClass ifNil: [ complishonContext class sorterClass ]
+]
+
+{ #category : #accessing }
+CoGlobalSorterResultSetBuilder >> sorterClass: anObject [
+	sorterClass := anObject
+]
+
 { #category : #visiting }
 CoGlobalSorterResultSetBuilder >> visitNode: aNode [
 
 	| fetcher entries sorter |
 	entries := aNode completionEntries: complishonContext position.
-	sorter := complishonContext class sorterClass new context: complishonContext.
+	sorter := self sorterClass new context: complishonContext.
 	entries := sorter sortCompletionList: entries asOrderedCollection.
 
 	fetcher := (CoCollectionFetcher onCollection: entries).

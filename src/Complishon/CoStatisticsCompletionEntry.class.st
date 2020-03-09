@@ -51,6 +51,12 @@ CoStatisticsCompletionEntry >> contents [
 ]
 
 { #category : #accessing }
+CoStatisticsCompletionEntry >> hash [
+ 
+	^ self contents hash
+]
+
+{ #category : #accessing }
 CoStatisticsCompletionEntry >> heuristic [
 	^ heuristic
 ]
