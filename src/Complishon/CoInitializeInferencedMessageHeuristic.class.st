@@ -20,7 +20,7 @@ CoInitializeInferencedMessageHeuristic >> buildFetcherFor: aNode inContext: aCon
 
 	| variables fetcher |
 	variables := self inferTypesIn: aContext complishonClass.
-	fetcher := self next fetcherFor: aNode inContext: aContext.
+	fetcher := CoEmptyFetcher new.
 	variables
 		at: aNode receiver name
 		ifPresent: [ :types |

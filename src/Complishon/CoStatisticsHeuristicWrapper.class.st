@@ -30,7 +30,7 @@ CoStatisticsHeuristicWrapper >> buildFetcherFor: aNode inContext: aContext [
 			heuristic: self next;
 			statistics: statistics;
 			yourself ].
-	^ wrappedFetcher, (self next fetcherFor: aNode inContext: aContext)
+	^ wrappedFetcher
 ]
 
 { #category : #testing }

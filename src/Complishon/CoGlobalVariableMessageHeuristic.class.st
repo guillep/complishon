@@ -19,7 +19,7 @@ CoGlobalVariableMessageHeuristic >> buildFetcherFor: aRBMessageNode inContext: c
 		environmentAt: aRBMessageNode receiver name
 		ifPresent: [ :global | ^ self newFetcherForGlobal: global ].
 
-	^ self next fetcherFor: aRBMessageNode inContext: complishonContext
+	^ CoEmptyFetcher new
 ]
 
 { #category : #requests }

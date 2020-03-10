@@ -32,10 +32,13 @@ CoASTNodeFetcherHeuristic >> buildFetcherFor: aRBMessageNode inContext: aContext
 { #category : #requests }
 CoASTNodeFetcherHeuristic >> fetcherFor: aRBMessageNode inContext: aContext [
 
-	(self appliesForNode: aRBMessageNode inContext: aContext)
-		ifFalse: [ ^ self next fetcherFor: aRBMessageNode inContext: aContext ].
-	
-	^ self buildFetcherFor: aRBMessageNode inContext: aContext
+	| nextFetcher |
+	nextFetcher := self next fetcherFor: aRBMessageNode inContext: aContext.
+	^ (self appliesForNode: aRBMessageNode inContext: aContext)
+		ifTrue: [
+			(self buildFetcherFor: aRBMessageNode inContext: aContext),
+				nextFetcher ]
+		ifFalse: [ nextFetcher ]
 ]
 
 { #category : #initialization }
