@@ -79,6 +79,6 @@ CoASTHeuristicsResultSetBuilder >> visitVariableNode: aRBVariableNode [
 
 	^ self
 		configureFetcherForNode: aRBVariableNode
-		usingHeuristic: self variablesHeuristic
+		usingHeuristicAvoidingRepetitions: self variablesHeuristic
 		narrowingWith: aRBVariableNode name
 ]
