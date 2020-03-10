@@ -196,6 +196,6 @@ CoCompletionContext >> title [
 
 { #category : #'as yet unclassified' }
 CoCompletionContext >> variableBindingNames [
-  
+
 	^ self engine variableBindingNames
 ]
