@@ -18,6 +18,6 @@ CoWorkspaceVariablesHeuristic >> appliesForNode: aNode inContext: aContext [
 { #category : #requests }
 CoWorkspaceVariablesHeuristic >> buildFetcherFor: aNode inContext: aContext [
 
-	^ (CoCollectionFetcher onCollection: aContext doItRequestor model variableBindings keys)
+	^ (CoCollectionFetcher onCollection: aContext variableBindingNames)
 		collect: [ :e | NECLocalEntry contents: e node: self ]
 ]
