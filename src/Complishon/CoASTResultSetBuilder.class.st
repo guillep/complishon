@@ -5,7 +5,8 @@ Class {
 	#name : #CoASTResultSetBuilder,
 	#superclass : #CoResultSetBuilder,
 	#instVars : [
-		'astNode'
+		'astNode',
+		'node'
 	],
 	#category : #'Complishon-SystemIntegration'
 }
@@ -64,13 +65,19 @@ CoASTResultSetBuilder >> configureFetcherForNode: aNode usingHeuristicAvoidingRe
 		narrowingWith: aString
 ]
 
+{ #category : #accessing }
+CoASTResultSetBuilder >> node: aNode [
+
+	node := aNode
+]
+
 { #category : #'API - building' }
 CoASTResultSetBuilder >> parseNode [
 
-	^ (complishonContext isWorkspace
+	^ node ifNil: [ node := (complishonContext isWorkspace
 		ifTrue: [ RBParser parseFaultyExpression: complishonContext source ]
 		ifFalse: [ RBParser parseFaultyMethod: complishonContext source ])
-			nodeForOffset: complishonContext position
+			nodeForOffset: complishonContext position ]
 ]
 
 { #category : #visiting }

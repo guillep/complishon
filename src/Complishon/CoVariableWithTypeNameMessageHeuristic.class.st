@@ -21,17 +21,15 @@ CoVariableWithTypeNameMessageHeuristic >> buildFetcherFor: aRBMessageNode inCont
 		and: [ complishonContext
 				environmentAt: aRBMessageNode receiver name allButFirst asSymbol
 				ifPresent: [ :global | 
-					^ (self newFetcherForMaybeGlobalInstance: global)
-						, (self next fetcherFor: aRBMessageNode inContext: complishonContext) ] ].
+					^ self newFetcherForMaybeGlobalInstance: global ] ].
 	
 	aRBMessageNode receiver name size > 2
 		and: [ complishonContext
 				environmentAt: (aRBMessageNode receiver name allButFirst: 2) asSymbol
 				ifPresent: [ :global | 
-					^ (self newFetcherForMaybeGlobalInstance: global)
-						, (self next fetcherFor: aRBMessageNode inContext: complishonContext) ] ].
+					^ self newFetcherForMaybeGlobalInstance: global ] ].
 				
-	^ self next fetcherFor: aRBMessageNode inContext: complishonContext
+	^ CoEmptyFetcher new
 ]
 
 { #category : #requests }

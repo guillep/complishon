@@ -28,5 +28,5 @@ CoInstanceAccessibleVariablesHeuristic >> buildFetcherFor: aNode inContext: comp
 	cvFetcher :=  (CoClassVariableFetcher new
 			completionClass: complishonContext complishonClass) forHierarchy.
 	
-	^ ivFetcher, cvFetcher, (next fetcherFor: aNode inContext: complishonContext)
+	^ ivFetcher, cvFetcher
 ]

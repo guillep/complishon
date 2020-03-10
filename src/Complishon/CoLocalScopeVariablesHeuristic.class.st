@@ -18,6 +18,5 @@ CoLocalScopeVariablesHeuristic >> appliesForNode: aNode inContext: aContext [
 { #category : #requests }
 CoLocalScopeVariablesHeuristic >> buildFetcherFor: aNode inContext: aContext [
 
-	^ ((CoMethodVariableFetcher new) complishonASTNode: aNode),
-			(self next fetcherFor: aNode inContext: aContext)
+	^ CoMethodVariableFetcher new complishonASTNode: aNode
 ]

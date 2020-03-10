@@ -53,18 +53,22 @@ CoStaticBenchmarks >> accuracyForCompletionIndex: completionIndexRange withPrefi
 ]
 
 { #category : #benchmarks }
-CoStaticBenchmarks >> benchCallsite: aRBMessageNode [ 
+CoStaticBenchmarks >> benchCallsite: aRBMessageNode atPosition: aPosition [
 	
 	| originalSelector |
-	aRBMessageNode methodNode methodClass.
 	originalSelector := aRBMessageNode selector.
 	2 to: (aRBMessageNode selector size min: 8) do: [ :index | | prefix completion candidates completionIndex previousResultsPerIndexPerPrefixSize |
 	
 		"The CoGlobalSorterResultSetBuilder uses the selector to pre-narrow the results"	
 		prefix := originalSelector copyFrom: 1 to: index.
 		aRBMessageNode selector: prefix.
+
 		completion := builder
-			complishonContext: (CoBenchmarkContext new callsite: aRBMessageNode);
+			node: aRBMessageNode;
+			complishonContext: (CoBenchmarkContext new
+				callsite: aRBMessageNode;
+				position: aPosition;
+				yourself);
 			buildComplishon.
 		
 		completion filterWithString: prefix.
@@ -81,8 +85,8 @@ CoStaticBenchmarks >> benchCallsite: aRBMessageNode [
 			at: completionIndex
 			at: prefix size
 			put: {previousResultsPerIndexPerPrefixSize first + 1 . previousResultsPerIndexPerPrefixSize second }
-	]
-	
+	].
+	aRBMessageNode selector: originalSelector.
 ]
 
 { #category : #accessing }
@@ -166,7 +170,8 @@ CoStaticBenchmarks >> run [
 	
 	scope methodsDo: [ :method |
 		method parseTree nodesDo: [ :node |
-			node isMessage ifTrue: [ self benchCallsite: node ]
+			node isMessage ifTrue: [ 
+				self benchCallsite: node atPosition: node keywordsIntervals first ]
 		]
 	]
 ]

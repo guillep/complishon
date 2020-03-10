@@ -19,14 +19,15 @@ Class {
 
 { #category : #heuristics }
 CoASTHeuristicsResultSetBuilder >> messageHeuristic [
+
 	^ messageHeuristic ifNil: [ messageHeuristic := self newHeuristicBuilder
 		add: CoSelfMessageHeuristic new;
 		add: CoSuperMessageHeuristic new;
 		add: CoInitializeInferencedMessageHeuristic new;
-		add: CoVariableValueMessageHeuristic new;
 		add: CoLiteralMessageHeuristic new;
 		add: CoGlobalVariableMessageHeuristic new;
 		add: CoVariableWithTypeNameMessageHeuristic new;
+		add: CoVariableValueMessageHeuristic new;
 		add: CoUnknownMessageHeuristic new;
 		build ]
 ]
@@ -78,6 +79,6 @@ CoASTHeuristicsResultSetBuilder >> visitVariableNode: aRBVariableNode [
 
 	^ self
 		configureFetcherForNode: aRBVariableNode
-		usingHeuristic: self variablesHeuristic
+		usingHeuristicAvoidingRepetitions: self variablesHeuristic
 		narrowingWith: aRBVariableNode name
 ]

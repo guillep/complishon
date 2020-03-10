@@ -19,8 +19,7 @@ CoVariableValueMessageHeuristic >> buildFetcherFor: aRBMessageNode inContext: aC
 		inContext: aContext
 		ifPresent: [ :value | ^ self newMessageInHierarchyFetcherForClass: value class ].
 	
-	"If we found none, continue"
-	^ self next fetcherFor: aRBMessageNode inContext: aContext
+	^ CoEmptyFetcher new
 ]
 
 { #category : #requests }

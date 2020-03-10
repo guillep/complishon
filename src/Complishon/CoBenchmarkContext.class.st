@@ -8,7 +8,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'method',
-		'callsite'
+		'callsite',
+		'position'
 	],
 	#category : #'Complishon-Benchmarks'
 }
@@ -56,7 +57,13 @@ CoBenchmarkContext >> isWorkspace [
 { #category : #accessing }
 CoBenchmarkContext >> position [
 	
-	^ callsite keywordsIntervals first first
+	^ position first + 1
+]
+
+{ #category : #accessing }
+CoBenchmarkContext >> position: aPosition [
+	
+	position := aPosition
 ]
 
 { #category : #accessing }
