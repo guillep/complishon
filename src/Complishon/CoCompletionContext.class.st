@@ -95,17 +95,13 @@ CoCompletionContext >> complishonEnvironment [
 { #category : #accessing }
 CoCompletionContext >> doItContext [
 
-	"Rubric sends the morph as requestor to the compiler.
-	We need to use it to keep the same semantics..."
-	^ engine editor model doItContext
+	^ engine doItContext
 ]
 
 { #category : #accessing }
 CoCompletionContext >> doItRequestor [
 
-	"Rubric sends the morph as requestor to the compiler.
-	We need to use it to keep the same semantics..."
-	^ engine editor morph
+	^ engine doItRequestor
 ]
 
 { #category : #accessing }
@@ -196,4 +192,10 @@ CoCompletionContext >> source: anObject [
 CoCompletionContext >> title [
 
 	^ ''
+]
+
+{ #category : #'as yet unclassified' }
+CoCompletionContext >> variableBindingNames [
+  
+	^ self engine variableBindingNames
 ]
