@@ -65,11 +65,11 @@ CoStaticBenchmarks >> benchCallsite: aRBMessageNode atPosition: aPosition [
 
 		completion := builder
 			node: aRBMessageNode;
-			complishonContext: (CoBenchmarkContext new
+			completionContext: (CoBenchmarkContext new
 				callsite: aRBMessageNode;
 				position: aPosition;
 				yourself);
-			buildComplishon.
+			buildCompletion.
 		
 		completion filterWithString: prefix.
 		candidates := completion first: 10.

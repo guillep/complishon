@@ -27,7 +27,7 @@ CoStatisticsCompletionEngine >> initialize [
 
 	super initialize.
 	statistics := CoStatistics uniqueInstance.
-	complishonBuilder := CoStatisticsASTHeuristicsResultSetBuilder new
+	completionBuilder := CoStatisticsASTHeuristicsResultSetBuilder new
 		statistics: statistics;
 		yourself.
 	contextClass := CoStatisticsCompletionContext.

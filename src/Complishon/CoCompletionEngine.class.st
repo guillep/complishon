@@ -8,27 +8,27 @@ Class {
 	#name : #CoCompletionEngine,
 	#superclass : #CompletionEngine,
 	#instVars : [
-		'complishonBuilder'
+		'completionBuilder'
 	],
 	#category : #'Complishon-SystemIntegration'
 }
 
 { #category : #accessing }
-CoCompletionEngine >> complishonBuilder [
+CoCompletionEngine >> completionBuilder [
 
-	^ complishonBuilder ifNil: [ CoASTHeuristicsResultSetBuilder new ]
+	^ completionBuilder ifNil: [ CoASTHeuristicsResultSetBuilder new ]
 ]
 
 { #category : #accessing }
-CoCompletionEngine >> complishonBuilder: anObject [
-	complishonBuilder := anObject
+CoCompletionEngine >> completionBuilder: anObject [
+	completionBuilder := anObject
 ]
 
 { #category : #'menu morph' }
 CoCompletionEngine >> createContext [
 
 	^ super createContext
-		complishonBuilder: self complishonBuilder;
+		completionBuilder: self completionBuilder;
 		yourself
 ]
 

@@ -11,7 +11,7 @@ CoSequenceFetcherTest >> setUp [
 	fetcher := (CoInstanceVariableFetcher new
 			completionClass: self completionClass)
 				, (CoGlobalVariableFetcher new
-					complishonEnvironment: self completionEnvironment).
+					completionEnvironment: self completionEnvironment).
 	expectedElements := #(a b c A B C)
 ]
 

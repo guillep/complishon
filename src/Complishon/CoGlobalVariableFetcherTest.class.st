@@ -9,6 +9,6 @@ CoGlobalVariableFetcherTest >> setUp [
 
 	super setUp.
 	fetcher := CoGlobalVariableFetcher new.
-	fetcher complishonEnvironment: self completionEnvironment.
+	fetcher completionEnvironment: self completionEnvironment.
 	expectedElements := #(A B C).
 ]

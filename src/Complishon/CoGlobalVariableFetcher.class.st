@@ -5,24 +5,24 @@ Class {
 	#name : #CoGlobalVariableFetcher,
 	#superclass : #CoFetcher,
 	#instVars : [
-		'complishonEnvironment'
+		'completionEnvironment'
 	],
 	#category : #'Complishon-Fetchers'
 }
 
 { #category : #accessing }
-CoGlobalVariableFetcher >> complishonEnvironment [
-	^ complishonEnvironment
+CoGlobalVariableFetcher >> completionEnvironment [
+	^ completionEnvironment
 ]
 
 { #category : #accessing }
-CoGlobalVariableFetcher >> complishonEnvironment: anObject [
-	complishonEnvironment := anObject
+CoGlobalVariableFetcher >> completionEnvironment: anObject [
+	completionEnvironment := anObject
 ]
 
 { #category : #accessing }
 CoGlobalVariableFetcher >> entriesDo: aBlock [
 
-	complishonEnvironment globals do: [ :e |
+	completionEnvironment globals do: [ :e |
 		aBlock value: (NECGlobalEntry contents: e node: self)]
 ]

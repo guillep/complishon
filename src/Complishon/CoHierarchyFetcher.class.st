@@ -10,9 +10,9 @@ Class {
 
 { #category : #accessing }
 CoHierarchyFetcher >> entriesDo: aBlock [
-	| currentComplishonFetcher |
-	currentComplishonFetcher := decoree.
-	[ currentComplishonFetcher isEmptyComplishonFetcher ]
-		whileFalse: [ currentComplishonFetcher entriesDo: aBlock.
-			currentComplishonFetcher := currentComplishonFetcher onSuperclass ]
+	| currentCompletionFetcher |
+	currentCompletionFetcher := decoree.
+	[ currentCompletionFetcher isEmptyCompletionFetcher ]
+		whileFalse: [ currentCompletionFetcher entriesDo: aBlock.
+			currentCompletionFetcher := currentCompletionFetcher onSuperclass ]
 ]

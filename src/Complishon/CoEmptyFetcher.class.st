@@ -14,7 +14,7 @@ CoEmptyFetcher >> entriesDo: aBlock [
 ]
 
 { #category : #accessing }
-CoEmptyFetcher >> isEmptyComplishonFetcher [
+CoEmptyFetcher >> isEmptyCompletionFetcher [
 	
 	^ true
 ]

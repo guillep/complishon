@@ -14,7 +14,7 @@ CoFetcherWithNoResultsTest >> setUp [
 ]
 
 { #category : #tests }
-CoFetcherWithNoResultsTest >> testComplishonWithNoResultsShouldBeAtEnd [
+CoFetcherWithNoResultsTest >> testCompletionWithNoResultsShouldBeAtEnd [
 
 	self assert: self fetcher atEnd
 ]

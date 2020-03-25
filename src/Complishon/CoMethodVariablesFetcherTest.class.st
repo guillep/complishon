@@ -9,6 +9,6 @@ CoMethodVariablesFetcherTest >> setUp [
 
 	super setUp.
 	fetcher := CoMethodVariableFetcher new.
-	fetcher complishonASTNode: self innerASTNode.
+	fetcher completionASTNode: self innerASTNode.
 	expectedElements := #(blockTemporary blockArgument methodTemporary methodArgument).
 ]

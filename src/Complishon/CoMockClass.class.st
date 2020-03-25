@@ -80,7 +80,7 @@ CoMockClass >> superclass [
 ]
 
 { #category : #accessing }
-CoMockClass >> superclass: aComplishonMockClass [ 
+CoMockClass >> superclass: aCompletionMockClass [ 
 	
-	superclass := aComplishonMockClass
+	superclass := aCompletionMockClass
 ]

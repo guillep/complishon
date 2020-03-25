@@ -9,37 +9,37 @@ Class {
 	#name : #CoResultSetBuilder,
 	#superclass : #Object,
 	#instVars : [
-		'complishonContext'
+		'completionContext'
 	],
 	#category : #'Complishon-SystemIntegration'
 }
 
 { #category : #'instance creation' }
-CoResultSetBuilder class >> initializeOnContext: aSystemComplishonContext [
+CoResultSetBuilder class >> initializeOnContext: aSystemCompletionContext [
 	
 	^ self new
-		initializeOnContext: aSystemComplishonContext;
+		initializeOnContext: aSystemCompletionContext;
 		yourself
 ]
 
 { #category : #'API - building' }
-CoResultSetBuilder >> buildComplishon [
+CoResultSetBuilder >> buildCompletion [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-CoResultSetBuilder >> complishonContext [
-	^ complishonContext
+CoResultSetBuilder >> completionContext [
+	^ completionContext
 ]
 
 { #category : #accessing }
-CoResultSetBuilder >> complishonContext: anObject [
-	complishonContext := anObject
+CoResultSetBuilder >> completionContext: anObject [
+	completionContext := anObject
 ]
 
 { #category : #initialization }
-CoResultSetBuilder >> initializeOnContext: aComplishonContext [ 
+CoResultSetBuilder >> initializeOnContext: aCompletionContext [ 
 	
-	complishonContext := aComplishonContext
+	completionContext := aCompletionContext
 ]

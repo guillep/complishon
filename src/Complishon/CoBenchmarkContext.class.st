@@ -25,7 +25,7 @@ CoBenchmarkContext >> callsite: anObject [
 ]
 
 { #category : #accessing }
-CoBenchmarkContext >> complishonClass [
+CoBenchmarkContext >> completionClass [
 	
 	^ callsite methodNode methodClass
 ]

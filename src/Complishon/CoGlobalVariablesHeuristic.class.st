@@ -16,9 +16,9 @@ CoGlobalVariablesHeuristic >> appliesForNode: aNode inContext: aContext [
 ]
 
 { #category : #requests }
-CoGlobalVariablesHeuristic >> buildFetcherFor: aNode inContext: complishonContext [
+CoGlobalVariablesHeuristic >> buildFetcherFor: aNode inContext: completionContext [
 
 	^ CoGlobalVariableFetcher new
-			complishonEnvironment: complishonContext complishonEnvironment;
+			completionEnvironment: completionContext completionEnvironment;
 			yourself
 ]

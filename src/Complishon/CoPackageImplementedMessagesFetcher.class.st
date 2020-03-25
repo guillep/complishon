@@ -5,24 +5,24 @@ Class {
 	#name : #CoPackageImplementedMessagesFetcher,
 	#superclass : #CoFetcher,
 	#instVars : [
-		'complishonPackage'
+		'completionPackage'
 	],
 	#category : #'Complishon-Fetchers'
 }
 
 { #category : #accessing }
-CoPackageImplementedMessagesFetcher >> complishonPackage [
-	^ complishonPackage
+CoPackageImplementedMessagesFetcher >> completionPackage [
+	^ completionPackage
 ]
 
 { #category : #accessing }
-CoPackageImplementedMessagesFetcher >> complishonPackage: anObject [
-	complishonPackage := anObject
+CoPackageImplementedMessagesFetcher >> completionPackage: anObject [
+	completionPackage := anObject
 ]
 
 { #category : #accessing }
 CoPackageImplementedMessagesFetcher >> entriesDo: aBlock [
 	
-	SystemNavigation new allSentMessagesInPackage: complishonPackage do: [ :e |
+	SystemNavigation new allSentMessagesInPackage: completionPackage do: [ :e |
 		aBlock value: (NECSelectorEntry contents: e node: self)]
 ]

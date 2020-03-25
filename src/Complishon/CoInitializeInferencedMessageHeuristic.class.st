@@ -11,7 +11,7 @@ Class {
 { #category : #requests }
 CoInitializeInferencedMessageHeuristic >> appliesForNode: aNode inContext: aContext [
 
-	^ aContext complishonClass notNil
+	^ aContext completionClass notNil
 		and: [ aNode receiver isVariable ]
 ]
 
@@ -19,7 +19,7 @@ CoInitializeInferencedMessageHeuristic >> appliesForNode: aNode inContext: aCont
 CoInitializeInferencedMessageHeuristic >> buildFetcherFor: aNode inContext: aContext [
 
 	| variables fetcher |
-	variables := self inferTypesIn: aContext complishonClass.
+	variables := self inferTypesIn: aContext completionClass.
 	fetcher := CoEmptyFetcher new.
 	variables
 		at: aNode receiver name

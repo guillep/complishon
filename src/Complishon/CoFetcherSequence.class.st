@@ -8,39 +8,39 @@ Class {
 	#name : #CoFetcherSequence,
 	#superclass : #CoFetcher,
 	#instVars : [
-		'subcomplishons'
+		'subcompletions'
 	],
 	#category : #'Complishon-Core'
 }
 
 { #category : #adding }
-CoFetcherSequence >> add: aComplishon [
+CoFetcherSequence >> add: aCompletion [
 	
-	subcomplishons add: aComplishon
+	subcompletions add: aCompletion
 ]
 
 { #category : #resetting }
 CoFetcherSequence >> context: anObject [
 	
 	super context: anObject.
-	subcomplishons do: [ :each | each context: anObject ]
+	subcompletions do: [ :each | each context: anObject ]
 ]
 
 { #category : #accessing }
 CoFetcherSequence >> entriesDo: aBlock [
-	subcomplishons do: [ :complishon | complishon entriesDo: aBlock ]
+	subcompletions do: [ :completion | completion entriesDo: aBlock ]
 ]
 
 { #category : #adding }
 CoFetcherSequence >> initialize [
 
 	super initialize.
-	subcomplishons := OrderedCollection new
+	subcompletions := OrderedCollection new
 ]
 
 { #category : #resetting }
 CoFetcherSequence >> reset [
 	
 	super reset.
-	subcomplishons do: [ :each | each reset ].
+	subcompletions do: [ :each | each reset ].
 ]

@@ -2,7 +2,7 @@ Class {
 	#name : #CoResultSetTest,
 	#superclass : #CoBasicCompletionTest,
 	#instVars : [
-		'complishon'
+		'completion'
 	],
 	#category : #'Complishon-Tests'
 }
@@ -12,7 +12,7 @@ CoResultSetTest >> setUp [
 
 	super setUp.
 	self completionClass addInstanceVariable: 'ba'.
-	complishon := CoResultSet
+	completion := CoResultSet
 		fetcher: (CoInstanceVariableFetcher new
 			completionClass: self completionClass)
 ]
@@ -20,26 +20,26 @@ CoResultSetTest >> setUp [
 { #category : #tests }
 CoResultSetTest >> testBroadenFilterAfterFetchComplishonShouldBroadenResults [
 
-	complishon filterWithString: 'ba'.
-	complishon fetch: 1.
-	complishon filterWithString: 'b'.
+	completion filterWithString: 'ba'.
+	completion fetch: 1.
+	completion filterWithString: 'b'.
 	
-	self assert: complishon first equals: 'b'
+	self assert: completion first equals: 'b'
 ]
 
 { #category : #tests }
 CoResultSetTest >> testBroaderFilterComplishonShouldBroadenResults [
 
-	complishon filterWithString: 'ba'.
-	complishon filterWithString: 'b'.
+	completion filterWithString: 'ba'.
+	completion filterWithString: 'b'.
 	
-	self assert: complishon first equals: 'b'
+	self assert: completion first equals: 'b'
 ]
 
 { #category : #tests }
 CoResultSetTest >> testComplishonWithElementsToFetchShouldHaveMore [
 
-	self assert: complishon hasMoreElements
+	self assert: completion hasMoreElements
 ]
 
 { #category : #tests }
@@ -55,61 +55,61 @@ CoResultSetTest >> testComplishonWithNoElementsToFetchShouldNotHaveMore [
 { #category : #tests }
 CoResultSetTest >> testEnumerateShouldFetch [
 
-	self assert: complishon first equals: 'a'
+	self assert: completion first equals: 'a'
 ]
 
 { #category : #tests }
 CoResultSetTest >> testFilterComplishonAfterFetchingShouldNarrowResults [
 
-	complishon fetch: 1.
-	complishon filterWithString: 'b'.
+	completion fetch: 1.
+	completion filterWithString: 'b'.
 
-	self assert: complishon first equals: 'b'
+	self assert: completion first equals: 'b'
 ]
 
 { #category : #tests }
 CoResultSetTest >> testFilterTwiceWithSameCompletionShouldReturnSameResults [
 	
-	complishon filterWithString: 'ba'.
-	complishon fetch: 2.
-	complishon filterWithString: 'ba'.
+	completion filterWithString: 'ba'.
+	completion fetch: 2.
+	completion filterWithString: 'ba'.
 
-	self assertCollection: (complishon first: 2) hasSameElements: #('ba')
+	self assertCollection: (completion first: 2) hasSameElements: #('ba')
 ]
 
 { #category : #tests }
 CoResultSetTest >> testNarrowFilterAfterFetchComplishonShouldNarrowResults [
 
-	complishon filterWithString: 'b'.
-	complishon fetch: 1.
-	complishon filterWithString: 'ba'.
+	completion filterWithString: 'b'.
+	completion fetch: 1.
+	completion filterWithString: 'ba'.
 
-	self assert: complishon first equals: 'ba'
+	self assert: completion first equals: 'ba'
 ]
 
 { #category : #tests }
 CoResultSetTest >> testNarrowerFilterComplishonShouldNarrowResults [
 
-	complishon filterWithString: 'b'.
-	complishon filterWithString: 'ba'.
+	completion filterWithString: 'b'.
+	completion filterWithString: 'ba'.
 
-	self assert: complishon first equals: 'ba'
+	self assert: completion first equals: 'ba'
 ]
 
 { #category : #tests }
 CoResultSetTest >> testResetFilterShouldRetrievePreviousResults [
 
-	complishon filterWithString: 'b'.
-	complishon fetch: 5.
-	complishon resetFilter.
+	completion filterWithString: 'b'.
+	completion fetch: 5.
+	completion resetFilter.
 
-	self assert: complishon first equals: 'a'
+	self assert: completion first equals: 'a'
 ]
 
 { #category : #tests }
 CoResultSetTest >> testResetFilterWithNoFilterSetShouldNotAlterResults [
 
-	complishon resetFilter.
+	completion resetFilter.
 
-	self assert: complishon first equals: 'a'
+	self assert: completion first equals: 'a'
 ]

@@ -23,7 +23,7 @@ CoGlobalSorterResultSetBuilder >> parseNode [
 { #category : #accessing }
 CoGlobalSorterResultSetBuilder >> sorterClass [
 	
-	^ sorterClass ifNil: [ complishonContext class sorterClass ]
+	^ sorterClass ifNil: [ completionContext class sorterClass ]
 ]
 
 { #category : #accessing }
@@ -35,8 +35,8 @@ CoGlobalSorterResultSetBuilder >> sorterClass: anObject [
 CoGlobalSorterResultSetBuilder >> visitNode: aNode [
 
 	| fetcher entries sorter |
-	entries := aNode completionEntries: complishonContext position.
-	sorter := self sorterClass new context: complishonContext.
+	entries := aNode completionEntries: completionContext position.
+	sorter := self sorterClass new context: completionContext.
 	entries := sorter sortCompletionList: entries asOrderedCollection.
 
 	fetcher := (CoCollectionFetcher onCollection: entries).
@@ -44,5 +44,5 @@ CoGlobalSorterResultSetBuilder >> visitNode: aNode [
 	^ self
 		configureFetcher: fetcher
 		forNode: aNode
-		narrowingWith: (aNode completionToken: complishonContext position)
+		narrowingWith: (aNode completionToken: completionContext position)
 ]

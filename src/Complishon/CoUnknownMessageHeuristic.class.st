@@ -26,9 +26,9 @@ CoUnknownMessageHeuristic >> buildFetcherFor: aNode inContext: complishonContext
 	| fetcher |
 	fetcher := (CoCollectionFetcher onCollection: Symbol selectorTable)
 		collect: [ :e | NECSelectorEntry contents: e node: self ].
-	complishonContext complishonClass ifNotNil: [
+	complishonContext completionClass ifNotNil: [
 		fetcher := (CoPackageImplementedMessagesFetcher new
-			complishonPackage: complishonContext complishonClass package;
+			completionPackage: complishonContext completionClass package;
 			yourself), fetcher
 	].
 	^ fetcher

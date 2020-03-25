@@ -13,9 +13,9 @@ Class {
 }
 
 { #category : #requests }
-CoGlobalVariableMessageHeuristic >> buildFetcherFor: aRBMessageNode inContext: complishonContext [
+CoGlobalVariableMessageHeuristic >> buildFetcherFor: aRBMessageNode inContext: completionContext [
 
-	complishonContext
+	completionContext
 		environmentAt: aRBMessageNode receiver name
 		ifPresent: [ :global | ^ self newFetcherForGlobal: global ].
 

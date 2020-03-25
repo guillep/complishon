@@ -29,7 +29,7 @@ CoResultSet class >> fetcher: aFetcher [
 ]
 
 { #category : #'instance creation' }
-CoResultSet class >> onContext: aComplishonContext fetcher: aFetcher [
+CoResultSet class >> onContext: aCompletionContext fetcher: aFetcher [
 	
 	^ self new
 		fetcher: aFetcher;

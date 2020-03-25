@@ -10,9 +10,9 @@ Class {
 		'engine',
 		'source',
 		'position',
-		'complishon',
-		'complishonBuilder',
-		'complishonClass'
+		'completionBuilder',
+		'completionClass',
+		'completion'
 	],
 	#category : #'Complishon-SystemIntegration'
 }
@@ -21,7 +21,7 @@ Class {
 CoCompletionContext class >> engine: aCompletionEngine class: aClass source: aString position: anInteger [
 
 	^ self new
-		complishonClass: aClass;
+		completionClass: aClass;
 		engine: aCompletionEngine;
 		source: aString;
 		position: anInteger;
@@ -32,6 +32,20 @@ CoCompletionContext class >> engine: aCompletionEngine class: aClass source: aSt
 CoCompletionContext >> activateEntryAt: anIndex [
 
 	(self entries at: anIndex) activateOn: self
+]
+
+{ #category : #testing }
+CoCompletionContext >> completion [
+
+	completion ifNotNil: [ ^ completion ].
+	^ completion := self completionBuilder
+		completionContext: self;
+		buildCompletion
+]
+
+{ #category : #accessing }
+CoCompletionContext >> completion: anObject [
+	completion := anObject
 ]
 
 { #category : #accessing }
@@ -45,51 +59,37 @@ CoCompletionContext >> completionAt: aNumber [
 ]
 
 { #category : #accessing }
-CoCompletionContext >> completionToken [
-
-	^ self complishon completionToken
-]
-
-{ #category : #testing }
-CoCompletionContext >> complishon [
-
-	complishon ifNotNil: [ ^ complishon ].
-	^ complishon := self complishonBuilder
-		complishonContext: self;
-		buildComplishon
+CoCompletionContext >> completionBuilder [
+	^ completionBuilder
 ]
 
 { #category : #accessing }
-CoCompletionContext >> complishon: anObject [
-	complishon := anObject
+CoCompletionContext >> completionBuilder: anUndefinedObject [ 
+	completionBuilder := anUndefinedObject
 ]
 
 { #category : #accessing }
-CoCompletionContext >> complishonBuilder [
-	^ complishonBuilder
-]
-
-{ #category : #accessing }
-CoCompletionContext >> complishonBuilder: anUndefinedObject [ 
-	complishonBuilder := anUndefinedObject
-]
-
-{ #category : #accessing }
-CoCompletionContext >> complishonClass [
+CoCompletionContext >> completionClass [
 	
-	^ complishonClass
+	^ completionClass
 ]
 
 { #category : #accessing }
-CoCompletionContext >> complishonClass: aClass [
+CoCompletionContext >> completionClass: aClass [
 	
-	^ complishonClass := aClass
+	^ completionClass := aClass
 ]
 
 { #category : #accessing }
-CoCompletionContext >> complishonEnvironment [
+CoCompletionContext >> completionEnvironment [
 	
 	^ CoSystemEnvironment new
+]
+
+{ #category : #accessing }
+CoCompletionContext >> completionToken [
+
+	^ self completion completionToken
 ]
 
 { #category : #accessing }
@@ -117,7 +117,7 @@ CoCompletionContext >> engine: anObject [
 { #category : #accessing }
 CoCompletionContext >> entries [
 
-	^ self complishon first: 20
+	^ self completion first: 20
 ]
 
 { #category : #accessing }
@@ -128,13 +128,13 @@ CoCompletionContext >> entryCount [
 { #category : #accessing }
 CoCompletionContext >> environmentAt: aString ifPresent: aBlockClosure [ 
 	
-	^ self complishonEnvironment environmentAt: aString ifPresent: aBlockClosure
+	^ self completionEnvironment environmentAt: aString ifPresent: aBlockClosure
 ]
 
 { #category : #testing }
 CoCompletionContext >> hasEntries [
 
-	^ self complishon notEmpty
+	^ self completion notEmpty
 ]
 
 { #category : #menu }
@@ -147,7 +147,7 @@ CoCompletionContext >> hasMessage [
 CoCompletionContext >> initialize [
 
 	super initialize.
-	complishonBuilder := CoASTHeuristicsResultSetBuilder initializeOnContext: self
+	completionBuilder := CoASTHeuristicsResultSetBuilder initializeOnContext: self
 ]
 
 { #category : #testing }
@@ -159,7 +159,7 @@ CoCompletionContext >> isWorkspace [
 { #category : #narrowing }
 CoCompletionContext >> narrowWith: aString [ 
 
-	self complishon filterWithString: aString
+	self completion filterWithString: aString
 ]
 
 { #category : #accessing }

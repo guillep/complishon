@@ -16,17 +16,17 @@ CoInstanceAccessibleVariablesHeuristic >> appliesForNode: aNode inContext: aCont
 ]
 
 { #category : #requests }
-CoInstanceAccessibleVariablesHeuristic >> buildFetcherFor: aNode inContext: complishonContext [
+CoInstanceAccessibleVariablesHeuristic >> buildFetcherFor: aNode inContext: completionContext [
 	
 	| ivFetcher cvFetcher |
 	
 	"Then instance variables"
 	ivFetcher := (CoInstanceVariableFetcher new
-		completionClass: complishonContext complishonClass) forHierarchy.
+		completionClass: completionContext completionClass) forHierarchy.
 	
 	"Then class variables if not a workspace"
 	cvFetcher :=  (CoClassVariableFetcher new
-			completionClass: complishonContext complishonClass) forHierarchy.
+			completionClass: completionContext completionClass) forHierarchy.
 	
 	^ ivFetcher, cvFetcher
 ]

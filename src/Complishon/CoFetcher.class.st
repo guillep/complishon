@@ -84,7 +84,7 @@ CoFetcher >> generator [
 ]
 
 { #category : #testing }
-CoFetcher >> isEmptyComplishonFetcher [
+CoFetcher >> isEmptyCompletionFetcher [
 	
 	^ false
 ]

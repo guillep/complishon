@@ -18,7 +18,7 @@ CoASTResultSetBuilder class >> isAbstract [
 ]
 
 { #category : #'API - building' }
-CoASTResultSetBuilder >> buildComplishon [
+CoASTResultSetBuilder >> buildCompletion [
 
 	"Visiting the node configures the completion for that node"
 	astNode := self parseNode.
@@ -37,17 +37,17 @@ CoASTResultSetBuilder >> configureEmptyFetcherForNode: aNode [
 { #category : #'private-building' }
 CoASTResultSetBuilder >> configureFetcher: aFetcher forNode: aNode narrowingWith: aString [
 	
-	| complishon |
-	complishon := CoResultSet fetcher: aFetcher.
-	complishon filterWithString: aString.
-	^ complishon
+	| completion |
+	completion := CoResultSet fetcher: aFetcher.
+	completion filterWithString: aString.
+	^ completion
 ]
 
 { #category : #'private-building' }
 CoASTResultSetBuilder >> configureFetcherForNode: aNode usingHeuristic: heuristic narrowingWith: aString [
 	
 	| fetcher |
-	fetcher := heuristic fetcherFor: aNode inContext: complishonContext.
+	fetcher := heuristic fetcherFor: aNode inContext: completionContext.
 	^ self
 		configureFetcher: fetcher
 		forNode: aNode
@@ -58,7 +58,7 @@ CoASTResultSetBuilder >> configureFetcherForNode: aNode usingHeuristic: heuristi
 CoASTResultSetBuilder >> configureFetcherForNode: aNode usingHeuristicAvoidingRepetitions: heuristic narrowingWith: aString [
 	
 	| fetcher |
-	fetcher := heuristic fetcherFor: aNode inContext: complishonContext.
+	fetcher := heuristic fetcherFor: aNode inContext: completionContext.
 	^ self
 		configureFetcher: fetcher withoutRepetition
 		forNode: aNode
@@ -74,10 +74,10 @@ CoASTResultSetBuilder >> node: aNode [
 { #category : #'API - building' }
 CoASTResultSetBuilder >> parseNode [
 
-	^ node ifNil: [ node := (complishonContext isWorkspace
-		ifTrue: [ RBParser parseFaultyExpression: complishonContext source ]
-		ifFalse: [ RBParser parseFaultyMethod: complishonContext source ])
-			nodeForOffset: complishonContext position ]
+	^ node ifNil: [ node := (completionContext isWorkspace
+		ifTrue: [ RBParser parseFaultyExpression: completionContext source ]
+		ifFalse: [ RBParser parseFaultyMethod: completionContext source ])
+			nodeForOffset: completionContext position ]
 ]
 
 { #category : #visiting }
