@@ -10,5 +10,8 @@ CoGlobalVariableFetcherTest >> setUp [
 	super setUp.
 	fetcher := CoGlobalVariableFetcher new.
 	fetcher complishonEnvironment: self completionEnvironment.
-	expectedElements := #(A B C).
+	expectedElements := { 
+		NECGlobalEntry contents: 'A' node: nil.
+		NECGlobalEntry contents: 'B' node: nil. 
+		NECGlobalEntry contents: 'C' node: nil. }
 ]
