@@ -13,6 +13,14 @@ CoBasicFetcherWithElementsTest class >> isAbstract [
 	^ self == CoBasicFetcherWithElementsTest
 ]
 
+{ #category : #tests }
+CoBasicFetcherWithElementsTest >> assertEntry: anEntry equals: expectedEntry [
+
+	"Entries do not define equality :("
+	self assert: anEntry class equals: expectedEntry class.
+	self assert: anEntry contents equals: expectedEntry contents.
+]
+
 { #category : #helpers }
 CoBasicFetcherWithElementsTest >> firstExpectedElement [
 
@@ -34,31 +42,44 @@ CoBasicFetcherWithElementsTest >> testNewFetcherWithElementsShouldNotBeAtEnd [
 { #category : #tests }
 CoBasicFetcherWithElementsTest >> testNextManyAfterLimitShouldStopAfterLimit [
 
-	self assert: (self fetcher next: expectedElements size + 1) equals: expectedElements
+	| fetchedElements |
+	fetchedElements := self fetcher next: expectedElements size + 1.
+	fetchedElements withIndexDo: [ :each :index |
+		self assertEntry: each equals: (expectedElements at: index) ].
+	self assert: fetchedElements size equals: expectedElements size
 ]
 
 { #category : #tests }
 CoBasicFetcherWithElementsTest >> testNextManyShouldReturnCollection [
 
-	self assert: (self fetcher next: 2) equals: { self firstExpectedElement . self secondExpectedElement }
+	| fetchedElements expected |
+	fetchedElements := self fetcher next: 2.
+	expected := { self firstExpectedElement . self secondExpectedElement }.
+	fetchedElements withIndexDo: [ :each :index |
+		self assertEntry: each equals: (expected at: index) ].
+	self assert: fetchedElements size equals: expected size
 ]
 
 { #category : #tests }
 CoBasicFetcherWithElementsTest >> testNextNextShouldReturnSecondExpectedElement [
 
 	self fetcher next.
-	self assert: self fetcher next equals: self secondExpectedElement
+	self assertEntry: self fetcher next equals: self secondExpectedElement
 ]
 
 { #category : #tests }
 CoBasicFetcherWithElementsTest >> testNextShouldReturnFirstElement [
 
-	self assert: self fetcher next equals: self firstExpectedElement
+	self assertEntry: self fetcher next equals: self firstExpectedElement
 ]
 
 { #category : #tests }
 CoBasicFetcherWithElementsTest >> testResetShouldRestartGenerator [
 
+	| fetchedElements |
 	self fetcher upToEnd; reset.
-	self assert: (self fetcher next: expectedElements size + 1) equals: expectedElements
+	fetchedElements := self fetcher next: expectedElements size + 1.
+	fetchedElements withIndexDo: [ :each :index |
+		self assertEntry: each equals: (expectedElements at: index) ].
+	self assert: fetchedElements size equals: expectedElements size
 ]

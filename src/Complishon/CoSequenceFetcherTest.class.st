@@ -11,8 +11,14 @@ CoSequenceFetcherTest >> setUp [
 	fetcher := (CoInstanceVariableFetcher new
 			completionClass: self completionClass)
 				, (CoGlobalVariableFetcher new
-					completionEnvironment: self completionEnvironment).
-	expectedElements := #(a b c A B C)
+					complishonEnvironment: self completionEnvironment).
+	expectedElements := { 
+		NECInstVarEntry contents: 'a' node: nil. 
+		NECInstVarEntry contents: 'b' node: nil.
+		NECInstVarEntry contents: 'c' node: nil.
+		NECGlobalEntry contents: 'A' node: nil. 
+		NECGlobalEntry contents: 'B' node: nil.
+		NECGlobalEntry contents: 'C' node: nil. }
 ]
 
 { #category : #tests }
