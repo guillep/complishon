@@ -57,5 +57,5 @@ CoCompletionEngine >> initialize [
 CoCompletionEngine >> variableBindingNames [
 
 	self doItRequestor ifNil: [ ^ #() ].
-	^ self doItRequestor model interactionModel variableBindings keys
+	^ self doItRequestor model variableBindings keys
 ]
