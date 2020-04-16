@@ -76,6 +76,13 @@ CoMockASTResultSetBuilder >> visitParseErrorNode: aNode [
 	^ super visitParseErrorNode: aNode
 ]
 
+{ #category : #visiting }
+CoMockASTResultSetBuilder >> visitPragmaNode: aRBPragmaNode [ 
+
+	heuristic := #pragma.
+	^ super visitPragmaNode: aRBPragmaNode
+]
+
 { #category : #accessing }
 CoMockASTResultSetBuilder >> visitReturnNode: aNode [
 
