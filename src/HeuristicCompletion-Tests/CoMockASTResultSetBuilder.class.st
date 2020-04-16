@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'heuristic'
 	],
-	#category : #'HeuristicCompletion-Tests'
+	#category : #'HeuristicCompletion-Tests-Core'
 }
 
 { #category : #accessing }
