@@ -46,7 +46,7 @@ CoMockClass >> classVariables: aCollection [
 CoMockClass >> initialize [
 
 	super initialize.
-	methodDictionary := Dictionary new
+	methodDictionary := OrderedDictionary new
 ]
 
 { #category : #accessing }
